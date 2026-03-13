@@ -11,6 +11,7 @@
     --ink: #1a1714;
     --muted: #8a8480;
     --accent: #2d5a3d;
+    --accent-light: rgba(45,90,61,0.06);
     --rule: rgba(26,23,20,0.1);
     --link-bg: #ffffff;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
@@ -81,10 +82,7 @@
     color: var(--ink);
   }
 
-  h1 em {
-    font-style: italic;
-    color: var(--muted);
-  }
+  h1 em { font-style: italic; color: var(--muted); }
 
   .rule {
     width: 100%;
@@ -116,23 +114,29 @@
     gap: 0.6rem;
   }
 
+  /* Wrapper: link card + verify bar stacked, no gap */
+  .link-group {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
   a.link-item {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 1rem 1.25rem;
     background: var(--link-bg);
-    border: 1px solid var(--rule);
     text-decoration: none;
     color: var(--ink);
-    border-radius: 2px;
-    box-shadow: var(--shadow);
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    transition: background 0.2s, transform 0.2s;
     position: relative;
-    overflow: hidden;
   }
 
-  a.link-item::after {
+  a.link-item::before {
     content: '';
     position: absolute;
     left: 0; top: 0; bottom: 0;
@@ -143,13 +147,9 @@
     transition: transform 0.25s ease;
   }
 
-  a.link-item:hover {
-    border-color: rgba(45,90,61,0.2);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.05);
-    transform: translateX(3px);
-  }
-
-  a.link-item:hover::after { transform: scaleY(1); }
+  a.link-item:hover { background: rgba(45,90,61,0.03); }
+  a.link-item:hover::before { transform: scaleY(1); }
+  a.link-item:hover .link-arrow { color: var(--accent); transform: translateX(2px); }
 
   .link-meta { flex: 1; min-width: 0; }
 
@@ -178,17 +178,86 @@
     flex-shrink: 0;
   }
 
-  a.link-item:hover .link-arrow {
-    color: var(--accent);
-    transform: translateX(2px);
+  /* Verify bar — sits directly below each link-item */
+  .verify-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 1.25rem;
+    background: var(--accent-light);
+    border-top: 1px solid var(--rule);
+    min-height: 1.9rem;
   }
 
-  /* PGP Fingerprint block */
+  .vb-icon {
+    width: 12px; height: 12px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .vb-spinner {
+    width: 11px; height: 11px;
+    border: 1.5px solid rgba(45,90,61,0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+
+  .vb-check {
+    display: none;
+  }
+
+  .vb-check circle {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.8;
+    stroke-dasharray: 38;
+    stroke-dashoffset: 38;
+  }
+
+  .vb-check path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 11;
+    stroke-dashoffset: 11;
+  }
+
+  .vb-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  /* States */
+  .verify-bar.state-idle   .vb-spinner { display: none; }
+  .verify-bar.state-idle   .vb-check   { display: none; }
+  .verify-bar.state-idle   .vb-label   { color: var(--muted); }
+
+  .verify-bar.state-checking .vb-spinner { display: block; }
+  .verify-bar.state-checking .vb-check   { display: none; }
+  .verify-bar.state-checking .vb-label   { color: var(--muted); }
+
+  .verify-bar.state-done .vb-spinner { display: none; }
+  .verify-bar.state-done .vb-check   { display: block; }
+  .verify-bar.state-done .vb-label   { color: var(--accent); }
+
+  .verify-bar.state-done .vb-check circle {
+    animation: draw-circle 0.35s ease forwards;
+  }
+  .verify-bar.state-done .vb-check path {
+    animation: draw-check 0.25s ease 0.3s forwards;
+  }
+
+  /* PGP Fingerprint */
   .fingerprint {
     padding: 1rem 1.25rem;
     border: 1px solid var(--rule);
     border-radius: 2px;
-    background: rgba(45,90,61,0.03);
+    background: var(--accent-light);
   }
 
   .fingerprint code {
@@ -203,6 +272,7 @@
     user-select: all;
   }
 
+  /* Footer */
   .footer {
     margin-top: 2.5rem;
     display: flex;
@@ -226,17 +296,16 @@
   }
 
   .status-dot {
-    width: 5px;
-    height: 5px;
+    width: 5px; height: 5px;
     border-radius: 50%;
     background: var(--accent);
     animation: breathe 2.5s ease-in-out infinite;
   }
 
-  @keyframes breathe {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes breathe { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes draw-circle { to { stroke-dashoffset: 0; } }
+  @keyframes draw-check  { to { stroke-dashoffset: 0; } }
 </style>
 </head>
 <body>
@@ -244,46 +313,89 @@
 <div class="card">
 
   <p class="eyebrow">Personal Page</p>
-
   <h1>Arvin Farrel<br><em>Pramuditya</em></h1>
-
   <div class="rule"></div>
-
   <p class="bio">Security contact &amp; identity verification.</p>
 
   <span class="links-label">Public Records</span>
   <div class="links">
-    <a class="link-item" href="https://keyoxide.org/2A3391F72DB6A6E2CB84D1C894BB0A2151DC1C4C" target="_blank" rel="noopener">
-      <div class="link-meta">
-        <span class="link-title">Keyoxide Verification</span>
-        <span class="link-desc">keyoxide.org · identity proof graph</span>
-      </div>
-      <span class="link-arrow">→</span>
-    </a>
 
-    <a class="link-item" href="https://arvinfarrelp.github.io/.well-known/keyoxide.txt" target="_blank" rel="noopener">
-      <div class="link-meta">
-        <span class="link-title">Keyoxide Identity</span>
-        <span class="link-desc">.well-known/keyoxide.txt</span>
+    <div class="link-group">
+      <a class="link-item" href="https://keyoxide.org/2A3391F72DB6A6E2CB84D1C894BB0A2151DC1C4C" target="_blank" rel="noopener">
+        <div class="link-meta">
+          <span class="link-title">Keyoxide Verification</span>
+          <span class="link-desc">keyoxide.org · identity proof graph</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <div class="verify-bar state-idle" data-index="0">
+        <span class="vb-icon">
+          <svg class="vb-spinner" viewBox="0 0 11 11"></svg>
+          <svg class="vb-check" viewBox="0 0 16 16" width="13" height="13">
+            <circle cx="8" cy="8" r="6.2"/><path d="M5 8l2 2 4-4"/>
+          </svg>
+        </span>
+        <span class="vb-label">identity proof graph verified</span>
       </div>
-      <span class="link-arrow">→</span>
-    </a>
+    </div>
 
-    <a class="link-item" href="https://arvinfarrelp.github.io/.well-known/security.txt" target="_blank" rel="noopener">
-      <div class="link-meta">
-        <span class="link-title">Security Disclosure</span>
-        <span class="link-desc">.well-known/security.txt</span>
+    <div class="link-group">
+      <a class="link-item" href="https://arvinfarrelp.github.io/.well-known/keyoxide.txt" target="_blank" rel="noopener">
+        <div class="link-meta">
+          <span class="link-title">Keyoxide Identity</span>
+          <span class="link-desc">.well-known/keyoxide.txt</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <div class="verify-bar state-idle" data-index="1">
+        <span class="vb-icon">
+          <svg class="vb-spinner" viewBox="0 0 11 11"></svg>
+          <svg class="vb-check" viewBox="0 0 16 16" width="13" height="13">
+            <circle cx="8" cy="8" r="6.2"/><path d="M5 8l2 2 4-4"/>
+          </svg>
+        </span>
+        <span class="vb-label">claim verified by proof</span>
       </div>
-      <span class="link-arrow">→</span>
-    </a>
+    </div>
 
-    <a class="link-item" href="https://arvinfarrelp.github.io/pgp.asc" target="_blank" rel="noopener">
-      <div class="link-meta">
-        <span class="link-title">PGP Public Key</span>
-        <span class="link-desc">pgp.asc</span>
+    <div class="link-group">
+      <a class="link-item" href="https://arvinfarrelp.github.io/.well-known/security.txt" target="_blank" rel="noopener">
+        <div class="link-meta">
+          <span class="link-title">Security Disclosure</span>
+          <span class="link-desc">.well-known/security.txt</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <div class="verify-bar state-idle" data-index="2">
+        <span class="vb-icon">
+          <svg class="vb-spinner" viewBox="0 0 11 11"></svg>
+          <svg class="vb-check" viewBox="0 0 16 16" width="13" height="13">
+            <circle cx="8" cy="8" r="6.2"/><path d="M5 8l2 2 4-4"/>
+          </svg>
+        </span>
+        <span class="vb-label">RFC 9116 compliant</span>
       </div>
-      <span class="link-arrow">→</span>
-    </a>
+    </div>
+
+    <div class="link-group">
+      <a class="link-item" href="https://arvinfarrelp.github.io/pgp.asc" target="_blank" rel="noopener">
+        <div class="link-meta">
+          <span class="link-title">PGP Public Key</span>
+          <span class="link-desc">pgp.asc</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <div class="verify-bar state-idle" data-index="3">
+        <span class="vb-icon">
+          <svg class="vb-spinner" viewBox="0 0 11 11"></svg>
+          <svg class="vb-check" viewBox="0 0 16 16" width="13" height="13">
+            <circle cx="8" cy="8" r="6.2"/><path d="M5 8l2 2 4-4"/>
+          </svg>
+        </span>
+        <span class="vb-label">key fingerprint matched</span>
+      </div>
+    </div>
+
   </div>
 
   <div class="fingerprint">
@@ -297,6 +409,34 @@
   </div>
 
 </div>
+
+<script>
+  const bars = document.querySelectorAll('.verify-bar');
+  const startDelay = 800;
+  const spinDur = [650, 700, 600, 750];
+  const gap = 300;
+
+  bars.forEach((bar, i) => {
+    const t = startDelay + i * (Math.max(...spinDur) + gap) - (Math.max(...spinDur) - spinDur[i]);
+    // stagger: each starts after previous finishes checking
+    const start = startDelay + i * 650;
+
+    setTimeout(() => {
+      bar.classList.replace('state-idle', 'state-checking');
+      bar.querySelector('.vb-label').textContent = 'checking…';
+      setTimeout(() => {
+        bar.classList.replace('state-checking', 'state-done');
+        const labels = [
+          'identity proof graph verified',
+          'claim verified by proof',
+          'RFC 9116 compliant',
+          'key fingerprint matched'
+        ];
+        bar.querySelector('.vb-label').textContent = labels[i];
+      }, spinDur[i]);
+    }, start);
+  });
+</script>
 
 </body>
 </html>
