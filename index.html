@@ -4,524 +4,348 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>[0x51DC1C4C] Arvin Farrel Pramuditya</title>
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --bg:         #c8b98a;
-    --paper:      #ddd0a8;
-    --paper-dark: #b8a878;
-    --ink:        #1e1408;
-    --ink-faded:  #4a3820;
-    --muted:      #7a6440;
-    --rust:       #6b3a1f;
-    --hex:        rgba(80,50,10,0.13);
-    --rule:       rgba(42,31,14,0.2);
-    --shadow:     3px 4px 18px rgba(30,20,8,0.22), 0 1px 3px rgba(30,20,8,0.15);
+    --bg:     #ffffff;
+    --fg:     #111111;
+    --muted:  #555555;
+    --light:  #888888;
+    --border: #cccccc;
+    --subtle: #f4f4f4;
+    --link:   #0000cc;
+    --mono:   'Courier New', Courier, monospace;
+    --max:    680px;
+    --pad:    1.25rem;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-size: 15px; }
 
   body {
-    background-color: var(--bg);
-    color: var(--ink);
-    font-family: 'IM Fell English', serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1.5rem;
-    position: relative;
-    overflow-x: hidden;
+    font-family: var(--mono);
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.65;
+    padding: 2rem var(--pad) 3rem;
   }
 
-  /* Grain texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
+  .page {
+    max-width: var(--max);
+    margin: 0 auto;
   }
 
-  /* Vignette */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(ellipse at center, transparent 45%, rgba(20,12,2,0.45) 100%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Scrolling hex background canvas */
-  #hex-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.55;
-  }
-
-  .card {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 500px;
-    background: var(--paper);
-    border: 1px solid var(--paper-dark);
-    box-shadow: var(--shadow), inset 0 0 80px rgba(42,31,14,0.07);
-    padding: 2.75rem 2.5rem;
-  }
-
-  /* Worn corner fold */
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 32px; height: 32px;
-    background: linear-gradient(225deg, var(--bg) 50%, var(--paper-dark) 50%);
-    box-shadow: -2px 2px 5px rgba(30,20,8,0.2);
-  }
-
-  /* Faded stain top-left */
-  .card::after {
-    content: '';
-    position: absolute;
-    top: -10px; left: -10px;
-    width: 120px; height: 120px;
-    background: radial-gradient(circle, rgba(100,70,20,0.09) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  /* Stagger */
-  .card > * {
-    opacity: 0;
-    animation: appear 0.7s ease forwards;
-  }
-  .card > *:nth-child(1) { animation-delay: 0.1s; }
-  .card > *:nth-child(2) { animation-delay: 0.25s; }
-  .card > *:nth-child(3) { animation-delay: 0.4s; }
-  .card > *:nth-child(4) { animation-delay: 0.55s; }
-  .card > *:nth-child(5) { animation-delay: 0.7s; }
-  .card > *:nth-child(6) { animation-delay: 0.85s; }
-  .card > *:nth-child(7) { animation-delay: 1.0s; }
-  @keyframes appear { to { opacity: 1; } }
-
-  /* Eyebrow */
-  .eyebrow {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
+  /* ── RFC header band ── */
+  .rfc-band {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    font-size: 0.72rem;
     color: var(--muted);
-    margin-bottom: 1.4rem;
+    border-bottom: 2px solid var(--fg);
+    padding-bottom: 0.65rem;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+  }
+
+  .rfc-band-right { text-align: right; }
+
+  /* ── Identity block ── */
+  .identity {
+    margin-bottom: 2.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .identity h1 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.25rem;
+  }
+
+  .identity .subtitle {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .identity .tagline {
+    font-size: 0.82rem;
+    color: var(--fg);
+    border-left: 3px solid var(--fg);
+    padding-left: 0.75rem;
+    line-height: 1.55;
+  }
+
+  /* ── Sections ── */
+  section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  section:last-of-type { border-bottom: none; }
+
+  .section-heading {
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
   }
-  .eyebrow::before, .eyebrow::after {
+
+  .section-heading::after {
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--rule);
+    background: var(--border);
   }
 
-  /* Name */
-  h1 {
-    font-family: 'IM Fell English', serif;
-    font-size: clamp(2.3rem, 7vw, 3.5rem);
-    font-weight: 400;
-    line-height: 1.08;
-    color: var(--ink);
-    text-align: center;
-    margin-bottom: 0.3rem;
-  }
-  h1 em { font-style: italic; color: var(--ink-faded); }
-
-  /* Hash subtitle — monospace under name */
-  .hash-sub {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.58rem;
-    color: var(--muted);
-    text-align: center;
-    letter-spacing: 0.12em;
-    margin-bottom: 1.2rem;
-    opacity: 0.7;
+  /* ── Record list ── */
+  .record-list {
+    list-style: none;
   }
 
-  .ornament {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.8rem;
-    letter-spacing: 0.5em;
-    margin: 1.1rem 0 1.4rem;
-    opacity: 0.5;
-  }
-
-  .bio {
-    font-style: italic;
-    font-size: 0.88rem;
-    line-height: 1.9;
-    color: var(--ink-faded);
-    text-align: center;
-    margin-bottom: 1.8rem;
-  }
-
-  .section-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.7rem;
-    display: block;
-    text-align: center;
-  }
-
-  .links {
-    display: flex;
-    flex-direction: column;
+  .record-item {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
     gap: 0.5rem;
-    margin-bottom: 1.4rem;
+    align-items: baseline;
+    padding: 0.4rem 0;
+    border-bottom: 1px dotted var(--border);
+    font-size: 0.8rem;
   }
 
-  .link-group {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--rule);
-    overflow: hidden;
-    background: rgba(42,31,14,0.03);
-  }
+  .record-item:last-child { border-bottom: none; }
 
-  a.link-item {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 0.8rem 1.1rem;
-    text-decoration: none;
-    color: var(--ink);
-    transition: background 0.2s;
-    position: relative;
-  }
-
-  a.link-item::before {
-    content: '›';
-    font-family: 'IM Fell English', serif;
-    font-size: 1.1rem;
+  .record-key {
     color: var(--muted);
-    flex-shrink: 0;
-    transition: color 0.2s, transform 0.2s;
-    display: inline-block;
+    font-size: 0.76rem;
   }
 
-  a.link-item:hover { background: rgba(42,31,14,0.06); }
-  a.link-item:hover::before { color: var(--rust); transform: translateX(2px); }
+  .record-key::before {
+    content: '-- ';
+    color: var(--border);
+  }
 
-  .link-meta { flex: 1; min-width: 0; }
+  a {
+    color: var(--link);
+    text-decoration: underline;
+  }
 
-  .link-title {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--ink);
+  a:visited { color: #551a8b; }
+  a:hover   { color: var(--fg); }
+
+  /* ── Fingerprint ── */
+  .fingerprint-block {
+    background: var(--subtle);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--fg);
+    padding: 0.8rem 1rem;
+  }
+
+  .fingerprint-block code {
     display: block;
-    margin-bottom: 0.15rem;
-    letter-spacing: 0.04em;
-  }
-
-  .link-desc {
-    font-style: italic;
-    font-size: 0.64rem;
-    color: var(--muted);
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Verify bar */
-  .verify-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-    padding: 0.32rem 1.1rem;
-    background: rgba(42,31,14,0.05);
-    border-top: 1px dashed var(--rule);
-    min-height: 1.7rem;
-  }
-
-  .vb-icon {
-    width: 12px; height: 12px;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .vb-spinner {
-    width: 10px; height: 10px;
-    border: 1.5px solid rgba(90,60,20,0.2);
-    border-top-color: var(--rust);
-    border-radius: 50%;
-    animation: spin 0.85s linear infinite;
-    display: none;
-  }
-
-  .vb-check { display: none; }
-  .vb-check circle {
-    fill: none; stroke: var(--rust);
-    stroke-width: 1.8;
-    stroke-dasharray: 38; stroke-dashoffset: 38;
-  }
-  .vb-check path {
-    fill: none; stroke: var(--rust);
-    stroke-width: 1.8;
-    stroke-linecap: round; stroke-linejoin: round;
-    stroke-dasharray: 11; stroke-dashoffset: 11;
-  }
-
-  .vb-label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.58rem;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-  }
-
-  .verify-bar.state-checking .vb-spinner { display: block; }
-  .verify-bar.state-done .vb-check       { display: block; }
-  .verify-bar.state-done .vb-label       { color: var(--rust); }
-  .verify-bar.state-done .vb-check circle { animation: draw-circle 0.35s ease forwards; }
-  .verify-bar.state-done .vb-check path   { animation: draw-check  0.25s ease 0.3s forwards; }
-
-  /* Fingerprint block */
-  .fingerprint {
-    border: 1px solid var(--rule);
-    border-style: dashed;
-    padding: 0.9rem 1.1rem;
-    background: rgba(42,31,14,0.04);
-  }
-
-  .fingerprint code {
-    display: block;
-    margin-top: 0.45rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.67rem;
+    font-family: var(--mono);
+    font-size: 0.82rem;
     letter-spacing: 0.1em;
-    color: var(--ink-faded);
-    word-break: break-all;
-    line-height: 1.9;
+    line-height: 2;
     user-select: all;
+    word-break: break-all;
   }
 
-  /* Footer */
-  .footer {
-    margin-top: 1.75rem;
+  .fingerprint-block .fp-note {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--light);
+    margin-top: 0.4rem;
+    border-top: 1px dotted var(--border);
+    padding-top: 0.4rem;
+  }
+
+  /* ── Contact box ── */
+  .contact-box {
+    border: 1px solid var(--border);
+    padding: 0.85rem 1rem;
+    background: var(--subtle);
+    font-size: 0.82rem;
+    line-height: 1.75;
+  }
+
+  .contact-box p + p { margin-top: 0.5rem; }
+
+  /* ── Plain list ── */
+  .plain-list {
+    list-style: none;
+    font-size: 0.82rem;
+  }
+
+  .plain-list li {
+    padding: 0.3rem 0;
+    border-bottom: 1px dotted var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .plain-list li:last-child { border-bottom: none; }
+
+  .plain-list li::before {
+    content: '*';
+    color: var(--light);
+    flex-shrink: 0;
+  }
+
+  /* ── Body text ── */
+  .body-text {
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--fg);
+  }
+
+  .body-text + .body-text { margin-top: 0.5rem; }
+
+  .body-text a { word-break: break-all; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 2px solid var(--fg);
+    padding-top: 0.75rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid var(--rule);
-    padding-top: 0.9rem;
-  }
-
-  .footer-text {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.58rem;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-size: 0.72rem;
     color: var(--muted);
-    letter-spacing: 0.08em;
-    opacity: 0.7;
   }
 
-  .status {
+  .footer-links {
     display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.58rem;
-    color: var(--rust);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    gap: 1.25rem;
+    flex-wrap: wrap;
   }
 
-  .status-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--rust);
-    animation: breathe 2.5s ease-in-out infinite;
+  /* ── Responsive ── */
+  @media (max-width: 500px) {
+    .rfc-band { grid-template-columns: 1fr; }
+    .rfc-band-right { text-align: left; }
+    .record-item { grid-template-columns: 1fr; gap: 0.1rem; }
+    .record-key::before { display: none; }
+    footer { flex-direction: column; align-items: flex-start; }
   }
-
-  @keyframes spin        { to { transform: rotate(360deg); } }
-  @keyframes breathe     { 0%,100%{opacity:1} 50%{opacity:0.25} }
-  @keyframes draw-circle { to { stroke-dashoffset: 0; } }
-  @keyframes draw-check  { to { stroke-dashoffset: 0; } }
 </style>
 </head>
 <body>
+<div class="page">
 
-<canvas id="hex-bg"></canvas>
-
-<div class="card">
-
-  <p class="eyebrow">Personal Page</p>
-
-  <h1>Arvin Farrel<br><em>Pramuditya</em></h1>
-  <p class="hash-sub">0x2A3391F7 · 2DB6A6E2 · CB84D1C8</p>
-
-  <div class="ornament">— ✦ —</div>
-
-  <p class="bio">Security contact &amp; identity verification.</p>
-
-  <span class="section-label">Public Records</span>
-
-  <div class="links">
-
-    <div class="link-group">
-      <a class="link-item" href="https://keyoxide.org/2A3391F72DB6A6E2CB84D1C894BB0A2151DC1C4C" target="_blank" rel="noopener">
-        <div class="link-meta">
-          <span class="link-title">Keyoxide Verification</span>
-          <span class="link-desc">keyoxide.org · identity proof graph</span>
-        </div>
-      </a>
-      <div class="verify-bar state-idle" data-label="identity proof graph verified">
-        <span class="vb-icon">
-          <svg class="vb-spinner" viewBox="0 0 10 10"></svg>
-          <svg class="vb-check" viewBox="0 0 16 16" width="13" height="13">
-            <circle cx="8" cy="8" r="6.2"/><path d="M5 8l2 2 4-4"/>
-          </svg>
-        </span>
-        <span class="vb-label">awaiting_verification</span>
-      </div>
+  <!-- RFC band -->
+  <div class="rfc-band">
+    <div class="rfc-band-left">
+      Personal Identity Page<br>
+      Domain: arvinfarrelp.github.io<br>
+      Category: Informational
     </div>
-
-    <div class="link-group">
-      <a class="link-item" href="https://arvinfarrelp.github.io/.well-known/keyoxide.txt" target="_blank" rel="noopener">
-        <div class="link-meta">
-          <span class="link-title">Keyoxide Identity</span>
-          <span class="link-desc">.well-known/keyoxide.txt</span>
-        </div>
-      </a>
-      <div class="verify-bar state-idle" data-label="claim verified by proof">
-        <span class="vb-icon">
-          <svg class="vb-spinner" viewBox="0 0 10 10"></svg>
-          <svg class="vb-check" viewBox="0 0 16 16" width="13" height="13">
-            <circle cx="8" cy="8" r="6.2"/><path d="M5 8l2 2 4-4"/>
-          </svg>
-        </span>
-        <span class="vb-label">awaiting_verification</span>
-      </div>
+    <div class="rfc-band-right">
+      Last Updated: March 2026<br>
+      Status: Active<br>
+      Key-ID: 0x51DC1C4C
     </div>
-
-    <div class="link-group">
-      <a class="link-item" href="https://arvinfarrelp.github.io/.well-known/security.txt" target="_blank" rel="noopener">
-        <div class="link-meta">
-          <span class="link-title">Security Disclosure</span>
-          <span class="link-desc">.well-known/security.txt</span>
-        </div>
-      </a>
-      <div class="verify-bar state-idle" data-label="RFC 9116 compliant">
-        <span class="vb-icon">
-          <svg class="vb-spinner" viewBox="0 0 10 10"></svg>
-          <svg class="vb-check" viewBox="0 0 16 16" width="13" height="13">
-            <circle cx="8" cy="8" r="6.2"/><path d="M5 8l2 2 4-4"/>
-          </svg>
-        </span>
-        <span class="vb-label">awaiting_verification</span>
-      </div>
-    </div>
-
-    <div class="link-group">
-      <a class="link-item" href="https://arvinfarrelp.github.io/pgp.asc" target="_blank" rel="noopener">
-        <div class="link-meta">
-          <span class="link-title">PGP Public Key</span>
-          <span class="link-desc">pgp.asc</span>
-        </div>
-      </a>
-      <div class="verify-bar state-idle" data-label="key fingerprint matched">
-        <span class="vb-icon">
-          <svg class="vb-spinner" viewBox="0 0 10 10"></svg>
-          <svg class="vb-check" viewBox="0 0 16 16" width="13" height="13">
-            <circle cx="8" cy="8" r="6.2"/><path d="M5 8l2 2 4-4"/>
-          </svg>
-        </span>
-        <span class="vb-label">awaiting_verification</span>
-      </div>
-    </div>
-
   </div>
 
-  <div class="fingerprint">
-    <span class="section-label" style="text-align:left;margin-bottom:0">PGP Fingerprint</span>
-    <code>2A33 91F7 2DB6 A6E2 CB84  D1C8 94BB 0A21 51DC 1C4C</code>
+  <!-- Identity -->
+  <div class="identity">
+    <h1>Arvin Farrel Pramuditya</h1>
+    <p class="subtitle">Backend Developer | Security Research Enthusiast</p>
+    <p class="tagline">Security research, cryptographic identity, and responsible disclosure.</p>
   </div>
 
-  <div class="footer">
-    <span class="footer-text">arvinfarrelp.github.io</span>
-    <span class="status"><span class="status-dot"></span>online</span>
-  </div>
+  <!-- 1. Public Records -->
+  <section>
+    <p class="section-heading">1. Public Records</p>
+    <ul class="record-list">
+      <li class="record-item">
+        <span class="record-key">Keyoxide Verification</span>
+        <a href="https://keyoxide.org/2A3391F72DB6A6E2CB84D1C894BB0A2151DC1C4C" target="_blank" rel="noopener">keyoxide.org/2A3391F72DB6A6E2…</a>
+      </li>
+      <li class="record-item">
+        <span class="record-key">Keyoxide Identity</span>
+        <a href="https://arvinfarrelp.github.io/.well-known/keyoxide.txt" target="_blank" rel="noopener">.well-known/keyoxide.txt</a>
+      </li>
+      <li class="record-item">
+        <span class="record-key">Security Disclosure</span>
+        <a href="https://arvinfarrelp.github.io/.well-known/security.txt" target="_blank" rel="noopener">.well-known/security.txt</a>
+      </li>
+      <li class="record-item">
+        <span class="record-key">PGP Public Key</span>
+        <a href="https://arvinfarrelp.github.io/pgp.asc" target="_blank" rel="noopener">pgp.asc</a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 2. PGP Fingerprint -->
+  <section>
+    <p class="section-heading">2. PGP Fingerprint</p>
+    <div class="fingerprint-block">
+      <code>2A33 91F7 2DB6 A6E2 CB84&nbsp; D1C8 94BB 0A21 51DC 1C4C</code>
+      <span class="fp-note">Click to select all &nbsp;·&nbsp; Verify against keyoxide.org before use.</span>
+    </div>
+  </section>
+
+  <!-- 3. Security Contact -->
+  <section>
+    <p class="section-heading">3. Security Contact</p>
+    <div class="contact-box">
+      <p>Responsible disclosure is welcome. Please encrypt sensitive vulnerability reports using my
+        <a href="https://arvinfarrelp.github.io/pgp.asc" target="_blank" rel="noopener">PGP public key</a>.</p>
+      <p>For the full disclosure policy and contact address, refer to
+        <a href="https://arvinfarrelp.github.io/.well-known/security.txt" target="_blank" rel="noopener">security.txt</a>
+        (RFC 9116).</p>
+    </div>
+  </section>
+
+  <!-- 4. Research Interests -->
+  <section>
+    <p class="section-heading">4. Research Interests</p>
+    <ul class="plain-list">
+      <li>Web application security</li>
+      <li>API security</li>
+      <li>Authentication vulnerabilities</li>
+      <li>Security misconfigurations</li>
+    </ul>
+  </section>
+
+  <!-- 5. Research Activity -->
+  <section>
+    <p class="section-heading">5. Research Activity</p>
+    <p class="body-text">Participating in bug bounty programs on HackerOne and conducting security research on web applications and APIs.</p>
+  </section>
+
+  <!-- 6. Open Source -->
+  <section>
+    <p class="section-heading">6. Open Source</p>
+    <p class="body-text">
+      GitHub: <a href="https://github.com/ArvinFarrelP" target="_blank" rel="noopener">github.com/ArvinFarrelP</a>
+    </p>
+    <p class="body-text" style="margin-top:0.5rem;">Contributing to open-source projects through pull requests and security-related improvements.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/ArvinFarrelP" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/arvinfarrelp" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:contact@arvinfarrelp.github.io">Email</a>
+    </div>
+    <span>arvinfarrelp.github.io</span>
+  </footer>
 
 </div>
-
-<script>
-  // ── Scrolling hex background ──
-  const canvas = document.getElementById('hex-bg');
-  const ctx = canvas.getContext('2d');
-  let cols, rows, chars = [];
-  const FONT_SIZE = 11;
-  const HEX_CHARS = '0123456789ABCDEF';
-
-  function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    cols = Math.ceil(canvas.width  / (FONT_SIZE * 2.8));
-    rows = Math.ceil(canvas.height / (FONT_SIZE * 1.6));
-    chars = [];
-    for (let r = 0; r < rows; r++) {
-      chars[r] = [];
-      for (let c = 0; c < cols; c++) {
-        chars[r][c] = {
-          val: HEX_CHARS[Math.floor(Math.random() * 16)],
-          opacity: Math.random() * 0.5 + 0.05,
-          timer: Math.floor(Math.random() * 120)
-        };
-      }
-    }
-  }
-
-  function drawHex() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = `${FONT_SIZE}px 'Share Tech Mono', monospace`;
-
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const ch = chars[r][c];
-        ch.timer--;
-        if (ch.timer <= 0) {
-          ch.val = HEX_CHARS[Math.floor(Math.random() * 16)];
-          ch.timer = Math.floor(Math.random() * 180) + 60;
-          ch.opacity = Math.random() * 0.45 + 0.04;
-        }
-        ctx.fillStyle = `rgba(80, 50, 10, ${ch.opacity})`;
-        ctx.fillText(ch.val, c * FONT_SIZE * 2.8, r * FONT_SIZE * 1.6 + FONT_SIZE);
-      }
-    }
-    requestAnimationFrame(drawHex);
-  }
-
-  resize();
-  window.addEventListener('resize', resize);
-  drawHex();
-
-  // ── Verify bars ──
-  const bars = document.querySelectorAll('.verify-bar');
-  bars.forEach((bar, i) => {
-    const spinDur = 600 + i * 100;
-    setTimeout(() => {
-      bar.classList.replace('state-idle', 'state-checking');
-      bar.querySelector('.vb-label').textContent = 'checking...';
-      setTimeout(() => {
-        bar.classList.replace('state-checking', 'state-done');
-        bar.querySelector('.vb-label').textContent = bar.dataset.label;
-      }, spinDur);
-    }, 1000 + i * 750);
-  });
-</script>
-
 </body>
 </html>
