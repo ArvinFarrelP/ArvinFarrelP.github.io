@@ -1,6 +1,6 @@
 Contact: mailto:arvinfarrelp.security@gmail.com
 Encryption: https://arvinfarrelp.github.io/pgp.asc
-Encryption: https://keyoxide.org/2A3391F72DB6A6E2CB84D1C894BB0A2151DC1C4C
+Encryption: https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9
 Preferred-Languages: id, en
 Canonical: https://arvinfarrelp.github.io/.well-known/security.txt
 Hiring: https://www.linkedin.com/in/arvinfarrelp
