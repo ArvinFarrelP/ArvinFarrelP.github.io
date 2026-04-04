@@ -3,36 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="description" content="Arvin Farrel Pramuditya — Backend Developer, Security Researcher, Cryptography Enthusiast. PGP identity, responsible disclosure, and security research.">
+<meta name="author" content="Arvin Farrel Pramuditya">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="[0xA45372A9] Arvin Farrel Pramuditya">
+<meta property="og:description" content="Security research, cryptographic identity, and responsible disclosure.">
+<meta property="og:url" content="https://arvinlabs.me">
+<meta property="og:type" content="website">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://arvinlabs.me">
 <title>[0xA45372A9] Arvin Farrel Pramuditya</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:     #ffffff;
-    --fg:     #111111;
-    --muted:  #555555;
-    --light:  #888888;
-    --border: #cccccc;
-    --subtle: #f4f4f4;
-    --link:   #0000cc;
-    --mono:   'Courier New', Courier, monospace;
-    --max:    680px;
-    --pad:    1.25rem;
+    --bg:      #0a0a0a;
+    --paper:   #0f0f0f;
+    --fg:      #d4d4d4;
+    --bright:  #e8e8e8;
+    --muted:   #6a6a6a;
+    --light:   #4a4a4a;
+    --border:  #2a2a2a;
+    --subtle:  #141414;
+    --green:   #00cc66;
+    --green-d: #008844;
+    --link:    #5588ff;
+    --visited: #8855cc;
+    --mono:    'Courier New', Courier, monospace;
+    --max:     720px;
+    --pad:     1.25rem;
   }
 
-  html { font-size: 15px; }
+  html { font-size: 15px; scroll-behavior: smooth; }
 
   body {
     font-family: var(--mono);
     background: var(--bg);
     color: var(--fg);
     line-height: 1.65;
-    padding: 2rem var(--pad) 3rem;
+    padding: 0 0 3rem;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  .page {
+  /* ── Matrix canvas ── */
+  #matrix {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.045;
+  }
+
+  /* ── Nav bar ── */
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.95);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem var(--pad);
+    backdrop-filter: blur(4px);
+  }
+
+  .nav-inner {
     max-width: var(--max);
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .nav-prompt {
+    color: var(--green);
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .nav-cmd {
+    color: var(--green-d);
+    margin-right: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0;
+  }
+
+  .nav-links a {
+    color: var(--fg);
+    text-decoration: none;
+    padding: 0.1rem 0.5rem;
+    border: none;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .nav-links a:hover {
+    color: var(--green);
+    background: rgba(0,204,102,0.07);
+  }
+
+  .nav-links a::before { content: '['; color: var(--light); }
+  .nav-links a::after  { content: ']'; color: var(--light); }
+
+  /* ── Page wrapper ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 2rem var(--pad) 0;
   }
 
   /* ── RFC header band ── */
@@ -42,10 +130,22 @@
     gap: 0.5rem;
     font-size: 0.72rem;
     color: var(--muted);
-    border-bottom: 2px solid var(--fg);
+    border-bottom: 1px solid var(--green-d);
     padding-bottom: 0.65rem;
     margin-bottom: 2rem;
     line-height: 1.8;
+  }
+
+  .rfc-band::before {
+    grid-column: 1 / -1;
+    content: '─────────────────────────────────────────────────────────────────────';
+    color: var(--border);
+    font-size: 0.6rem;
+    letter-spacing: -0.05em;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    margin-bottom: 0.3rem;
   }
 
   .rfc-band-right { text-align: right; }
@@ -58,24 +158,31 @@
   }
 
   .identity h1 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: bold;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
     margin-bottom: 0.25rem;
+    color: var(--bright);
+  }
+
+  .identity h1::before {
+    content: '# ';
+    color: var(--green);
+    font-weight: normal;
   }
 
   .identity .subtitle {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--muted);
     margin-bottom: 0.75rem;
   }
 
   .identity .tagline {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     color: var(--fg);
-    border-left: 3px solid var(--fg);
+    border-left: 2px solid var(--green-d);
     padding-left: 0.75rem;
-    line-height: 1.55;
+    line-height: 1.6;
   }
 
   /* ── Sections ── */
@@ -88,15 +195,22 @@
   section:last-of-type { border-bottom: none; }
 
   .section-heading {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--muted);
-    margin-bottom: 0.9rem;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
+  }
+
+  .section-heading::before {
+    content: '//';
+    color: var(--green-d);
+    font-weight: normal;
+    letter-spacing: 0;
   }
 
   .section-heading::after {
@@ -107,9 +221,7 @@
   }
 
   /* ── Record list ── */
-  .record-list {
-    list-style: none;
-  }
+  .record-list { list-style: none; }
 
   .record-item {
     display: grid;
@@ -125,7 +237,7 @@
 
   .record-key {
     color: var(--muted);
-    font-size: 0.76rem;
+    font-size: 0.75rem;
   }
 
   .record-key::before {
@@ -136,32 +248,47 @@
   a {
     color: var(--link);
     text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s;
   }
 
-  a:visited { color: #551a8b; }
-  a:hover   { color: var(--fg); }
+  a:visited { color: var(--visited); }
+
+  a:hover {
+    color: var(--green);
+    text-decoration: none;
+  }
+
+  a:hover::before {
+    content: '> ';
+    color: var(--green);
+  }
 
   /* ── Fingerprint ── */
   .fingerprint-block {
     background: var(--subtle);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--fg);
-    padding: 0.8rem 1rem;
+    border-left: 2px solid var(--green);
+    padding: 0.85rem 1rem;
+    position: relative;
+    overflow: hidden;
   }
 
   .fingerprint-block code {
     display: block;
     font-family: var(--mono);
     font-size: 0.82rem;
-    letter-spacing: 0.1em;
-    line-height: 2;
+    letter-spacing: 0.12em;
+    line-height: 2.2;
     user-select: all;
     word-break: break-all;
+    color: var(--green);
+    min-height: 1.8em;
   }
 
   .fingerprint-block .fp-note {
     display: block;
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     color: var(--light);
     margin-top: 0.4rem;
     border-top: 1px dotted var(--border);
@@ -171,6 +298,7 @@
   /* ── Contact box ── */
   .contact-box {
     border: 1px solid var(--border);
+    border-left: 2px solid var(--green-d);
     padding: 0.85rem 1rem;
     background: var(--subtle);
     font-size: 0.82rem;
@@ -191,13 +319,14 @@
     display: flex;
     align-items: baseline;
     gap: 0.5rem;
+    color: var(--fg);
   }
 
   .plain-list li:last-child { border-bottom: none; }
 
   .plain-list li::before {
     content: '*';
-    color: var(--light);
+    color: var(--green-d);
     flex-shrink: 0;
   }
 
@@ -209,12 +338,41 @@
   }
 
   .body-text + .body-text { margin-top: 0.5rem; }
-
   .body-text a { word-break: break-all; }
+
+  /* ── Crypto identity table ── */
+  .crypto-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+
+  .crypto-table tr {
+    border-bottom: 1px dotted var(--border);
+  }
+
+  .crypto-table tr:last-child { border-bottom: none; }
+
+  .crypto-table td {
+    padding: 0.4rem 0;
+    vertical-align: baseline;
+  }
+
+  .crypto-table td:first-child {
+    color: var(--muted);
+    width: 9rem;
+    flex-shrink: 0;
+    padding-right: 1rem;
+  }
+
+  .crypto-table td:first-child::before {
+    content: '-- ';
+    color: var(--border);
+  }
 
   /* ── Footer ── */
   footer {
-    border-top: 2px solid var(--fg);
+    border-top: 1px solid var(--green-d);
     padding-top: 0.75rem;
     margin-top: 2rem;
     display: flex;
@@ -222,7 +380,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 0.5rem 1rem;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: var(--muted);
   }
 
@@ -232,24 +390,162 @@
     flex-wrap: wrap;
   }
 
+  footer::before {
+    content: '─────────────────────────────────────────────────────────────────────';
+    display: block;
+    width: 100%;
+    color: var(--border);
+    font-size: 0.6rem;
+    letter-spacing: -0.05em;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 0.4rem;
+  }
+
+  /* ── Cursor blink ── */
+  .cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1em;
+    background: var(--green);
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
   /* ── Responsive ── */
-  @media (max-width: 500px) {
+  @media (max-width: 520px) {
     .rfc-band { grid-template-columns: 1fr; }
     .rfc-band-right { text-align: left; }
     .record-item { grid-template-columns: 1fr; gap: 0.1rem; }
     .record-key::before { display: none; }
+    .crypto-table td:first-child { width: auto; display: block; padding-bottom: 0; }
     footer { flex-direction: column; align-items: flex-start; }
+    .nav-links a { padding: 0.1rem 0.3rem; }
   }
+
+  /* ── PGP Tools Block ── */
+  .pgp-tools {
+    margin-top: 0.85rem;
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--green-d);
+    background: var(--subtle);
+  }
+
+  .pgp-tools-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.4rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pgp-tools-title::before {
+    content: '// ';
+    color: var(--green-d);
+  }
+
+  .pgp-tools-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pgp-btn {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--fg);
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+
+  .pgp-btn::before { content: '['; color: var(--light); }
+  .pgp-btn::after  { content: ']'; color: var(--light); }
+
+  .pgp-btn:hover {
+    color: var(--green);
+    background: rgba(0,204,102,0.07);
+    text-decoration: none;
+  }
+
+  .pgp-btn:last-child { border-right: none; }
+
+  .pgp-btn.active { color: var(--green); }
+
+  .pgp-feedback {
+    font-size: 0.65rem;
+    color: var(--green);
+    padding: 0 0.85rem;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.15s;
+    line-height: 1;
+  }
+
+  .pgp-feedback.visible {
+    height: 1.4rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .pgp-gpg-block {
+    display: none;
+    margin: 0;
+    padding: 0.6rem 0.85rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--green);
+    line-height: 1.8;
+    background: var(--bg);
+    white-space: pre;
+  }
+
+  .pgp-gpg-block.visible { display: block; }
 </style>
 </head>
 <body>
+
+<!-- Matrix background -->
+<canvas id="matrix"></canvas>
+
+<!-- Command-line nav -->
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <span class="nav-prompt">~$</span>
+    <span class="nav-cmd">goto</span>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#records">records</a>
+      <a href="#pgp">pgp</a>
+      <a href="#crypto-id">identity</a>
+      <a href="#research">research</a>
+      <a href="#reports">reports</a>
+      <a href="#projects">projects</a>
+      <a href="#oss">oss</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
 <div class="page">
 
   <!-- RFC band -->
   <div class="rfc-band">
     <div class="rfc-band-left">
       Personal Identity Page<br>
-      Domain: arvinfarrelp.github.io<br>
+      Domain: arvinlabs.me<br>
       Category: Informational
     </div>
     <div class="rfc-band-right">
@@ -260,59 +556,94 @@
   </div>
 
   <!-- Identity -->
-  <div class="identity">
-    <h1>Arvin Farrel Pramuditya</h1>
-    <p class="subtitle">Backend Developer | Security Research Enthusiast</p>
+  <div class="identity" id="about">
+    <h1>Arvin Farrel Pramuditya<span class="cursor"></span></h1>
+    <p class="subtitle">Backend Developer | Blockchain &amp; Smart Contract | Cryptography | Cybersecurity Enthusiast</p>
     <p class="tagline">Security research, cryptographic identity, and responsible disclosure.</p>
   </div>
 
   <!-- 1. Public Records -->
-  <section>
+  <section id="records">
     <p class="section-heading">1. Public Records</p>
     <ul class="record-list">
       <li class="record-item">
         <span class="record-key">Keyoxide Verification</span>
-        <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank" rel="noopener">keyoxide.org/CC7C7F6EE3440CD3002B…</a>
+        <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank" rel="noopener">keyoxide.org/CC7C7F6EE3440CD3…</a>
       </li>
       <li class="record-item">
         <span class="record-key">Keyoxide Identity</span>
-        <a href="https://arvinfarrelp.github.io/.well-known/keyoxide.txt" target="_blank" rel="noopener">.well-known/keyoxide.txt</a>
+        <a href="https://arvinlabs.me/.well-known/keyoxide.txt" target="_blank" rel="noopener">.well-known/keyoxide.txt</a>
       </li>
       <li class="record-item">
         <span class="record-key">Security Disclosure</span>
-        <a href="https://arvinfarrelp.github.io/.well-known/security.txt" target="_blank" rel="noopener">.well-known/security.txt</a>
+        <a href="https://arvinlabs.me/.well-known/security.txt" target="_blank" rel="noopener">.well-known/security.txt</a>
       </li>
       <li class="record-item">
         <span class="record-key">PGP Public Key</span>
-        <a href="https://arvinfarrelp.github.io/pgp.asc" target="_blank" rel="noopener">pgp.asc</a>
+        <a href="https://arvinlabs.me/pgp.asc" target="_blank" rel="noopener">pgp.asc</a>
       </li>
     </ul>
   </section>
 
   <!-- 2. PGP Fingerprint -->
-  <section>
+  <section id="pgp">
     <p class="section-heading">2. PGP Fingerprint</p>
     <div class="fingerprint-block">
-      <code>CC7C 7F6E E344 0CD3 002B&nbsp; 2C00 8C0A E50D A453 72A9</code>
+      <code id="fp-display"></code>
       <span class="fp-note">Click to select all &nbsp;·&nbsp; Verify against keyoxide.org before use.</span>
     </div>
+      <div class="pgp-tools">
+        <div class="pgp-tools-title">PGP Verification Tools</div>
+        <div class="pgp-tools-actions">
+          <button class="pgp-btn" id="btn-copy">Copy Fingerprint</button>
+          <a class="pgp-btn" href="https://arvinlabs.me/pgp.asc" target="_blank" rel="noopener">Download Public Key</a>
+          <a class="pgp-btn" href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank" rel="noopener">Open Keyoxide Profile</a>
+          <button class="pgp-btn" id="btn-gpg">Show GPG Verify Command</button>
+        </div>
+        <div class="pgp-feedback" id="pgp-feedback"></div>
+        <pre class="pgp-gpg-block" id="pgp-gpg-block">gpg --recv-keys 0xA45372A9
+gpg --fingerprint 0xA45372A9</pre>
+      </div>
   </section>
 
-  <!-- 3. Security Contact -->
-  <section>
-    <p class="section-heading">3. Security Contact</p>
+  <!-- 3. Cryptographic Identity -->
+  <section id="crypto-id">
+    <p class="section-heading">3. Cryptographic Identity</p>
+    <table class="crypto-table">
+      <tr>
+        <td>Key ID</td>
+        <td>0xA45372A9</td>
+      </tr>
+      <tr>
+        <td>Fingerprint</td>
+        <td>CC7C 7F6E E344 0CD3 002B&nbsp; 2C00 8C0A E50D A453 72A9</td>
+      </tr>
+      <tr>
+        <td>Verification</td>
+        <td><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank" rel="noopener">keyoxide.org</a></td>
+      </tr>
+      <tr>
+        <td>Public Key</td>
+        <td><a href="https://arvinlabs.me/pgp.asc" target="_blank" rel="noopener">arvinlabs.me/pgp.asc</a></td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- 4. Security Contact -->
+  <section id="contact">
+    <p class="section-heading">4. Security Contact</p>
     <div class="contact-box">
       <p>Responsible disclosure is welcome. Please encrypt sensitive vulnerability reports using my
-        <a href="https://arvinfarrelp.github.io/pgp.asc" target="_blank" rel="noopener">PGP public key</a>.</p>
+        <a href="https://arvinlabs.me/pgp.asc" target="_blank" rel="noopener">PGP public key</a>.</p>
       <p>For the full disclosure policy and contact address, refer to
-        <a href="https://arvinfarrelp.github.io/.well-known/security.txt" target="_blank" rel="noopener">security.txt</a>
+        <a href="https://arvinlabs.me/.well-known/security.txt" target="_blank" rel="noopener">security.txt</a>
         (RFC 9116).</p>
     </div>
   </section>
 
-  <!-- 4. Research Interests -->
-  <section>
-    <p class="section-heading">4. Research Interests</p>
+  <!-- 5. Research Interests -->
+  <section id="research">
+    <p class="section-heading">5. Research Interests</p>
     <ul class="plain-list">
       <li>Web Application Security</li>
       <li>API Security</li>
@@ -322,24 +653,52 @@
     </ul>
   </section>
 
-  <!-- 5. Research Activity -->
+  <!-- 6. Research Activity -->
   <section>
-    <p class="section-heading">5. Research Activity</p>
+    <p class="section-heading">6. Research Activity</p>
     <p class="body-text">Participating in bug bounty programs on HackerOne and conducting security research on web applications and APIs.</p>
   </section>
 
-  <!-- 6. Open Source -->
+  <!-- 7. Open Source -->
   <section>
-    <p class="section-heading">6. Open Source</p>
+    <p class="section-heading">7. Open Source</p>
     <p class="body-text">
       GitHub: <a href="https://github.com/ArvinFarrelP" target="_blank" rel="noopener">github.com/ArvinFarrelP</a>
     </p>
     <p class="body-text" style="margin-top:0.5rem;">Contributing to open-source projects through pull requests and security-related improvements.</p>
   </section>
 
-  <!-- 7. Vulnerability Reports -->
-  <section>
-    <p class="section-heading">7. Vulnerability Reports</p>
+  <!-- 8. Projects -->
+  <section id="projects">
+    <p class="section-heading">8. Projects</p>
+    <ul class="record-list">
+      <li class="record-item">
+        <span class="record-key">CipherVision</span>
+        <a href="https://github.com/ArvinFarrelP/CipherVision" target="_blank" rel="noopener">github.com/ArvinFarrelP/CipherVision</a>
+      </li>
+    </ul>
+    <p class="body-text" style="margin-top:0.75rem;">Cryptographic visualization and analysis tool focused on cryptography visualization and experimentation. Designed to make cryptographic concepts more accessible through interactive visual representations.</p>
+  </section>
+
+  <!-- 9. Open Source Contributions -->
+  <section id="oss">
+    <p class="section-heading">9. Open Source Contributions</p>
+    <ul class="record-list">
+      <li class="record-item">
+        <span class="record-key">PySpector</span>
+        <a href="https://github.com/ParzivalHack/PySpector" target="_blank" rel="noopener">github.com/ParzivalHack/PySpector</a>
+      </li>
+      <li class="record-item">
+        <span class="record-key">SurfSense</span>
+        <a href="https://github.com/MODSetter/SurfSense" target="_blank" rel="noopener">github.com/MODSetter/SurfSense</a>
+      </li>
+    </ul>
+    <p class="body-text" style="margin-top:0.75rem;">Contributions include pull requests, bug fixes, and security-related improvements to open-source projects.</p>
+  </section>
+
+  <!-- 10. Vulnerability Reports -->
+  <section id="reports">
+    <p class="section-heading">10. Vulnerability Reports</p>
     <p class="body-text" style="margin-top:0.5rem;"><strong>Keyoxide Profile Loading Issue (OpenPGP UID Update)</strong></p>
     <p class="body-text">Report: <a href="https://codeberg.org/keyoxide/keyoxide-web/issues/256" target="_blank" rel="noopener">codeberg.org/keyoxide/keyoxide-web/issues/256</a></p>
     <p class="body-text"><em>Status: Reported (Responsible Disclosure, Awaiting Response)</em></p>
@@ -354,11 +713,274 @@
     <div class="footer-links">
       <a href="https://github.com/ArvinFarrelP" target="_blank" rel="noopener">GitHub</a>
       <a href="https://linkedin.com/in/arvinfarrelp" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:arvinfarrelp.security@gmail.com">Email</a>
+      <a href="/cdn-cgi/l/email-protection#fa9b888c93949c9b88889f968ad4899f998f88938e83ba9d979b9396d4999597">Email</a>
     </div>
-    <span>arvinfarrelp.github.io</span>
+    <span id="footer-year"></span>
   </footer>
 
 </div>
+
+<script>
+  // ── Matrix rain ──
+  (function () {
+    const canvas = document.getElementById('matrix');
+    const ctx    = canvas.getContext('2d');
+    const CHARS  = 'ABCDEF0123456789';
+    const SIZE   = 13;
+    let cols, drops, raf;
+
+    function init() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      cols  = Math.floor(canvas.width / SIZE);
+      drops = Array.from({ length: cols }, () => Math.random() * -80);
+    }
+
+    function draw() {
+      ctx.fillStyle = 'rgba(10,10,10,0.15)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = SIZE + 'px "Courier New", monospace';
+      for (let i = 0; i < cols; i++) {
+        const ch = CHARS[Math.floor(Math.random() * CHARS.length)];
+        ctx.globalAlpha = Math.random() * 0.35 + 0.05;
+        ctx.fillStyle   = '#00cc66';
+        ctx.fillText(ch, i * SIZE, drops[i] * SIZE);
+        ctx.globalAlpha = 1;
+        if (drops[i] * SIZE > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i] += 0.35;
+      }
+      raf = requestAnimationFrame(draw);
+    }
+
+    function onResize() {
+      cancelAnimationFrame(raf);
+      init();
+      raf = requestAnimationFrame(draw);
+    }
+
+    init();
+    raf = requestAnimationFrame(draw);
+    window.addEventListener('resize', onResize);
+  })();
+
+  // ── Fingerprint typewriter ──
+  (function () {
+    const fp  = 'CC7C 7F6E E344 0CD3 002B  2C00 8C0A E50D A453 72A9';
+    const el  = document.getElementById('fp-display');
+    let idx   = 0;
+    let timer = null;
+    el.textContent = '';
+
+    function tick() {
+      if (idx <= fp.length) {
+        el.textContent = fp.slice(0, idx) + (idx < fp.length ? '▋' : '');
+        idx++;
+      } else {
+        clearInterval(timer);
+        timer = null;
+        el.textContent = fp;
+      }
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        timer = setInterval(tick, 38);
+      }
+    }, { threshold: 0.5 });
+
+    const pgpSection = document.getElementById('pgp');
+    if (pgpSection) observer.observe(pgpSection);
+  })();
+
+  // ── Dynamic footer year ──
+  (function () {
+    const el = document.getElementById('footer-year');
+    if (el) el.textContent = new Date().getFullYear() + ' arvinlabs.me';
+  })();
+
+  // ── Smooth scroll for nav links ──
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ── Command palette (press /) ──
+  (function () {
+    const ROUTES = {
+      about:    '#about',
+      records:  '#records',
+      pgp:      '#pgp',
+      identity: '#crypto-id',
+      research: '#research',
+      contact:  '#contact',
+      reports:  '#reports',
+      projects: '#projects',
+      oss:      '#oss',
+    };
+
+    // Build overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'cmd-overlay';
+    overlay.style.cssText = [
+      'display:none',
+      'position:fixed',
+      'inset:0',
+      'z-index:999',
+      'background:rgba(0,0,0,0.75)',
+      'align-items:flex-start',
+      'justify-content:center',
+      'padding-top:20vh',
+    ].join(';');
+
+    const box = document.createElement('div');
+    box.style.cssText = [
+      'background:#0f0f0f',
+      'border:1px solid #2a2a2a',
+      'border-left:2px solid #00cc66',
+      'padding:0.75rem 1rem',
+      'width:min(480px,90vw)',
+      'font-family:"Courier New",Courier,monospace',
+      'font-size:0.82rem',
+    ].join(';');
+
+    const prompt = document.createElement('div');
+    prompt.style.cssText = 'color:#6a6a6a;margin-bottom:0.4rem;font-size:0.68rem;';
+    prompt.textContent = '~$ goto <section>  —  esc to close';
+
+    const inputRow = document.createElement('div');
+    inputRow.style.cssText = 'display:flex;align-items:center;gap:0.4rem;';
+
+    const ps = document.createElement('span');
+    ps.textContent = '>';
+    ps.style.color = '#00cc66';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'e.g. goto research';
+    input.autocomplete = 'off';
+    input.spellcheck = false;
+    input.style.cssText = [
+      'background:transparent',
+      'border:none',
+      'outline:none',
+      'color:#d4d4d4',
+      'font-family:inherit',
+      'font-size:inherit',
+      'flex:1',
+      'caret-color:#00cc66',
+    ].join(';');
+
+    const hint = document.createElement('div');
+    hint.style.cssText = 'color:#4a4a4a;font-size:0.65rem;margin-top:0.5rem;';
+    hint.textContent = Object.keys(ROUTES).join('  ');
+
+    inputRow.append(ps, input);
+    box.append(prompt, inputRow, hint);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    function open() {
+      overlay.style.display = 'flex';
+      input.value = 'goto ';
+      setTimeout(function () { input.focus(); input.setSelectionRange(5,5); }, 10);
+    }
+
+    function close() {
+      overlay.style.display = 'none';
+      input.value = '';
+    }
+
+    function execute() {
+      const val   = input.value.trim().replace(/^goto\s*/i, '');
+      const key   = val.toLowerCase();
+      const route = ROUTES[key];
+      if (route) {
+        const el = document.querySelector(route);
+        if (el) {
+          close();
+          setTimeout(function () {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 80);
+        }
+      }
+    }
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter')  { e.preventDefault(); execute(); }
+      if (e.key === 'Escape') { e.preventDefault(); close(); }
+    });
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      const tag = document.activeElement.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        if (overlay.style.display === 'none') open(); else close();
+      }
+    });
+
+    // Show hint in nav bar
+    const navInner = document.querySelector('.nav-inner');
+    if (navInner) {
+      const tip = document.createElement('span');
+      tip.style.cssText = 'margin-left:auto;color:#4a4a4a;font-size:0.65rem;cursor:pointer;';
+      tip.textContent = '[ / ] cmd';
+      tip.title = 'Press / to open command palette';
+      tip.addEventListener('click', open);
+      navInner.appendChild(tip);
+    }
+  })();
+
+  // ── PGP Tools Block ──
+  (function () {
+    const FP = 'CC7C 7F6E E344 0CD3 002B  2C00 8C0A E50D A453 72A9';
+
+    const btnCopy     = document.getElementById('btn-copy');
+    const btnGpg      = document.getElementById('btn-gpg');
+    const feedback    = document.getElementById('pgp-feedback');
+    const gpgBlock    = document.getElementById('pgp-gpg-block');
+
+    function showFeedback(msg, duration) {
+      feedback.textContent = msg;
+      feedback.classList.add('visible');
+      setTimeout(function () {
+        feedback.classList.remove('visible');
+      }, duration || 2000);
+    }
+
+    if (btnCopy) {
+      btnCopy.addEventListener('click', function () {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(FP).then(function () {
+            showFeedback('> fingerprint copied to clipboard');
+          }).catch(function () {
+            showFeedback('> copy failed — select manually');
+          });
+        } else {
+          showFeedback('> clipboard API unavailable');
+        }
+      });
+    }
+
+    if (btnGpg) {
+      btnGpg.addEventListener('click', function () {
+        const visible = gpgBlock.classList.toggle('visible');
+        btnGpg.classList.toggle('active', visible);
+      });
+    }
+  })();
+</script>
 </body>
 </html>
