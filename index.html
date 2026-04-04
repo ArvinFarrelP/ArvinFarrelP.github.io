@@ -253,6 +253,31 @@ body {
   }
 }
 
+/* ── System Status Indicator ── */
+.hero-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.62rem;
+  color: #00cc66;
+  margin-top: 0.3rem;
+  letter-spacing: 0.05em;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: #00cc66;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0, 204, 102, 0.6);
+  animation: status-blink 1.6s infinite;
+}
+
+@keyframes status-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 .hero-desc {
   font-size: 0.8rem;
   color: var(--muted);
@@ -866,6 +891,10 @@ footer {
       <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge badge-pgp">PGP VERIFIED</a>
       <a href="/.well-known/security.txt" class="badge">SECURITY.TXT RFC 9116</a>
       <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge">KEYOXIDE IDENTITY</a>
+    </div>
+    <div class="hero-status">
+      <span class="status-dot"></span>
+      <span class="status-text">Research Node Online</span>
     </div>
     <p class="hero-desc">
       Security research, cryptographic identity, and responsible disclosure.
