@@ -850,6 +850,54 @@ footer {
   .nav-links a { padding: 0.12rem 0.35rem; font-size: 0.65rem; }
   .project-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Additional Mobile Optimizations ── */
+@media (max-width: 480px) {
+  .hero-image {
+    max-width: 220px;
+  }
+  .hero-image img {
+    border-radius: 8px;
+  }
+  .hero-name {
+    font-size: clamp(1.4rem, 5vw, 1.8rem);
+  }
+  .hero-subtitle {
+    font-size: 0.7rem;
+  }
+  .hero-desc {
+    font-size: 0.75rem;
+  }
+  .badge {
+    font-size: 0.55rem;
+    padding: 0.2rem 0.4rem;
+  }
+  .hero-pgp {
+    font-size: 0.65rem;
+    padding: 0.35rem 0.7rem;
+  }
+  .hero-status {
+    font-size: 0.58rem;
+  }
+  .btn {
+    font-size: 0.65rem;
+    padding: 0.45rem 0.9rem;
+  }
+  .hero-buttons {
+    gap: 0.5rem;
+  }
+  .sec-heading {
+    font-size: 0.6rem;
+  }
+  .fingerprint-block code {
+    font-size: 0.7rem;
+    line-height: 1.8;
+  }
+  .pgp-btn {
+    font-size: 0.58rem;
+    padding: 0.35rem 0.6rem;
+  }
+}
 </style>
 </head>
 <body>
@@ -907,7 +955,7 @@ footer {
   <div class="hero-image-wrap">
     <div class="hero-scan"></div>
     <div class="hero-image">
-      <img src="img/chloe.jpeg" alt="hero character" loading="lazy">
+      <img src="img/chloe.png" alt="hero character" loading="lazy">
     </div>
   </div>
 </section>
