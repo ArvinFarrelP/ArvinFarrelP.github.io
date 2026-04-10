@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="description" content="Arvin Farrel Pramuditya — Backend Developer, Security Researcher, Cryptography Enthusiast.">
 <meta name="author" content="Arvin Farrel Pramuditya">
 <meta property="og:title" content="Arvin Farrel Pramuditya">
@@ -24,31 +24,26 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Soft Pastel Theme with Blue Accent (Silver-Blue Hair) */
   --white: #ffffff;
-  --bg: #f4f6fa;           /* soft pastel blue-white background */
+  --bg: #f4f6fa;
   --surface: #ffffff;
   --surface2: #f8fafc;
-  --fg: #2c3e4e;           /* soft dark slate, not harsh black */
+  --fg: #2c3e4e;
   --muted: #7c8f9c;
   --light: #b8c9d6;
   --border: rgba(127,166,200,0.25);
   --border-hover: rgba(127,166,200,0.5);
-  
-  /* Blue accents (#7fa6c8, #d9e3ea) soft version */
-  --accent: #7fa6c8;       /* soft blue primary */
+  --accent: #7fa6c8;
   --accent-light: #b8d0e6;
   --accent-pale: rgba(127,166,200,0.1);
   --accent2: #8bb3d1;
   --accent2-light: #c5ddef;
   --accent2-pale: rgba(139,179,209,0.08);
   --glow-blue: rgba(127,166,200,0.2);
-  
   --rose: #7fa6c8;
   --sky: #8bb3d1;
   --sage: #9bb7cc;
   --petal: #e8f0f8;
-  
   --mono: 'Nunito', sans-serif;
   --display: 'Kaisei Decol', serif;
   --max: 1080px;
@@ -68,7 +63,6 @@ body {
   position: relative;
 }
 
-/* Soft Matrix Rain Effect — Pastel Blue (#b8d0e6) */
 .matrix-canvas {
   position: fixed;
   top: 0;
@@ -80,7 +74,6 @@ body {
   opacity: 0.1;
 }
 
-/* Gentle glowing orbs (soft pink + soft blue) matching anime aesthetic */
 body::before {
   content: '';
   position: fixed;
@@ -101,7 +94,6 @@ body::after {
   z-index: 0;
 }
 
-/* Floating petals (soft blue-white) */
 .petal {
   position: fixed;
   pointer-events: none;
@@ -119,7 +111,6 @@ body::after {
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
-/* ── Nav (soft, clean) ── */
 .nav {
   position: sticky;
   top: 0;
@@ -170,7 +161,6 @@ body::after {
   background: var(--accent-pale);
 }
 
-/* ── Hero (Minimal, Clean, Soft Blue Theme) ── */
 .hero {
   position: relative;
   z-index: 2;
@@ -293,7 +283,6 @@ body::after {
 
 .badge-sky:hover { background: var(--accent2-light); color: var(--white); }
 
-/* ── Hero image with soft blue glow ── */
 .hero-image-wrap {
   position: relative;
   display: flex;
@@ -339,7 +328,6 @@ body::after {
   50%       { transform: translateY(-8px); }
 }
 
-/* Single minimal decorative element (soft petal) */
 .hero-deco {
   position: absolute;
   width: 32px;
@@ -370,7 +358,104 @@ body::after {
   50%       { transform: translateY(-6px) rotate(8deg); opacity: 0.9; }
 }
 
-/* ── Divider with soft blue gradient ── */
+.qr-popup {
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  background: white;
+  border-radius: 14px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: all .25s ease;
+  z-index: 10;
+}
+
+.project-card:hover .qr-popup {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-6px);
+}
+
+.crypto-logo {
+  width: 36px;
+  margin-bottom: 6px;
+  transition: all .3s;
+}
+
+.project-card:hover .crypto-logo {
+  filter: drop-shadow(0 0 6px var(--accent-light));
+}
+
+.wallet-short {
+  font-family: 'Courier New', monospace;
+  font-size: .7rem;
+  color: var(--accent);
+  background: rgba(0,0,0,0.03);
+  padding: .35rem .5rem;
+  border-radius: 10px;
+  display: inline-block;
+  word-break: break-all;
+}
+
+.wallet-actions {
+  margin-top: .5rem;
+  display: flex;
+  gap: .4rem;
+  flex-wrap: wrap;
+}
+
+.wallet-btn {
+  font-size: .65rem;
+  padding: .3rem .7rem;
+  border-radius: 20px;
+  border: 1px solid var(--accent-light);
+  background: var(--accent-pale);
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wallet-btn:hover {
+  background: var(--accent-light);
+  color: white;
+}
+
+/* Style untuk logo di dalam tombol */
+.wallet-btn img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+/* Style untuk status wallet dengan logo */
+#wallet-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-family: monospace;
+}
+
+.wallet-status-text {
+  font-size: 0.7rem;
+  color: var(--muted);
+  font-family: monospace;
+}
+
+/* FIX 4: Animasi tombol donate seperti Uniswap/OpenSea */
+#wallet-actions button:last-child {
+  box-shadow: 0 0 10px rgba(127,166,200,.4);
+}
+
 .divider {
   position: relative;
   z-index: 2;
@@ -384,10 +469,9 @@ body::after {
   background: linear-gradient(90deg, transparent, var(--accent-light), var(--accent2-light), transparent);
 }
 
-/* ── Main content (soft white cards) ── */
 .main {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   max-width: var(--max);
   margin: 0 auto;
   padding: 3.5rem var(--pad) 5rem;
@@ -432,16 +516,6 @@ body::after {
   align-items: center;
   justify-content: center;
   font-size: 0.85rem;
-}
-
-.sec-heading.sky .icon {
-  background: var(--accent2-pale);
-  border-color: var(--accent2-light);
-}
-
-.sec-heading.sage .icon {
-  background: rgba(155,183,204,0.1);
-  border-color: rgba(155,183,204,0.3);
 }
 
 .record-list { list-style: none; }
@@ -612,18 +686,18 @@ a:hover { color: var(--accent2); text-decoration: underline; }
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
 }
 
 .project-card {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 1.1rem;
+  padding: 1.2rem;
   transition: all 0.2s;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .project-card::before {
@@ -646,8 +720,28 @@ a:hover { color: var(--accent2); text-decoration: underline; }
 .project-title {
   font-weight: 700;
   color: var(--fg);
-  margin-bottom: 0.4rem;
-  font-size: 0.88rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.network-badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-pale);
+  border: 1px solid var(--accent-light);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  font-family: var(--mono);
 }
 
 .project-badge {
@@ -665,10 +759,10 @@ a:hover { color: var(--accent2); text-decoration: underline; }
 }
 
 .project-desc {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 0.75rem;
+  line-height: 1.65;
+  margin-bottom: 0.6rem;
 }
 
 .project-link {
@@ -746,17 +840,8 @@ footer {
 .footer-links a:hover { color: var(--accent); }
 
 @media (max-width: 780px) {
-  .hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    padding-top: 2rem;
-    gap: 2rem;
-  }
-  .hero-image-wrap {
-    order: -1;
-    max-width: 240px;
-    margin: 0 auto;
-  }
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 2rem; gap: 2rem; }
+  .hero-image-wrap { order: -1; max-width: 240px; margin: 0 auto; }
   .main { grid-template-columns: 1fr; }
   .main-full { grid-column: 1; }
 }
@@ -771,199 +856,236 @@ footer {
 </head>
 <body>
 
-<!-- Soft Matrix Rain Canvas (Pastel Blue #b8d0e6) -->
 <canvas id="matrixCanvas" class="matrix-canvas"></canvas>
-
-<!-- Floating petals (soft blue-white shimmer) -->
 <span class="petal" style="left:5%; animation-duration:14s; animation-delay:0s;">❄️</span>
 <span class="petal" style="left:20%; animation-duration:17s; animation-delay:4s;">✨</span>
 <span class="petal" style="left:50%; animation-duration:12s; animation-delay:7s;">💠</span>
-<!-- <span class="petal" style="left:75%; animation-duration:15s; animation-delay:2s;">🌸</span>
-<span class="petal" style="left:92%; animation-duration:18s; animation-delay:9s;">💙</span> -->
 
-<!-- Nav -->
 <nav class="nav">
   <div class="nav-inner">
     <span class="nav-brand">arvinlabs.me</span>
     <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#records">Records</a>
-      <a href="#pgp">PGP</a>
-      <a href="#projects">Projects</a>
-      <a href="#research">Research</a>
-      <a href="#reports">Reports</a>
-      <a href="#contact">Contact</a>
+      <a href="#about">About</a><a href="#records">Records</a><a href="#pgp">PGP</a>
+      <a href="#projects">Projects</a><a href="#research">Research</a><a href="#reports">Reports</a>
+      <a href="#contact">Contact</a><a href="#donate">Donate</a>
     </div>
   </div>
 </nav>
 
-<!-- Hero Section: Minimal, Soft, Silver-Blue Aesthetic -->
 <section class="hero" id="about">
   <div class="hero-left">
     <div class="hero-tag">✦ SECURITY RESEARCH & CRYPTOGRAPHY</div>
-    <h1 class="hero-name">
-      Arvin Farrel<br><span class="soft">Pramuditya</span>
-    </h1>
-    <div class="hero-subtitle">
-      <span class="pill">Backend Developer</span>
-      <span class="pill">Blockchain &amp; Smart Contract</span>
-      <span class="pill">Cryptography</span>
-      <span class="pill">Cybersecurity</span>
-    </div>
-    <div class="hero-pgp">
-      🔑 PGP Identity: <span class="key-id">0xA45372A9</span>
-    </div>
-    <div class="hero-badges">
-      <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge">PGP Verified</a>
-      <a href="/.well-known/security.txt" class="badge badge-sky">Security.txt</a>
-      <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge badge-sky">Keyoxide Profile</a>
-    </div>
+    <h1 class="hero-name">Arvin Farrel<br><span class="soft">Pramuditya</span></h1>
+    <div class="hero-subtitle"><span class="pill">Backend Developer</span><span class="pill">Blockchain &amp; Smart Contract</span><span class="pill">Cryptography</span><span class="pill">Cybersecurity</span></div>
+    <div class="hero-pgp">🔑 PGP Identity: <span class="key-id">0xA45372A9</span></div>
+    <div class="hero-badges"><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge">PGP Verified</a><a href="/.well-known/security.txt" class="badge badge-sky">Security.txt</a><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge badge-sky">Keyoxide Profile</a></div>
   </div>
-  <div class="hero-image-wrap">
-    <div class="hero-image-frame">
-      <div class="hero-image-bg"></div>
-      <div class="hero-deco deco-1">💠</div>
-      <img src="img/chloe.png" alt="Anime character avatar representing Arvin Farrel Pramuditya" class="hero-image" loading="eager">
-    </div>
-  </div>
+  <div class="hero-image-wrap"><div class="hero-image-frame"><div class="hero-image-bg"></div><div class="hero-deco deco-1">💠</div><img src="img/chloe.png" alt="avatar" class="hero-image" loading="eager"></div></div>
 </section>
+<div class="divider"><div class="divider-inner"></div></div>
 
-<div class="divider">
-  <div class="divider-inner"></div>
-</div>
-
-<!-- Main content (preserved structure, colors updated to soft theme) -->
 <div class="main">
-  <div class="sec" id="records">
-    <p class="sec-heading"><span class="icon">📋</span>Public Records</p>
-    <ul class="record-list">
-      <li class="record-item"><span class="record-key">Keyoxide</span><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">keyoxide.org/CC7C7F6E…</a></li>
-      <li class="record-item"><span class="record-key">Identity File</span><a href="https://arvinlabs.me/.well-known/keyoxide.txt" target="_blank">.well-known/keyoxide.txt</a></li>
-      <li class="record-item"><span class="record-key">Disclosure Policy</span><a href="https://arvinlabs.me/.well-known/security.txt" target="_blank">.well-known/security.txt</a></li>
-      <li class="record-item"><span class="record-key">PGP Public Key</span><a href="https://arvinlabs.me/pgp.asc" target="_blank">pgp.asc</a></li>
-    </ul>
-  </div>
-
-  <div class="sec" id="crypto-id">
-    <p class="sec-heading sky"><span class="icon">🔑</span>Cryptographic Identity</p>
-    <table class="crypto-table">
-      <tr><td>Key ID</td><td>0xA45372A9</td></tr>
-      <tr><td>Fingerprint</td><td style="font-family:'Courier New',monospace;">CC7C 7F6E E344 0CD3 002B 2C00 8C0A E50D A453 72A9</td></tr>
-      <tr><td>Verification</td><td><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">keyoxide.org</a></td></tr>
-      <tr><td>Public Key</td><td><a href="https://arvinlabs.me/pgp.asc" target="_blank">arvinlabs.me/pgp.asc</a></td></tr>
-    </table>
-  </div>
-
-  <div class="sec main-full" id="pgp">
-    <p class="sec-heading"><span class="icon">🛡️</span>PGP Fingerprint</p>
-    <div class="fingerprint-block"><code id="fp-display"></code><span class="fp-note">Click to select all · Verify against keyoxide.org before use.</span></div>
-    <div class="pgp-tools"><button class="pgp-btn" id="btn-copy">Copy Fingerprint</button><a class="pgp-btn" href="https://arvinlabs.me/pgp.asc" target="_blank">Download Public Key</a><a class="pgp-btn" href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">Open Keyoxide Profile</a><button class="pgp-btn" id="btn-gpg">Show GPG Command</button><div class="pgp-feedback" id="pgp-feedback"></div></div>
-    <pre class="pgp-gpg-block" id="pgp-gpg-block">gpg --recv-keys 0xA45372A9\ngpg --fingerprint 0xA45372A9</pre>
-  </div>
-
-  <div class="sec" id="contact">
-    <p class="sec-heading sage"><span class="icon">✉️</span>Security Contact</p>
-    <div class="contact-box"><p>Responsible disclosure is welcome. Please encrypt sensitive vulnerability reports using my <a href="https://arvinlabs.me/pgp.asc" target="_blank">PGP public key</a>.</p><p>For the full disclosure policy, refer to <a href="https://arvinlabs.me/.well-known/security.txt" target="_blank">security.txt</a> (RFC 9116).</p></div>
-  </div>
-
-  <div class="sec" id="research">
-    <p class="sec-heading sky"><span class="icon">🔍</span>Research Interests</p>
-    <ul class="plain-list"><li>Web Application Security</li><li>API Security</li><li>Access Control Issues (IDOR)</li><li>Authentication &amp; Authorization Flaws</li><li>Security Misconfigurations</li></ul>
-  </div>
-
+  <div class="sec" id="records"><p class="sec-heading"><span class="icon">📋</span>Public Records</p><ul class="record-list"><li class="record-item"><span class="record-key">Keyoxide</span><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">keyoxide.org/CC7C7F6E…</a></li><li class="record-item"><span class="record-key">Identity File</span><a href="https://arvinlabs.me/.well-known/keyoxide.txt" target="_blank">.well-known/keyoxide.txt</a></li><li class="record-item"><span class="record-key">Disclosure Policy</span><a href="https://arvinlabs.me/.well-known/security.txt" target="_blank">.well-known/security.txt</a></li><li class="record-item"><span class="record-key">PGP Public Key</span><a href="https://arvinlabs.me/pgp.asc" target="_blank">pgp.asc</a></li></ul></div>
+  <div class="sec" id="crypto-id"><p class="sec-heading sky"><span class="icon">🔑</span>Cryptographic Identity</p><table class="crypto-table"><tr><td>Key ID</td><td>0xA45372A9</td></tr>
+  <tr><td>Fingerprint</td><td style="font-family:'Courier New',monospace;">CC7C 7F6E E344 0CD3 002B 2C00 8C0A E50D A453 72A9</td></tr>
+  <tr><td>Verification</td><td><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">keyoxide.org</a></td></tr>
+  <tr><td>Public Key</td><td><a href="https://arvinlabs.me/pgp.asc" target="_blank">arvinlabs.me/pgp.asc</a></td></tr>
+  </table></div>
+  <div class="sec main-full" id="pgp"><p class="sec-heading"><span class="icon">🛡️</span>PGP Fingerprint</p><div class="fingerprint-block"><code id="fp-display"></code><span class="fp-note">Click to select all · Verify against keyoxide.org before use.</span></div><div class="pgp-tools"><button class="pgp-btn" id="btn-copy">Copy Fingerprint</button><a class="pgp-btn" href="https://arvinlabs.me/pgp.asc" target="_blank">Download Public Key</a><a class="pgp-btn" href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">Open Keyoxide Profile</a><button class="pgp-btn" id="btn-gpg">Show GPG Command</button><div class="pgp-feedback" id="pgp-feedback"></div></div><pre class="pgp-gpg-block" id="pgp-gpg-block">gpg --recv-keys 0xA45372A9\ngpg --fingerprint 0xA45372A9</pre></div>
+  <div class="sec" id="contact"><p class="sec-heading sage"><span class="icon">✉️</span>Security Contact</p><div class="contact-box"><p>Responsible disclosure is welcome. Please encrypt sensitive vulnerability reports using my <a href="https://arvinlabs.me/pgp.asc" target="_blank">PGP public key</a>.</p><p>For the full disclosure policy, refer to <a href="https://arvinlabs.me/.well-known/security.txt" target="_blank">security.txt</a> (RFC 9116).</p></div></div>
+  <div class="sec" id="research"><p class="sec-heading sky"><span class="icon">🔍</span>Research Interests</p><ul class="plain-list"><li>Web Application Security</li><li>API Security</li><li>Access Control Issues (IDOR)</li><li>Authentication &amp; Authorization Flaws</li><li>Security Misconfigurations</li></ul></div>
   <div class="sec"><p class="sec-heading"><span class="icon">⚡</span>Research Activity</p><p class="body-text">Participating in bug bounty programs on HackerOne and conducting security research on web applications and APIs.</p></div>
   <div class="sec"><p class="sec-heading sage"><span class="icon">🌱</span>Open Source</p><p class="body-text">GitHub: <a href="https://github.com/ArvinFarrelP" target="_blank">github.com/ArvinFarrelP</a></p><p class="body-text" style="margin-top:0.5rem;">Contributing to open-source projects through pull requests and security-related improvements.</p></div>
   <div class="sec" id="oss"><p class="sec-heading"><span class="icon">🤝</span>Contributions</p><ul class="record-list"><li class="record-item"><span class="record-key">PySpector</span><a href="https://github.com/ParzivalHack/PySpector" target="_blank">github.com/ParzivalHack/PySpector</a></li><li class="record-item"><span class="record-key">SurfSense</span><a href="https://github.com/MODSetter/SurfSense" target="_blank">github.com/MODSetter/SurfSense</a></li></ul></div>
+  <div class="sec main-full" id="projects"><p class="sec-heading"><span class="icon">✨</span>Security Projects</p><div class="project-grid"><div class="project-card"><div class="project-title">CipherVision</div><p class="project-desc">Cryptographic identity verification tool integrating OpenPGP and Keyoxide.</p><a class="project-link" href="https://github.com/ArvinFarrelP/CipherVision" target="_blank">github.com/ArvinFarrelP/CipherVision</a></div><div class="project-card"><div class="project-title">PySpector <span class="project-badge">contrib</span></div><p class="project-desc">Contributed improvements to an OSINT and reconnaissance framework.</p><a class="project-link" href="https://github.com/ParzivalHack/PySpector" target="_blank">github.com/ParzivalHack/PySpector</a></div><div class="project-card"><div class="project-title">SurfSense <span class="project-badge">contrib</span></div><p class="project-desc">Contributed UI and frontend improvements to the SurfSense project.</p><a class="project-link" href="https://github.com/MODSetter/SurfSense" target="_blank">github.com/MODSetter/SurfSense</a></div></div></div>
+  <div class="sec main-full" id="reports"><p class="sec-heading sky"><span class="icon">📝</span>Vulnerability Reports</p><div class="vuln-block"><div class="vuln-title">Keyoxide Profile Loading Issue (OpenPGP UID Update)</div><div class="vuln-meta"><span class="tag">Reported — Awaiting Response</span><span class="tag">Responsible Disclosure</span></div><p class="body-text">Report: <a href="https://codeberg.org/keyoxide/keyoxide-web/issues/256" target="_blank">codeberg.org/keyoxide/keyoxide-web/issues/256</a></p><p class="body-text" style="margin-top:0.5rem;">Identified and reported a potential issue in Keyoxide where the profile failed to load after updating the primary UID of an OpenPGP key.</p></div></div>
 
-  <div class="sec main-full" id="projects">
-    <p class="sec-heading"><span class="icon">✨</span>Security Projects</p>
-    <div class="project-grid"><div class="project-card"><div class="project-title">CipherVision</div><p class="project-desc">Cryptographic identity verification tool integrating OpenPGP and Keyoxide. Focused on cryptography visualization and experimentation.</p><a class="project-link" href="https://github.com/ArvinFarrelP/CipherVision" target="_blank">github.com/ArvinFarrelP/CipherVision</a></div><div class="project-card"><div class="project-title">PySpector <span class="project-badge">contrib</span></div><p class="project-desc">Contributed improvements to an OSINT and reconnaissance framework. Pull requests and security-related development.</p><a class="project-link" href="https://github.com/ParzivalHack/PySpector" target="_blank">github.com/ParzivalHack/PySpector</a></div><div class="project-card"><div class="project-title">SurfSense <span class="project-badge">contrib</span></div><p class="project-desc">Contributed UI and frontend improvements to the SurfSense project.</p><a class="project-link" href="https://github.com/MODSetter/SurfSense" target="_blank">github.com/MODSetter/SurfSense</a></div></div>
-  </div>
-
-  <div class="sec main-full" id="reports">
-    <p class="sec-heading sky"><span class="icon">📝</span>Vulnerability Reports</p>
-    <div class="vuln-block"><div class="vuln-title">Keyoxide Profile Loading Issue (OpenPGP UID Update)</div><div class="vuln-meta"><span class="tag">Reported — Awaiting Response</span><span class="tag">Responsible Disclosure</span></div><p class="body-text">Report: <a href="https://codeberg.org/keyoxide/keyoxide-web/issues/256" target="_blank">codeberg.org/keyoxide/keyoxide-web/issues/256</a></p><p class="body-text" style="margin-top:0.5rem;">Identified and reported a potential issue in Keyoxide where the profile failed to load after updating the primary UID of an OpenPGP key, affecting profile visibility and identity verification.</p><p class="body-text" style="margin-top:0.5rem;">Conducted testing and verification by updating key signatures, re-publishing to keys.openpgp.org, and validating key availability via fingerprint.</p></div>
+  <!-- Donation Section with Enhanced Wallet Connect -->
+  <div class="sec main-full" id="donate">
+    <p class="sec-heading"><span class="icon">💙</span>Support Development</p>
+    <p class="body-text" style="margin-bottom: 1rem;">Donations help support research, infrastructure, and open-source development at ArvinLabs.</p>
+    <div style="margin-bottom:1.5rem; display:flex; gap:.75rem; flex-wrap:wrap; align-items:center;">
+      <!-- Tombol Connect Wallet dengan logo MetaMask (diperbarui) -->
+      <button class="wallet-btn" id="connectMetaMaskBtn" style="font-size:0.75rem; padding:0.4rem 1rem; display:inline-flex; align-items:center; gap:8px;">
+        <img src="img/metamask.png" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display='none'">
+        Connect Wallet
+      </button>
+      <span id="wallet-status" class="wallet-status-text">⚡ Wallet not connected</span>
+    </div>
+    <div class="project-grid">
+      <div class="project-card"><div class="qr-popup"><img src="img/btc-qr.png" alt="BTC QR" width="100%" onerror="this.style.display='none'; this.parentElement.innerHTML='📱 QR Code'"></div><img src="img/btc.png" alt="BTC" class="crypto-logo" onerror="this.style.display='none'"><div class="project-title">Bitcoin (BTC)<span class="network-badge">₿ Bitcoin Network</span></div><p class="project-desc">Support ArvinLabs research using Bitcoin.</p><code class="wallet-short">bc1qse0f24yza0wg7323tshxrdk8aulv0nyjtzzdaf</code><div class="wallet-actions"><button class="wallet-btn" data-wallet="bc1qse0f24yza0wg7323tshxrdk8aulv0nyjtzzdaf" onclick="copyWallet(this)">Copy</button><button class="wallet-btn" onclick="openWallet('bitcoin:bc1qse0f24yza0wg7323tshxrdk8aulv0nyjtzzdaf')">Open Wallet</button></div></div>
+      <div class="project-card"><div class="qr-popup"><img src="img/eth-qr.png" alt="ETH QR" width="100%" onerror="this.style.display='none'; this.parentElement.innerHTML='📱 QR Code'"></div><img src="img/eth.png" alt="ETH" class="crypto-logo" onerror="this.style.display='none'"><div class="project-title">Ethereum (ETH)<span class="network-badge">⟠ Ethereum Network</span></div><p class="project-desc">ETH / ERC-20 donations. Use MetaMask to send ETH.</p><code class="wallet-short">0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534</code><div class="wallet-actions"><button class="wallet-btn" data-wallet="0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534" onclick="copyWallet(this)">Copy</button><button class="wallet-btn" onclick="openWallet('ethereum:0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534')">Open Wallet</button><button class="wallet-btn" id="donateEthBtn" style="background:var(--accent); color:white;">💸 Donate via MetaMask</button></div></div>
+      <div class="project-card"><div class="qr-popup"><img src="img/sol-qr.png" alt="SOL QR" width="100%" onerror="this.style.display='none'; this.parentElement.innerHTML='📱 QR Code'"></div><img src="img/sol.png" alt="SOL" class="crypto-logo" onerror="this.style.display='none'"><div class="project-title">Solana (SOL)<span class="network-badge">◎ Solana Network</span></div><p class="project-desc">Low fee donations via Solana network.</p><code class="wallet-short">3go6436dxBitQwp5161Z5xaQYEQHRTSQWnSVS2gx314U</code><div class="wallet-actions"><button class="wallet-btn" data-wallet="3go6436dxBitQwp5161Z5xaQYEQHRTSQWnSVS2gx314U" onclick="copyWallet(this)">Copy</button><button class="wallet-btn" onclick="openWallet('solana:3go6436dxBitQwp5161Z5xaQYEQHRTSQWnSVS2gx314U')">Open Wallet</button></div></div>
+    </div>
   </div>
 </div>
-
 <footer><div class="footer-links"><a href="https://github.com/ArvinFarrelP" target="_blank">GitHub</a><a href="https://linkedin.com/in/arvinfarrelp" target="_blank">LinkedIn</a><a href="mailto:arvinfarrelp.security@gmail.com">Email</a></div><span id="footer-year"></span></footer>
 
 <script>
-// Soft Blue Matrix Rain Effect (Pastel Blue #b8d0e6)
+// Matrix Rain
 (function() {
   const canvas = document.getElementById('matrixCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let width, height;
-  let columns, drops, fontSize = 16;
+  let width, height, columns, drops, fontSize = 16;
   const chars = "01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789❄️✦💠";
-  
-  function resizeCanvas() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-    columns = Math.floor(width / fontSize);
-    drops = new Array(columns).fill(1);
-  }
-  
-  function drawMatrix() {
-    if (!ctx) return;
-    ctx.fillStyle = 'rgba(244, 246, 250, 0.08)';
-    ctx.fillRect(0, 0, width, height);
-    ctx.font = fontSize + 'px monospace';
-    for (let i = 0; i < drops.length; i++) {
-      const text = chars[Math.floor(Math.random() * chars.length)];
-      const x = i * fontSize;
-      const y = drops[i] * fontSize;
-      ctx.fillStyle = `rgba(127, 166, 200, ${Math.random() * 0.4 + 0.2})`;
-      ctx.fillText(text, x, y);
-      if (y > height && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    }
-  }
-  
-  resizeCanvas();
-  let interval = setInterval(drawMatrix, 70);
-  window.addEventListener('resize', () => { resizeCanvas(); });
+  function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; columns = Math.floor(width / fontSize); drops = new Array(columns).fill(1); }
+  function drawMatrix() { if (!ctx) return; ctx.fillStyle = 'rgba(244, 246, 250, 0.08)'; ctx.fillRect(0, 0, width, height); ctx.font = fontSize + 'px monospace'; for (let i = 0; i < drops.length; i++) { const text = chars[Math.floor(Math.random() * chars.length)]; const x = i * fontSize; const y = drops[i] * fontSize; ctx.fillStyle = `rgba(127, 166, 200, ${Math.random() * 0.4 + 0.2})`; ctx.fillText(text, x, y); if (y > height && Math.random() > 0.975) drops[i] = 0; drops[i]++; } }
+  resizeCanvas(); setInterval(drawMatrix, 70); window.addEventListener('resize', resizeCanvas);
 })();
 
+// PGP fingerprint
 (function () {
   const fp = 'CC7C 7F6E E344 0CD3 002B  2C00 8C0A E50D A453 72A9';
-  const el = document.getElementById('fp-display');
-  let idx = 0, timer = null;
-  el.textContent = '';
-  function tick() {
-    if (idx <= fp.length) {
-      el.textContent = fp.slice(0, idx) + (idx < fp.length ? '▋' : '');
-      idx++;
-    } else { clearInterval(timer); el.textContent = fp; }
-  }
-  const observer = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { observer.disconnect(); timer = setInterval(tick, 40); }
-  }, { threshold: 0.5 });
-  const pgpSec = document.getElementById('pgp');
-  if (pgpSec) observer.observe(pgpSec);
+  const el = document.getElementById('fp-display'); let idx = 0, timer = null; el.textContent = '';
+  function tick() { if (idx <= fp.length) { el.textContent = fp.slice(0, idx) + (idx < fp.length ? '▋' : ''); idx++; } else { clearInterval(timer); el.textContent = fp; } }
+  const observer = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { observer.disconnect(); timer = setInterval(tick, 40); } }, { threshold: 0.5 });
+  const pgpSec = document.getElementById('pgp'); if (pgpSec) observer.observe(pgpSec);
 })();
 
-(function () { document.getElementById('footer-year').textContent = new Date().getFullYear() + ' arvinlabs.me'; })();
+document.getElementById('footer-year').textContent = new Date().getFullYear() + ' arvinlabs.me';
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }));
 
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-  });
-});
-
+// PGP copy & gpg
 (function () {
   const FP = 'CC7C 7F6E E344 0CD3 002B  2C00 8C0A E50D A453 72A9';
-  const btnCopy = document.getElementById('btn-copy');
-  const btnGpg = document.getElementById('btn-gpg');
-  const feedback = document.getElementById('pgp-feedback');
-  const gpgBlock = document.getElementById('pgp-gpg-block');
+  const btnCopy = document.getElementById('btn-copy'), btnGpg = document.getElementById('btn-gpg'), feedback = document.getElementById('pgp-feedback'), gpgBlock = document.getElementById('pgp-gpg-block');
   function showFeedback(msg) { feedback.textContent = msg; feedback.classList.add('visible'); setTimeout(() => feedback.classList.remove('visible'), 2000); }
   if (btnCopy) btnCopy.addEventListener('click', () => { if (navigator.clipboard) { navigator.clipboard.writeText(FP).then(() => showFeedback('✓ Fingerprint copied!')).catch(() => showFeedback('Copy failed')); } else showFeedback('Clipboard unavailable'); });
   if (btnGpg) btnGpg.addEventListener('click', () => { const v = gpgBlock.classList.toggle('visible'); btnGpg.textContent = v ? 'Hide GPG Command' : 'Show GPG Command'; });
+})();
+
+// === UPDATED Web3 Integration: connect/disconnect + auto-detect on load ===
+let userWallet = null;
+
+// Disconnect function - memperbarui tampilan tombol dengan logo
+function disconnectWallet() {
+  userWallet = null;
+  const statusSpan = document.getElementById("wallet-status");
+  if (statusSpan) {
+    statusSpan.innerHTML = "⚡ Wallet not connected";
+    statusSpan.style.color = "";
+  }
+  const btn = document.getElementById("connectMetaMaskBtn");
+  if (btn) {
+    btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connect Wallet';
+    btn.onclick = connectWallet;
+  }
+}
+
+// Enhanced connect function (with toggle & error handling) - memperbarui UI tombol
+window.connectWallet = async function() {
+  const btn = document.getElementById("connectMetaMaskBtn");
+  if (!window.ethereum) {
+    alert("MetaMask not detected. Please install MetaMask extension.");
+    return;
+  }
+  try {
+    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+    userWallet = accounts[0];
+    const statusSpan = document.getElementById("wallet-status");
+    if (statusSpan) {
+      statusSpan.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:14px; height:14px; vertical-align:middle;"> 🟢 Connected: ${userWallet.slice(0,6)}...${userWallet.slice(-4)}`;
+      statusSpan.style.color = "var(--accent)";
+    }
+    if (btn) {
+      btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connected';
+      btn.onclick = disconnectWallet;
+    }
+  } catch(err) {
+    alert("MetaMask error: " + err.message);
+  }
+};
+
+// Donation function (0.01 ETH)
+window.donateETH = async function() {
+  if (!userWallet) {
+    alert("Connect wallet first using the 'Connect Wallet' button.");
+    return;
+  }
+  if (typeof window.ethereum === "undefined") {
+    alert("MetaMask not installed.");
+    return;
+  }
+  const transaction = {
+    to: "0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534",
+    from: userWallet,
+    value: "0x2386F26FC10000" // 0.01 ETH
+  };
+  try {
+    await ethereum.request({ method: "eth_sendTransaction", params: [transaction] });
+    alert("Please confirm the transaction in MetaMask.");
+  } catch(err) {
+    console.error(err);
+    alert("Transaction failed: " + (err.message || "Unknown error"));
+  }
+};
+
+// Auto-detect wallet on page load (similar to Uniswap UI)
+window.addEventListener("load", async () => {
+  if (typeof window.ethereum !== "undefined") {
+    try {
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+      if (accounts.length > 0) {
+        userWallet = accounts[0];
+        const statusSpan = document.getElementById("wallet-status");
+        if (statusSpan) {
+          statusSpan.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:14px; height:14px; vertical-align:middle;"> 🟢 Connected: ${userWallet.slice(0,6)}...${userWallet.slice(-4)}`;
+          statusSpan.style.color = "var(--accent)";
+        }
+        const btn = document.getElementById("connectMetaMaskBtn");
+        if (btn) {
+          btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connected';
+          btn.onclick = disconnectWallet;
+        }
+      }
+    } catch(e) { console.warn("Auto-detect failed", e); }
+  }
+});
+
+// Attach donate button listener after DOM ready
+window.addEventListener("DOMContentLoaded", () => {
+  const donateBtn = document.getElementById("donateEthBtn");
+  if (donateBtn) {
+    donateBtn.addEventListener("click", donateETH);
+  }
+  
+  const connectBtn = document.getElementById("connectMetaMaskBtn");
+  if (connectBtn) {
+    if (!connectBtn.onclick) {
+      connectBtn.addEventListener("click", connectWallet);
+    }
+  }
+});
+
+// Helper functions for copy/open wallet
+window.copyWallet = function(btn) {
+  const addr = btn.dataset.wallet;
+  if (!addr) return;
+  navigator.clipboard.writeText(addr).then(() => {
+    const original = btn.innerText;
+    btn.innerText = "✓ Copied";
+    setTimeout(() => { btn.innerText = original; }, 1500);
+  }).catch(() => {
+    btn.innerText = "Error";
+    setTimeout(() => { btn.innerText = "Copy"; }, 1500);
+  });
+};
+window.openWallet = function(uri) { window.location.href = uri; };
+
+// FIX 1: Perbaiki z-index canvas particle (dari 1 menjadi -1)
+(function() {
+  const canvasParticle = document.createElement("canvas");
+  canvasParticle.id = "chainCanvas";
+  canvasParticle.style.cssText = "position:fixed; bottom:0; right:0; width:200px; height:200px; opacity:.15; pointer-events:none; z-index:-1;";
+  document.body.appendChild(canvasParticle);
+  const ctx = canvasParticle.getContext("2d");
+  let dots = [];
+  const w = 200, h = 200;
+  canvasParticle.width = w; canvasParticle.height = h;
+  for(let i = 0; i < 25; i++) { dots.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5 }); }
+  function drawParticles() { if (!ctx) return; ctx.clearRect(0, 0, w, h); dots.forEach(d => { d.x += d.vx; d.y += d.vy; if(d.x < 0 || d.x > w) d.vx *= -1; if(d.y < 0 || d.y > h) d.vy *= -1; ctx.beginPath(); ctx.arc(d.x, d.y, 2, 0, Math.PI * 2); ctx.fillStyle = "#7fa6c8"; ctx.fill(); }); requestAnimationFrame(drawParticles); }
+  drawParticles();
 })();
 </script>
 </body>
