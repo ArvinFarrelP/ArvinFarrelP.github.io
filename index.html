@@ -428,14 +428,12 @@ body::after {
   color: white;
 }
 
-/* Style untuk logo di dalam tombol */
 .wallet-btn img {
   width: 16px;
   height: 16px;
   vertical-align: middle;
 }
 
-/* Style untuk status wallet dengan logo */
 #wallet-status {
   display: inline-flex;
   align-items: center;
@@ -451,7 +449,6 @@ body::after {
   font-family: monospace;
 }
 
-/* FIX 4: Animasi tombol donate seperti Uniswap/OpenSea */
 #wallet-actions button:last-child {
   box-shadow: 0 0 10px rgba(127,166,200,.4);
 }
@@ -852,9 +849,438 @@ footer {
   footer { flex-direction: column; align-items: flex-start; }
   .project-grid { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   PUZZLE SECTION — Hidden Challenge
+   ============================================================ */
+
+.puzzle-sec {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  box-shadow: 0 4px 12px rgba(127,166,200,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle scan-line shimmer on hover */
+.puzzle-sec::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(127,166,200,0.015) 3px,
+    rgba(127,166,200,0.015) 4px
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.puzzle-sec:hover::after { opacity: 1; }
+
+/* Lock icon area */
+.puzzle-lock-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.puzzle-lock-icon {
+  width: 38px; height: 38px;
+  background: var(--accent-pale);
+  border: 1px solid var(--accent-light);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: all 0.4s ease;
+}
+
+.puzzle-lock-icon.unlocked {
+  background: rgba(127,200,160,0.12);
+  border-color: rgba(127,200,160,0.4);
+  animation: unlock-pulse 0.6s ease forwards;
+}
+
+@keyframes unlock-pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); box-shadow: 0 0 0 6px rgba(127,200,160,0.15); }
+  100% { transform: scale(1); box-shadow: none; }
+}
+
+.puzzle-lock-title {
+  font-family: var(--display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.puzzle-lock-sub {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
+/* Gate description */
+.puzzle-gate-text {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1.2rem;
+  font-style: italic;
+  border-left: 2px solid var(--accent-light);
+  padding-left: 0.85rem;
+}
+
+/* Base64 clue block */
+.puzzle-clue-label {
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.45rem;
+}
+
+.puzzle-clue-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.76rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+  word-break: break-all;
+  line-height: 1.7;
+  user-select: all;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.puzzle-clue-block:hover {
+  border-color: var(--accent-light);
+}
+
+.puzzle-clue-block .clue-tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+}
+
+/* Hint line */
+.puzzle-hint {
+  font-size: 0.7rem;
+  color: var(--light);
+  margin: 0.9rem 0 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.puzzle-hint::before {
+  content: '';
+  display: inline-block;
+  width: 18px; height: 1px;
+  background: var(--accent-light);
+  flex-shrink: 0;
+}
+
+/* Input area */
+.puzzle-input-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.puzzle-input {
+  flex: 1;
+  min-width: 180px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.55rem 1.1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  color: var(--fg);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.04em;
+}
+
+.puzzle-input::placeholder {
+  color: var(--light);
+  letter-spacing: 0.02em;
+}
+
+.puzzle-input:focus {
+  border-color: var(--accent-light);
+  box-shadow: 0 0 0 3px var(--accent-pale);
+}
+
+.puzzle-input.error {
+  border-color: rgba(200,100,100,0.35);
+  box-shadow: 0 0 0 3px rgba(200,100,100,0.07);
+  animation: shake 0.35s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%  { transform: translateX(-5px); }
+  40%  { transform: translateX(5px); }
+  60%  { transform: translateX(-3px); }
+  80%  { transform: translateX(3px); }
+}
+
+.puzzle-input.success {
+  border-color: rgba(127,200,160,0.5);
+  box-shadow: 0 0 0 3px rgba(127,200,160,0.1);
+}
+
+.puzzle-btn {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  background: var(--accent-pale);
+  border: 1px solid var(--accent-light);
+  padding: 0.55rem 1.25rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+
+.puzzle-btn:hover {
+  background: var(--accent-light);
+  color: var(--white);
+  border-color: var(--accent);
+}
+
+/* Inline feedback messages */
+.puzzle-msg {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  min-height: 1.2rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.puzzle-msg.msg-error {
+  color: rgba(180, 80, 80, 0.9);
+}
+
+.puzzle-msg.msg-hint {
+  color: var(--muted);
+}
+
+/* ── Unlock attempts counter ── */
+.puzzle-attempts {
+  font-size: 0.65rem;
+  color: var(--light);
+  margin-top: 0.4rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================
+   UNLOCKED CONTENT — revealed on correct answer
+   ============================================================ */
+
+.puzzle-unlocked {
+  display: none;
+  margin-top: 1.5rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+  animation: reveal-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.puzzle-unlocked.show {
+  display: block;
+}
+
+@keyframes reveal-up {
+  0%   { opacity: 0; transform: translateY(14px); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* Access granted banner */
+.access-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: rgba(127,200,160,0.06);
+  border: 1px solid rgba(127,200,160,0.28);
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow sweep animation */
+.access-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(127,200,160,0.07), transparent);
+  animation: sweep 2.4s ease 0.2s infinite;
+}
+
+@keyframes sweep {
+  0%   { left: -60%; }
+  100% { left: 110%; }
+}
+
+.access-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  filter: drop-shadow(0 0 6px rgba(127,200,160,0.5));
+  animation: icon-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes icon-glow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(127,200,160,0.4)); }
+  50%       { filter: drop-shadow(0 0 10px rgba(127,200,160,0.7)); }
+}
+
+.access-text-wrap {
+  flex: 1;
+}
+
+.access-title {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 0.2rem;
+}
+
+.access-sub {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Verified identity card */
+.verified-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 0.85rem;
+}
+
+.verified-badge-wrap {
+  flex-shrink: 0;
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-pale);
+  border: 1px solid var(--accent-light);
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.verified-text {
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.verified-text strong {
+  color: var(--fg);
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+}
+
+/* ── Decoded message display ── */
+.decoded-block {
+  margin-top: 0.9rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border: 1px dashed var(--accent-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.77rem;
+  color: var(--fg);
+  font-family: 'Courier New', monospace;
+  line-height: 1.7;
+}
+
+.decoded-block .decoded-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+/* ── Signature line ── */
+.puzzle-sig {
+  margin-top: 1rem;
+  font-size: 0.68rem;
+  color: var(--light);
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.04em;
+  text-align: right;
+}
 </style>
 </head>
 <body>
+
+<!-- 
+  ██████╗ ██╗   ██╗███████╗███████╗██╗     ███████╗
+  ██╔══██╗██║   ██║╚══███╔╝╚══███╔╝██║     ██╔════╝
+  ██████╔╝██║   ██║  ███╔╝   ███╔╝ ██║     █████╗  
+  ██╔═══╝ ██║   ██║ ███╔╝   ███╔╝  ██║     ██╔══╝  
+  ██║     ╚██████╔╝███████╗███████╗███████╗███████╗
+  ╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝
+
+  CLUE #2 — if the Base64 wasn't enough:
+  Every identity leaves a trace. Mine is 8 hex digits long.
+  Look where cryptographers verify one another.
+  
+  gpg --recv-keys 0xA45372A9
+  
+  The answer is already on this page.
+-->
 
 <canvas id="matrixCanvas" class="matrix-canvas"></canvas>
 <span class="petal" style="left:5%; animation-duration:14s; animation-delay:0s;">❄️</span>
@@ -868,6 +1294,8 @@ footer {
       <a href="#about">About</a><a href="#records">Records</a><a href="#pgp">PGP</a>
       <a href="#projects">Projects</a><a href="#research">Research</a><a href="#reports">Reports</a>
       <a href="#contact">Contact</a><a href="#donate">Donate</a>
+      <!-- [PUZZLE] nav link added -->
+      <a href="#challenge">Challenge</a>
     </div>
   </div>
 </nav>
@@ -900,12 +1328,98 @@ footer {
   <div class="sec main-full" id="projects"><p class="sec-heading"><span class="icon">✨</span>Security Projects</p><div class="project-grid"><div class="project-card"><div class="project-title">CipherVision</div><p class="project-desc">Cryptographic identity verification tool integrating OpenPGP and Keyoxide.</p><a class="project-link" href="https://github.com/ArvinFarrelP/CipherVision" target="_blank">github.com/ArvinFarrelP/CipherVision</a></div><div class="project-card"><div class="project-title">PySpector <span class="project-badge">contrib</span></div><p class="project-desc">Contributed improvements to an OSINT and reconnaissance framework.</p><a class="project-link" href="https://github.com/ParzivalHack/PySpector" target="_blank">github.com/ParzivalHack/PySpector</a></div><div class="project-card"><div class="project-title">SurfSense <span class="project-badge">contrib</span></div><p class="project-desc">Contributed UI and frontend improvements to the SurfSense project.</p><a class="project-link" href="https://github.com/MODSetter/SurfSense" target="_blank">github.com/MODSetter/SurfSense</a></div></div></div>
   <div class="sec main-full" id="reports"><p class="sec-heading sky"><span class="icon">📝</span>Vulnerability Reports</p><div class="vuln-block"><div class="vuln-title">Keyoxide Profile Loading Issue (OpenPGP UID Update)</div><div class="vuln-meta"><span class="tag">Reported — Awaiting Response</span><span class="tag">Responsible Disclosure</span></div><p class="body-text">Report: <a href="https://codeberg.org/keyoxide/keyoxide-web/issues/256" target="_blank">codeberg.org/keyoxide/keyoxide-web/issues/256</a></p><p class="body-text" style="margin-top:0.5rem;">Identified and reported a potential issue in Keyoxide where the profile failed to load after updating the primary UID of an OpenPGP key.</p></div></div>
 
+  <!-- [PUZZLE] ============================================================
+       HIDDEN CHALLENGE SECTION
+       ============================================================ -->
+  <div class="sec puzzle-sec main-full" id="challenge">
+
+    <!-- Lock header -->
+    <div class="puzzle-lock-wrap">
+      <div class="puzzle-lock-icon" id="puzzleLockIcon">🔒</div>
+      <div>
+        <div class="puzzle-lock-title">Hidden Challenge</div>
+        <div class="puzzle-lock-sub">Identity verification · Cryptographic gate</div>
+      </div>
+    </div>
+
+    <!-- Gate description -->
+    <p class="puzzle-gate-text">
+      Only those who can verify my cryptographic identity may proceed.<br>
+      Decode the clue below and enter what you find.
+    </p>
+
+    <!-- Base64 clue -->
+    <div class="puzzle-clue-label">ENCODED CLUE</div>
+    <div class="puzzle-clue-block">
+      <span class="clue-tag">base64</span><br>
+      V2hhdCBpcyBteSBpZGVudGl0eSBpbiB0aGUgY3J5cHRvZ3JhcGhpYyB3b3JsZD8=
+    </div>
+
+    <!-- Subtle hint -->
+    <p class="puzzle-hint">Everything you need is already here.</p>
+
+    <!-- Input + button -->
+    <div class="puzzle-input-row">
+      <input
+        type="text"
+        class="puzzle-input"
+        id="puzzleInput"
+        placeholder="_ _ _ _ _ _ _ _ _ _"
+        autocomplete="off"
+        spellcheck="false"
+        maxlength="32"
+        aria-label="Enter cryptographic key"
+      >
+      <button class="puzzle-btn" id="puzzleBtn">Verify →</button>
+    </div>
+
+    <!-- Inline feedback -->
+    <div class="puzzle-msg" id="puzzleMsg"></div>
+    <div class="puzzle-attempts" id="puzzleAttempts"></div>
+
+    <!-- [PUZZLE] ── UNLOCKED CONTENT (hidden until correct answer) ── -->
+    <div class="puzzle-unlocked" id="puzzleUnlocked">
+
+      <!-- Access granted banner -->
+      <div class="access-banner">
+        <span class="access-icon">✔</span>
+        <div class="access-text-wrap">
+          <div class="access-title">Access Granted</div>
+          <div class="access-sub">You didn't just visit — you verified.</div>
+        </div>
+      </div>
+
+      <!-- Decoded message display -->
+      <div class="decoded-block">
+        <span class="decoded-label">Decoded message</span>
+        What is my identity in the cryptographic world?
+      </div>
+
+      <!-- Verified identity card -->
+      <div class="verified-card">
+        <div class="verified-badge-wrap">
+          <span class="verified-badge">🔑 Verified</span>
+        </div>
+        <div class="verified-text">
+          Identity confirmed as <strong>0xA45372A9</strong>.<br>
+          Trust is not assumed — it is established through cryptographic proof.
+        </div>
+      </div>
+
+      <!-- Signature -->
+      <p class="puzzle-sig">— arvinlabs.me · PGP · CC7C 7F6E E344 0CD3 002B 2C00 8C0A E50D A453 72A9</p>
+
+    </div>
+    <!-- [/PUZZLE] end unlocked content -->
+
+  </div>
+  <!-- [/PUZZLE] end challenge section -->
+
   <!-- Donation Section with Enhanced Wallet Connect -->
   <div class="sec main-full" id="donate">
     <p class="sec-heading"><span class="icon">💙</span>Support Development</p>
     <p class="body-text" style="margin-bottom: 1rem;">Donations help support research, infrastructure, and open-source development at ArvinLabs.</p>
     <div style="margin-bottom:1.5rem; display:flex; gap:.75rem; flex-wrap:wrap; align-items:center;">
-      <!-- Tombol Connect Wallet dengan logo MetaMask (diperbarui) -->
       <button class="wallet-btn" id="connectMetaMaskBtn" style="font-size:0.75rem; padding:0.4rem 1rem; display:inline-flex; align-items:center; gap:8px;">
         <img src="img/metamask.png" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display='none'">
         Connect Wallet
@@ -922,7 +1436,7 @@ footer {
 <footer><div class="footer-links"><a href="https://github.com/ArvinFarrelP" target="_blank">GitHub</a><a href="https://linkedin.com/in/arvinfarrelp" target="_blank">LinkedIn</a><a href="mailto:arvinfarrelp.security@gmail.com">Email</a></div><span id="footer-year"></span></footer>
 
 <script>
-// Matrix Rain
+// ── Matrix Rain ──────────────────────────────────────────────────────────────
 (function() {
   const canvas = document.getElementById('matrixCanvas');
   if (!canvas) return;
@@ -934,7 +1448,7 @@ footer {
   resizeCanvas(); setInterval(drawMatrix, 70); window.addEventListener('resize', resizeCanvas);
 })();
 
-// PGP fingerprint
+// ── PGP fingerprint typewriter ───────────────────────────────────────────────
 (function () {
   const fp = 'CC7C 7F6E E344 0CD3 002B  2C00 8C0A E50D A453 72A9';
   const el = document.getElementById('fp-display'); let idx = 0, timer = null; el.textContent = '';
@@ -946,7 +1460,7 @@ footer {
 document.getElementById('footer-year').textContent = new Date().getFullYear() + ' arvinlabs.me';
 document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }));
 
-// PGP copy & gpg
+// ── PGP copy & gpg ───────────────────────────────────────────────────────────
 (function () {
   const FP = 'CC7C 7F6E E344 0CD3 002B  2C00 8C0A E50D A453 72A9';
   const btnCopy = document.getElementById('btn-copy'), btnGpg = document.getElementById('btn-gpg'), feedback = document.getElementById('pgp-feedback'), gpgBlock = document.getElementById('pgp-gpg-block');
@@ -955,73 +1469,36 @@ document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click
   if (btnGpg) btnGpg.addEventListener('click', () => { const v = gpgBlock.classList.toggle('visible'); btnGpg.textContent = v ? 'Hide GPG Command' : 'Show GPG Command'; });
 })();
 
-// === UPDATED Web3 Integration: connect/disconnect + auto-detect on load ===
+// ── Web3 / MetaMask ──────────────────────────────────────────────────────────
 let userWallet = null;
 
-// Disconnect function - memperbarui tampilan tombol dengan logo
 function disconnectWallet() {
   userWallet = null;
   const statusSpan = document.getElementById("wallet-status");
-  if (statusSpan) {
-    statusSpan.innerHTML = "⚡ Wallet not connected";
-    statusSpan.style.color = "";
-  }
+  if (statusSpan) { statusSpan.innerHTML = "⚡ Wallet not connected"; statusSpan.style.color = ""; }
   const btn = document.getElementById("connectMetaMaskBtn");
-  if (btn) {
-    btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connect Wallet';
-    btn.onclick = connectWallet;
-  }
+  if (btn) { btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connect Wallet'; btn.onclick = connectWallet; }
 }
 
-// Enhanced connect function (with toggle & error handling) - memperbarui UI tombol
 window.connectWallet = async function() {
-  const btn = document.getElementById("connectMetaMaskBtn");
-  if (!window.ethereum) {
-    alert("MetaMask not detected. Please install MetaMask extension.");
-    return;
-  }
+  if (!window.ethereum) { alert("MetaMask not detected. Please install MetaMask extension."); return; }
   try {
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
     userWallet = accounts[0];
     const statusSpan = document.getElementById("wallet-status");
-    if (statusSpan) {
-      statusSpan.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:14px; height:14px; vertical-align:middle;"> 🟢 Connected: ${userWallet.slice(0,6)}...${userWallet.slice(-4)}`;
-      statusSpan.style.color = "var(--accent)";
-    }
-    if (btn) {
-      btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connected';
-      btn.onclick = disconnectWallet;
-    }
-  } catch(err) {
-    alert("MetaMask error: " + err.message);
-  }
+    if (statusSpan) { statusSpan.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:14px; height:14px; vertical-align:middle;"> 🟢 Connected: ${userWallet.slice(0,6)}...${userWallet.slice(-4)}`; statusSpan.style.color = "var(--accent)"; }
+    const btn = document.getElementById("connectMetaMaskBtn");
+    if (btn) { btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connected'; btn.onclick = disconnectWallet; }
+  } catch(err) { alert("MetaMask error: " + err.message); }
 };
 
-// Donation function (0.01 ETH)
 window.donateETH = async function() {
-  if (!userWallet) {
-    alert("Connect wallet first using the 'Connect Wallet' button.");
-    return;
-  }
-  if (typeof window.ethereum === "undefined") {
-    alert("MetaMask not installed.");
-    return;
-  }
-  const transaction = {
-    to: "0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534",
-    from: userWallet,
-    value: "0x2386F26FC10000" // 0.01 ETH
-  };
-  try {
-    await ethereum.request({ method: "eth_sendTransaction", params: [transaction] });
-    alert("Please confirm the transaction in MetaMask.");
-  } catch(err) {
-    console.error(err);
-    alert("Transaction failed: " + (err.message || "Unknown error"));
-  }
+  if (!userWallet) { alert("Connect wallet first using the 'Connect Wallet' button."); return; }
+  if (typeof window.ethereum === "undefined") { alert("MetaMask not installed."); return; }
+  const transaction = { to: "0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534", from: userWallet, value: "0x2386F26FC10000" };
+  try { await ethereum.request({ method: "eth_sendTransaction", params: [transaction] }); alert("Please confirm the transaction in MetaMask."); } catch(err) { console.error(err); alert("Transaction failed: " + (err.message || "Unknown error")); }
 };
 
-// Auto-detect wallet on page load (similar to Uniswap UI)
 window.addEventListener("load", async () => {
   if (typeof window.ethereum !== "undefined") {
     try {
@@ -1029,51 +1506,29 @@ window.addEventListener("load", async () => {
       if (accounts.length > 0) {
         userWallet = accounts[0];
         const statusSpan = document.getElementById("wallet-status");
-        if (statusSpan) {
-          statusSpan.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:14px; height:14px; vertical-align:middle;"> 🟢 Connected: ${userWallet.slice(0,6)}...${userWallet.slice(-4)}`;
-          statusSpan.style.color = "var(--accent)";
-        }
+        if (statusSpan) { statusSpan.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:14px; height:14px; vertical-align:middle;"> 🟢 Connected: ${userWallet.slice(0,6)}...${userWallet.slice(-4)}`; statusSpan.style.color = "var(--accent)"; }
         const btn = document.getElementById("connectMetaMaskBtn");
-        if (btn) {
-          btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connected';
-          btn.onclick = disconnectWallet;
-        }
+        if (btn) { btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connected'; btn.onclick = disconnectWallet; }
       }
     } catch(e) { console.warn("Auto-detect failed", e); }
   }
 });
 
-// Attach donate button listener after DOM ready
 window.addEventListener("DOMContentLoaded", () => {
   const donateBtn = document.getElementById("donateEthBtn");
-  if (donateBtn) {
-    donateBtn.addEventListener("click", donateETH);
-  }
-  
+  if (donateBtn) donateBtn.addEventListener("click", donateETH);
   const connectBtn = document.getElementById("connectMetaMaskBtn");
-  if (connectBtn) {
-    if (!connectBtn.onclick) {
-      connectBtn.addEventListener("click", connectWallet);
-    }
-  }
+  if (connectBtn && !connectBtn.onclick) connectBtn.addEventListener("click", connectWallet);
 });
 
-// Helper functions for copy/open wallet
 window.copyWallet = function(btn) {
   const addr = btn.dataset.wallet;
   if (!addr) return;
-  navigator.clipboard.writeText(addr).then(() => {
-    const original = btn.innerText;
-    btn.innerText = "✓ Copied";
-    setTimeout(() => { btn.innerText = original; }, 1500);
-  }).catch(() => {
-    btn.innerText = "Error";
-    setTimeout(() => { btn.innerText = "Copy"; }, 1500);
-  });
+  navigator.clipboard.writeText(addr).then(() => { const original = btn.innerText; btn.innerText = "✓ Copied"; setTimeout(() => { btn.innerText = original; }, 1500); }).catch(() => { btn.innerText = "Error"; setTimeout(() => { btn.innerText = "Copy"; }, 1500); });
 };
 window.openWallet = function(uri) { window.location.href = uri; };
 
-// FIX 1: Perbaiki z-index canvas particle (dari 1 menjadi -1)
+// ── Chain particle canvas ────────────────────────────────────────────────────
 (function() {
   const canvasParticle = document.createElement("canvas");
   canvasParticle.id = "chainCanvas";
@@ -1087,6 +1542,141 @@ window.openWallet = function(uri) { window.location.href = uri; };
   function drawParticles() { if (!ctx) return; ctx.clearRect(0, 0, w, h); dots.forEach(d => { d.x += d.vx; d.y += d.vy; if(d.x < 0 || d.x > w) d.vx *= -1; if(d.y < 0 || d.y > h) d.vy *= -1; ctx.beginPath(); ctx.arc(d.x, d.y, 2, 0, Math.PI * 2); ctx.fillStyle = "#7fa6c8"; ctx.fill(); }); requestAnimationFrame(drawParticles); }
   drawParticles();
 })();
+
+
+// ============================================================
+// [PUZZLE] Cryptographic Challenge Logic
+// ============================================================
+
+(function () {
+  'use strict';
+
+  // Accepted answers — normalised to lowercase for comparison
+  const ACCEPTED = ['0xa45372a9', 'a45372a9'];
+
+  const input      = document.getElementById('puzzleInput');
+  const btn        = document.getElementById('puzzleBtn');
+  const msgEl      = document.getElementById('puzzleMsg');
+  const attemptsEl = document.getElementById('puzzleAttempts');
+  const unlocked   = document.getElementById('puzzleUnlocked');
+  const lockIcon   = document.getElementById('puzzleLockIcon');
+
+  let attempts  = 0;
+  let solved    = false;
+
+  // Normalise input: strip whitespace, lowercase
+  function normalise(str) {
+    return str.trim().toLowerCase().replace(/\s+/g, '');
+  }
+
+  function showMsg(text, type) {
+    msgEl.textContent = text;
+    msgEl.className = 'puzzle-msg ' + (type === 'error' ? 'msg-error' : 'msg-hint');
+  }
+
+  function clearMsg() {
+    msgEl.textContent = '';
+    msgEl.className = 'puzzle-msg';
+  }
+
+  function updateAttempts() {
+    if (attempts === 0) { attemptsEl.textContent = ''; return; }
+    attemptsEl.textContent = `attempt${attempts > 1 ? 's' : ''}: ${attempts}`;
+  }
+
+  function triggerError() {
+    input.classList.remove('error');
+    // Force reflow so animation re-triggers even on repeated wrong tries
+    void input.offsetWidth;
+    input.classList.add('error');
+    setTimeout(() => input.classList.remove('error'), 600);
+  }
+
+  function unlock() {
+    solved = true;
+
+    // Update input & button state
+    input.classList.add('success');
+    input.disabled = true;
+    btn.disabled   = true;
+    btn.textContent = '✔ Verified';
+    btn.style.cssText = 'background: rgba(127,200,160,0.12); border-color: rgba(127,200,160,0.4); color: rgba(80,160,100,0.9); cursor: default;';
+
+    // Animate the lock icon
+    lockIcon.textContent = '🔓';
+    lockIcon.classList.add('unlocked');
+
+    // Show success message
+    showMsg('✔ Identity verified.', 'hint');
+    clearMsg(); // clear after brief moment — banner says it all
+
+    // Reveal unlocked content
+    unlocked.classList.add('show');
+
+    // Smooth scroll into view after short delay
+    setTimeout(() => {
+      unlocked.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 280);
+
+    // Persist solved state so it survives page re-visits in the same session
+    try { sessionStorage.setItem('puzzle_solved', '1'); } catch(e) {}
+  }
+
+  function attempt() {
+    if (solved) return;
+    const val = normalise(input.value);
+    if (!val) { showMsg('Enter a value first.', 'hint'); return; }
+
+    attempts++;
+    updateAttempts();
+
+    if (ACCEPTED.includes(val)) {
+      clearMsg();
+      unlock();
+      return;
+    }
+
+    triggerError();
+
+    // Progressive hints after multiple failures
+    if (attempts === 1) {
+      showMsg('Incorrect. The answer is cryptographic.', 'error');
+    } else if (attempts === 2) {
+      showMsg('Try thinking about how keys are identified.', 'hint');
+    } else if (attempts >= 3 && attempts < 6) {
+      showMsg('Hint: it begins with 0x…', 'hint');
+    } else {
+      showMsg('Everything you need is already on this page.', 'hint');
+    }
+  }
+
+  // Button click
+  btn.addEventListener('click', attempt);
+
+  // Enter key
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') attempt();
+  });
+
+  // Clear error state on new input
+  input.addEventListener('input', function () {
+    input.classList.remove('error');
+    if (solved) return;
+    clearMsg();
+  });
+
+  // Restore solved state from session (page refresh)
+  try {
+    if (sessionStorage.getItem('puzzle_solved') === '1') {
+      input.value = '0xA45372A9';
+      unlock();
+    }
+  } catch(e) {}
+
+})();
+// ============================================================
+// [/PUZZLE] end challenge logic
+// ============================================================
 </script>
 </body>
 </html>
