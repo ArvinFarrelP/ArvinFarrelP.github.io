@@ -24,26 +24,21 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --white: #ffffff;
   --bg: #f4f6fa;
   --surface: #ffffff;
-  --surface2: #f8fafc;
   --fg: #2c3e4e;
   --muted: #7c8f9c;
   --light: #b8c9d6;
   --border: rgba(127,166,200,0.25);
-  --border-hover: rgba(127,166,200,0.5);
   --accent: #7fa6c8;
   --accent-light: #b8d0e6;
   --accent-pale: rgba(127,166,200,0.1);
   --accent2: #8bb3d1;
   --accent2-light: #c5ddef;
   --accent2-pale: rgba(139,179,209,0.08);
-  --glow-blue: rgba(127,166,200,0.2);
-  --rose: #7fa6c8;
-  --sky: #8bb3d1;
-  --sage: #9bb7cc;
-  --petal: #e8f0f8;
+  --green: rgba(80,168,120,0.9);
+  --green-pale: rgba(80,168,120,0.07);
+  --green-border: rgba(80,168,120,0.28);
   --mono: 'Nunito', sans-serif;
   --display: 'Kaisei Decol', serif;
   --max: 1080px;
@@ -61,404 +56,229 @@ body {
   line-height: 1.7;
   overflow-x: hidden;
   position: relative;
+  min-height: 100vh;
 }
 
-.matrix-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.1;
+/* ── Background FX ── */
+canvas.matrix-canvas {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: 0.07;
 }
 
 body::before {
   content: '';
-  position: fixed;
-  top: -120px; right: -80px;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(127,166,200,0.15) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  position: fixed; top: -120px; right: -80px;
+  width: 520px; height: 520px;
+  background: radial-gradient(circle, rgba(127,166,200,0.14) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
 }
 
 body::after {
   content: '';
-  position: fixed;
-  bottom: -100px; left: -60px;
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(200,180,210,0.12) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  position: fixed; bottom: -100px; left: -60px;
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(200,180,210,0.1) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
 }
 
 .petal {
-  position: fixed;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0;
-  font-size: 1rem;
+  position: fixed; pointer-events: none; z-index: 0;
+  opacity: 0; font-size: 0.9rem;
   animation: petal-fall linear infinite;
   filter: hue-rotate(180deg) saturate(0.6) brightness(1.1);
 }
 
 @keyframes petal-fall {
   0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
-  10%  { opacity: 0.45; }
-  90%  { opacity: 0.2; }
+  10%  { opacity: 0.35; }
+  90%  { opacity: 0.12; }
   100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
 
+/* ── Nav ── */
 .nav {
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  background: rgba(244,246,250,0.88);
-  backdrop-filter: blur(14px);
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(244,246,250,0.9);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  padding: 0.65rem var(--pad);
+  padding: 0.7rem var(--pad);
 }
 
 .nav-inner {
-  max-width: var(--max);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  max-width: var(--max); margin: 0 auto;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 1rem; flex-wrap: wrap;
 }
 
 .nav-brand {
   font-family: var(--display);
   color: var(--accent);
-  font-size: 1rem;
-  font-weight: 700;
-  margin-right: 1rem;
+  font-size: 1rem; font-weight: 700;
   letter-spacing: 0.02em;
 }
 
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.2rem;
-  flex: 1;
-}
+.nav-links { display: flex; gap: 0.15rem; flex-wrap: wrap; }
 
 .nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  padding: 0.2rem 0.7rem;
-  font-size: 0.78rem;
-  font-weight: 500;
-  border-radius: 20px;
-  transition: all 0.2s;
+  color: var(--muted); text-decoration: none;
+  padding: 0.22rem 0.75rem;
+  font-size: 0.76rem; font-weight: 600;
+  border-radius: 20px; transition: all 0.2s;
 }
 
-.nav-links a:hover {
-  color: var(--accent);
-  background: var(--accent-pale);
-}
+.nav-links a:hover { color: var(--accent); background: var(--accent-pale); }
 
+/* ── Hero ── */
 .hero {
-  position: relative;
-  z-index: 2;
-  min-height: 85vh;
+  position: relative; z-index: 2;
+  min-height: 88vh;
   display: grid;
-  grid-template-columns: 1fr 380px;
-  align-items: center;
-  gap: 3rem;
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 3rem var(--pad) 3rem;
+  grid-template-columns: 1fr 330px;
+  align-items: center; gap: 3.5rem;
+  max-width: var(--max); margin: 0 auto;
+  padding: 3rem var(--pad) 3.5rem;
 }
 
 .hero-left {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
+  display: flex; flex-direction: column; gap: 1.15rem;
 }
 
 .hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-pale);
-  padding: 0.25rem 0.85rem;
-  border-radius: 24px;
-  width: fit-content;
-  border: 1px solid var(--accent-light);
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.67rem; font-weight: 600;
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-pale);
+  padding: 0.28rem 0.9rem; border-radius: 24px;
+  width: fit-content; border: 1px solid var(--accent-light);
+  animation: fade-up 0.6s ease both;
 }
 
 .hero-name {
   font-family: var(--display);
-  font-size: clamp(2.1rem, 5vw, 3.2rem);
-  font-weight: 700;
-  color: var(--fg);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
+  font-size: clamp(2.3rem, 5vw, 3.5rem);
+  font-weight: 700; color: var(--fg);
+  line-height: 1.13; letter-spacing: -0.015em;
+  animation: fade-up 0.7s 0.08s ease both;
 }
 
-.hero-name .soft {
-  color: var(--accent);
+.hero-name .soft { color: var(--accent); }
+
+.hero-bio {
+  font-size: 0.86rem; color: var(--muted);
+  line-height: 1.8; max-width: 44ch;
+  animation: fade-up 0.7s 0.14s ease both;
 }
 
-.hero-subtitle {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0.2rem 0 0.1rem;
+.hero-pills {
+  display: flex; flex-wrap: wrap; gap: 0.45rem;
+  animation: fade-up 0.7s 0.2s ease both;
 }
 
-.hero-subtitle .pill {
+.pill {
   background: var(--surface);
   border: 1px solid var(--border);
-  color: var(--fg);
-  padding: 0.3rem 0.9rem;
-  border-radius: 40px;
-  font-size: 0.78rem;
-  font-weight: 500;
+  color: var(--fg); padding: 0.28rem 0.85rem;
+  border-radius: 40px; font-size: 0.76rem; font-weight: 500;
   transition: all 0.2s ease;
 }
 
-.hero-subtitle .pill:hover {
-  border-color: var(--accent-light);
-  background: var(--accent-pale);
-}
+.pill:hover { border-color: var(--accent-light); background: var(--accent-pale); }
 
 .hero-pgp {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.75rem;
-  color: var(--muted);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 0.5rem 1.1rem;
-  border-radius: 40px;
-  width: fit-content;
-  font-family: 'Courier New', monospace;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.73rem; color: var(--muted);
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 0.45rem 1.05rem; border-radius: 40px;
+  width: fit-content; font-family: 'Courier New', monospace;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.025);
+  animation: fade-up 0.7s 0.26s ease both;
 }
 
-.hero-pgp .key-id { 
-  color: var(--accent); 
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
+.hero-pgp .key-id { color: var(--accent); font-weight: 700; }
 
 .hero-badges {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-top: 0.2rem;
+  display: flex; gap: 0.45rem; flex-wrap: wrap;
+  animation: fade-up 0.7s 0.32s ease both;
 }
 
 .badge {
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--accent);
-  background: var(--accent-pale);
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-pale);
   border: 1px solid var(--accent-light);
-  padding: 0.25rem 0.8rem;
-  border-radius: 40px;
-  text-decoration: none;
-  transition: all 0.2s;
+  padding: 0.22rem 0.75rem; border-radius: 40px;
+  text-decoration: none; transition: all 0.2s;
 }
 
-.badge:hover { background: var(--accent-light); color: var(--white); border-color: var(--accent); }
+.badge:hover { background: var(--accent-light); color: #fff; }
 
 .badge-sky {
-  color: var(--accent2);
-  background: var(--accent2-pale);
+  color: var(--accent2); background: var(--accent2-pale);
   border-color: var(--accent2-light);
 }
 
-.badge-sky:hover { background: var(--accent2-light); color: var(--white); }
+.badge-sky:hover { background: var(--accent2-light); color: #fff; }
 
+/* ── Hero image ── */
 .hero-image-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+  animation: fade-up 0.8s 0.1s ease both;
 }
 
 .hero-image-frame {
-  position: relative;
-  width: 100%;
-  max-width: 340px;
+  position: relative; width: 100%; max-width: 290px;
 }
 
 .hero-image-bg {
-  position: absolute;
-  inset: -12px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(127,166,200,0.25) 0%, rgba(139,179,209,0.1) 70%, transparent 90%);
-  animation: hero-glow 6s ease-in-out infinite;
-  filter: blur(8px);
-  opacity: 0.6;
+  position: absolute; inset: -14px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(127,166,200,0.22) 0%, rgba(139,179,209,0.08) 70%, transparent 90%);
+  animation: glow-pulse 6s ease-in-out infinite;
+  filter: blur(10px); opacity: 0.55;
 }
 
-@keyframes hero-glow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50%       { opacity: 0.8; transform: scale(1.02); }
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%       { opacity: 0.75; transform: scale(1.04); }
 }
 
 .hero-image {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  aspect-ratio: 1;
-  border: 2px solid rgba(127,166,200,0.3);
+  position: relative; z-index: 2; width: 100%;
+  border-radius: 50%; object-fit: cover; aspect-ratio: 1;
+  border: 2px solid rgba(127,166,200,0.28);
   animation: float 5s ease-in-out infinite;
-  box-shadow: 0 18px 40px rgba(127,166,200,0.15);
+  box-shadow: 0 20px 44px rgba(127,166,200,0.14);
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-8px); }
+  50%       { transform: translateY(-9px); }
 }
 
 .hero-deco {
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(4px);
-  border: 1px solid var(--accent-light);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  animation: deco-float 5s ease-in-out infinite;
-  z-index: 3;
-  pointer-events: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  position: absolute; width: 32px; height: 32px;
+  background: rgba(255,255,255,0.65); backdrop-filter: blur(6px);
+  border: 1px solid var(--accent-light); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  animation: deco-bob 5s ease-in-out infinite;
+  z-index: 3; pointer-events: none;
 }
 
-.deco-1 { 
-  top: 5%; 
-  left: -3%; 
-  animation-delay: 0s;
-  opacity: 0.7;
+.deco-1 { top: 4%; left: -4%; animation-delay: 0s; opacity: 0.65; }
+.deco-2 { bottom: 10%; right: -3%; animation-delay: 2s; opacity: 0.5; font-size: 0.72rem; }
+
+@keyframes deco-bob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%       { transform: translateY(-7px) rotate(10deg); }
 }
 
-@keyframes deco-float {
-  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-  50%       { transform: translateY(-6px) rotate(8deg); opacity: 0.9; }
-}
-
-.qr-popup {
-  position: absolute;
-  top: -120px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  background: white;
-  border-radius: 14px;
-  padding: 6px;
-  border: 1px solid var(--border);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  opacity: 0;
-  pointer-events: none;
-  transition: all .25s ease;
-  z-index: 10;
-}
-
-.project-card:hover .qr-popup {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-6px);
-}
-
-.crypto-logo {
-  width: 36px;
-  margin-bottom: 6px;
-  transition: all .3s;
-}
-
-.project-card:hover .crypto-logo {
-  filter: drop-shadow(0 0 6px var(--accent-light));
-}
-
-.wallet-short {
-  font-family: 'Courier New', monospace;
-  font-size: .7rem;
-  color: var(--accent);
-  background: rgba(0,0,0,0.03);
-  padding: .35rem .5rem;
-  border-radius: 10px;
-  display: inline-block;
-  word-break: break-all;
-}
-
-.wallet-actions {
-  margin-top: .5rem;
-  display: flex;
-  gap: .4rem;
-  flex-wrap: wrap;
-}
-
-.wallet-btn {
-  font-size: .65rem;
-  padding: .3rem .7rem;
-  border-radius: 20px;
-  border: 1px solid var(--accent-light);
-  background: var(--accent-pale);
-  color: var(--accent);
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.wallet-btn:hover {
-  background: var(--accent-light);
-  color: white;
-}
-
-.wallet-btn img {
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
-}
-
-#wallet-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.7rem;
-  color: var(--muted);
-  font-family: monospace;
-}
-
-.wallet-status-text {
-  font-size: 0.7rem;
-  color: var(--muted);
-  font-family: monospace;
-}
-
-#wallet-actions button:last-child {
-  box-shadow: 0 0 10px rgba(127,166,200,.4);
-}
-
+/* ── Divider ── */
 .divider {
-  position: relative;
-  z-index: 2;
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 0 var(--pad);
+  position: relative; z-index: 2;
+  max-width: var(--max); margin: 0 auto; padding: 0 var(--pad);
 }
 
 .divider-inner {
@@ -466,1217 +286,456 @@ body::after {
   background: linear-gradient(90deg, transparent, var(--accent-light), var(--accent2-light), transparent);
 }
 
-.main {
-  position: relative;
-  z-index: 5;
-  max-width: var(--max);
-  margin: 0 auto;
+/* ── Projects ── */
+.projects-wrap {
+  position: relative; z-index: 5;
+  max-width: var(--max); margin: 0 auto;
   padding: 3.5rem var(--pad) 5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem 2.5rem;
-}
-
-.main-full { grid-column: 1 / -1; }
-
-.sec {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  transition: box-shadow 0.2s, border-color 0.2s;
-  box-shadow: 0 4px 12px rgba(127,166,200,0.05);
-}
-
-.sec:hover {
-  box-shadow: 0 8px 24px rgba(127,166,200,0.1);
-  border-color: var(--accent-light);
 }
 
 .sec-heading {
   font-family: var(--display);
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--fg);
-  margin-bottom: 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  font-size: 0.88rem; font-weight: 700; color: var(--fg);
+  margin-bottom: 1.6rem;
+  display: flex; align-items: center; gap: 0.55rem;
 }
 
 .sec-heading .icon {
   width: 28px; height: 28px;
-  background: var(--accent-pale);
-  border: 1px solid var(--accent-light);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
+  background: var(--accent-pale); border: 1px solid var(--accent-light);
+  border-radius: 10px; display: flex; align-items: center;
+  justify-content: center; font-size: 0.82rem;
 }
 
-.record-list { list-style: none; }
-
-.record-item {
-  display: grid;
-  grid-template-columns: 9.5rem 1fr;
-  gap: 0.5rem;
-  align-items: baseline;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.8rem;
-}
-
-.record-item:last-child { border-bottom: none; }
-
-.record-key {
-  color: var(--muted);
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-a {
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-
-a:hover { color: var(--accent2); text-decoration: underline; }
-
-.fingerprint-block {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1rem 1.1rem;
-  position: relative;
-}
-
-.fingerprint-block code {
-  display: block;
-  font-family: 'Courier New', monospace;
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  line-height: 2;
-  user-select: all;
-  word-break: break-all;
-  color: var(--accent);
-  min-height: 1.5em;
-}
-
-.fp-note {
-  display: block;
-  font-size: 0.65rem;
-  color: var(--light);
-  margin-top: 0.5rem;
-  border-top: 1px solid var(--border);
-  padding-top: 0.4rem;
-}
-
-.pgp-tools {
-  margin-top: 0.85rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.pgp-btn {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--muted);
-  background: var(--bg);
-  border: 1px solid var(--border);
-  padding: 0.35rem 0.85rem;
-  border-radius: 20px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: all 0.18s;
-}
-
-.pgp-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent-light);
-  background: var(--accent-pale);
-  text-decoration: none;
-}
-
-.pgp-feedback {
-  font-size: 0.7rem;
-  color: var(--accent);
-  height: 0;
-  overflow: hidden;
-  transition: height 0.15s;
-}
-
-.pgp-feedback.visible { height: 1.4rem; }
-
-.pgp-gpg-block {
-  display: none;
-  margin-top: 0.75rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-family: 'Courier New', monospace;
-  font-size: 0.75rem;
-  color: var(--fg);
-  background: var(--bg);
-  white-space: pre;
-  line-height: 1.8;
-}
-
-.pgp-gpg-block.visible { display: block; }
-
-.contact-box {
-  font-size: 0.82rem;
-  line-height: 1.8;
-  color: var(--fg);
-}
-
-.contact-box p + p { margin-top: 0.5rem; }
-
-.plain-list { list-style: none; }
-
-.plain-list li {
-  padding: 0.35rem 0;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.82rem;
-  color: var(--fg);
-}
-
-.plain-list li:last-child { border-bottom: none; }
-
-.plain-list li::before {
-  content: '';
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent-light);
-  flex-shrink: 0;
-}
-
-.body-text {
-  font-size: 0.82rem;
-  line-height: 1.8;
-  color: var(--fg);
-}
-
-.body-text + .body-text { margin-top: 0.5rem; }
-
-.crypto-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
-
-.crypto-table tr { border-bottom: 1px solid var(--border); }
-.crypto-table tr:last-child { border-bottom: none; }
-
-.crypto-table td { padding: 0.45rem 0; vertical-align: baseline; }
-
-.crypto-table td:first-child {
-  color: var(--muted);
-  width: 8.5rem;
-  padding-right: 0.75rem;
-  font-weight: 600;
-  font-size: 0.74rem;
-}
-
+/* ── Project Grid ── */
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  align-items: stretch;
 }
 
+/* Project card */
 .project-card {
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1.2rem;
-  transition: all 0.2s;
-  position: relative;
-  overflow: visible;
+  border-radius: var(--radius);
+  padding: 2rem 2.2rem;
+  position: relative; overflow: hidden;
+  transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
+  box-shadow: 0 4px 18px rgba(127,166,200,0.07);
+  display: flex; flex-direction: column;
 }
 
 .project-card::before {
   content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: linear-gradient(90deg, var(--accent), var(--accent2));
-  opacity: 0;
-  transition: opacity 0.2s;
+  opacity: 0; transition: opacity 0.25s;
+  border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .project-card:hover {
   border-color: var(--accent-light);
-  box-shadow: 0 6px 18px rgba(127,166,200,0.12);
+  box-shadow: 0 14px 38px rgba(127,166,200,0.15);
+  transform: translateY(-3px);
 }
 
 .project-card:hover::before { opacity: 1; }
 
+.project-header {
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap;
+  gap: 0.6rem; margin-bottom: 0.85rem;
+}
+
 .project-title {
-  font-weight: 700;
-  color: var(--fg);
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
+  font-family: var(--display);
+  font-size: 1.3rem; font-weight: 700; color: var(--fg);
 }
 
-.network-badge {
-  display: inline-block;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-pale);
-  border: 1px solid var(--accent-light);
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  margin-left: 0.5rem;
-  vertical-align: middle;
-  font-family: var(--mono);
-}
-
-.project-badge {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  background: var(--accent2-pale);
-  border: 1px solid var(--accent2-light);
-  padding: 0.1rem 0.4rem;
-  border-radius: 20px;
-  margin-left: 0.4rem;
-  vertical-align: middle;
+.version-badge {
+  font-size: 0.63rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--green); background: var(--green-pale);
+  border: 1px solid var(--green-border);
+  padding: 0.22rem 0.7rem; border-radius: 20px;
+  white-space: nowrap;
 }
 
 .project-desc {
-  font-size: 0.76rem;
-  color: var(--muted);
-  line-height: 1.65;
-  margin-bottom: 0.6rem;
+  font-size: 0.84rem; color: var(--muted);
+  line-height: 1.78; margin-bottom: 1.5rem;
+  flex: 1; /* push actions to bottom for equal-height alignment */
 }
 
-.project-link {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--accent);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  transition: color 0.15s;
+.project-actions {
+  display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center;
 }
 
-.project-link::before { content: '→ '; }
-.project-link:hover { color: var(--accent2); text-decoration: none; }
-
-.vuln-block {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1.1rem;
+/* Download button */
+.btn-download {
+  font-size: 0.74rem; font-weight: 700;
+  color: #fff; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.42rem;
+  padding: 0.52rem 1.2rem;
+  border: none; border-radius: 20px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  box-shadow: 0 3px 12px rgba(127,166,200,0.32);
+  transition: all 0.22s; letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
-.vuln-title {
-  font-weight: 700;
-  color: var(--fg);
-  margin-bottom: 0.4rem;
-  font-size: 0.88rem;
+.btn-download:hover {
+  box-shadow: 0 6px 20px rgba(127,166,200,0.45);
+  transform: translateY(-1px); opacity: 0.93;
 }
 
-.vuln-meta {
-  font-size: 0.68rem;
-  color: var(--muted);
-  margin-bottom: 0.65rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+/* Ghost / source button */
+.btn-ghost {
+  font-size: 0.74rem; font-weight: 700;
+  color: var(--accent); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.42rem;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--accent-light);
+  border-radius: 20px; background: var(--accent-pale);
+  transition: all 0.2s; letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
-.vuln-meta .tag {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  padding: 0.15rem 0.6rem;
-  border-radius: 20px;
-  font-weight: 600;
+.btn-ghost:hover { background: var(--accent-light); color: #fff; border-color: var(--accent); }
+
+.btn-download svg, .btn-ghost svg {
+  flex-shrink: 0; width: 13px; height: 13px;
 }
 
+/* Tag chips */
+.project-meta {
+  display: flex; align-items: center; gap: 0.45rem;
+  margin-top: 1.1rem; flex-wrap: wrap;
+}
+
+.meta-chip {
+  font-size: 0.64rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--muted);
+  background: var(--bg); border: 1px solid var(--border);
+  padding: 0.18rem 0.6rem; border-radius: 20px;
+}
+
+/* ── Footer ── */
 footer {
-  position: relative;
-  z-index: 2;
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 1.5rem var(--pad) 3rem;
+  position: relative; z-index: 2;
+  max-width: var(--max); margin: 0 auto;
+  padding: 1.4rem var(--pad) 2.8rem;
   border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap;
   gap: 0.75rem 1.5rem;
-  font-size: 0.72rem;
-  color: var(--muted);
+  font-size: 0.71rem; color: var(--muted);
 }
 
-.footer-links {
-  display: flex;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-}
+.footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
 
 .footer-links a {
-  color: var(--muted);
-  font-weight: 600;
+  color: var(--muted); font-weight: 600;
+  text-decoration: none; transition: color 0.15s;
 }
 
 .footer-links a:hover { color: var(--accent); }
 
+/* ── Keyframes ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 780px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 2rem; gap: 2rem; }
-  .hero-image-wrap { order: -1; max-width: 240px; margin: 0 auto; }
-  .main { grid-template-columns: 1fr; }
-  .main-full { grid-column: 1; }
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 2rem; gap: 2.2rem; }
+  .hero-image-wrap { order: -1; max-width: 200px; margin: 0 auto; }
+  .project-card { padding: 1.5rem 1.4rem; }
+}
+
+@media (max-width: 560px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
-  .record-item { grid-template-columns: 1fr; gap: 0.05rem; }
-  .hero-name { font-size: 1.9rem; }
+  .hero-name { font-size: 2.1rem; }
   footer { flex-direction: column; align-items: flex-start; }
-  .project-grid { grid-template-columns: 1fr; }
-}
-
-/* ============================================================
-   PUZZLE SECTION — Hidden Challenge
-   ============================================================ */
-
-.puzzle-sec {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  transition: box-shadow 0.3s, border-color 0.3s;
-  box-shadow: 0 4px 12px rgba(127,166,200,0.05);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Subtle scan-line shimmer on hover */
-.puzzle-sec::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(127,166,200,0.015) 3px,
-    rgba(127,166,200,0.015) 4px
-  );
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-
-.puzzle-sec:hover::after { opacity: 1; }
-
-/* Lock icon area */
-.puzzle-lock-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.1rem;
-}
-
-.puzzle-lock-icon {
-  width: 38px; height: 38px;
-  background: var(--accent-pale);
-  border: 1px solid var(--accent-light);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  transition: all 0.4s ease;
-}
-
-.puzzle-lock-icon.unlocked {
-  background: rgba(127,200,160,0.12);
-  border-color: rgba(127,200,160,0.4);
-  animation: unlock-pulse 0.6s ease forwards;
-}
-
-@keyframes unlock-pulse {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.18); box-shadow: 0 0 0 6px rgba(127,200,160,0.15); }
-  100% { transform: scale(1); box-shadow: none; }
-}
-
-.puzzle-lock-title {
-  font-family: var(--display);
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--fg);
-}
-
-.puzzle-lock-sub {
-  font-size: 0.7rem;
-  color: var(--muted);
-  margin-top: 0.1rem;
-}
-
-/* Gate description */
-.puzzle-gate-text {
-  font-size: 0.82rem;
-  color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 1.2rem;
-  font-style: italic;
-  border-left: 2px solid var(--accent-light);
-  padding-left: 0.85rem;
-}
-
-/* Base64 clue block */
-.puzzle-clue-label {
-  font-size: 0.67rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.45rem;
-}
-
-.puzzle-clue-block {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.9rem 1rem;
-  font-family: 'Courier New', monospace;
-  font-size: 0.76rem;
-  color: var(--accent);
-  letter-spacing: 0.03em;
-  word-break: break-all;
-  line-height: 1.7;
-  user-select: all;
-  position: relative;
-  transition: border-color 0.2s;
-}
-
-.puzzle-clue-block:hover {
-  border-color: var(--accent-light);
-}
-
-.puzzle-clue-block .clue-tag {
-  display: inline-block;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 0.1rem 0.5rem;
-  border-radius: 20px;
-  margin-bottom: 0.5rem;
-}
-
-/* Hint line */
-.puzzle-hint {
-  font-size: 0.7rem;
-  color: var(--light);
-  margin: 0.9rem 0 1.2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.puzzle-hint::before {
-  content: '';
-  display: inline-block;
-  width: 18px; height: 1px;
-  background: var(--accent-light);
-  flex-shrink: 0;
-}
-
-/* Input area */
-.puzzle-input-row {
-  display: flex;
-  gap: 0.6rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.puzzle-input {
-  flex: 1;
-  min-width: 180px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 0.55rem 1.1rem;
-  font-family: 'Courier New', monospace;
-  font-size: 0.82rem;
-  color: var(--fg);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  letter-spacing: 0.04em;
-}
-
-.puzzle-input::placeholder {
-  color: var(--light);
-  letter-spacing: 0.02em;
-}
-
-.puzzle-input:focus {
-  border-color: var(--accent-light);
-  box-shadow: 0 0 0 3px var(--accent-pale);
-}
-
-.puzzle-input.error {
-  border-color: rgba(200,100,100,0.35);
-  box-shadow: 0 0 0 3px rgba(200,100,100,0.07);
-  animation: shake 0.35s ease;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%  { transform: translateX(-5px); }
-  40%  { transform: translateX(5px); }
-  60%  { transform: translateX(-3px); }
-  80%  { transform: translateX(3px); }
-}
-
-.puzzle-input.success {
-  border-color: rgba(127,200,160,0.5);
-  box-shadow: 0 0 0 3px rgba(127,200,160,0.1);
-}
-
-.puzzle-btn {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--accent);
-  background: var(--accent-pale);
-  border: 1px solid var(--accent-light);
-  padding: 0.55rem 1.25rem;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.18s;
-  white-space: nowrap;
-}
-
-.puzzle-btn:hover {
-  background: var(--accent-light);
-  color: var(--white);
-  border-color: var(--accent);
-}
-
-/* Inline feedback messages */
-.puzzle-msg {
-  margin-top: 0.75rem;
-  font-size: 0.75rem;
-  min-height: 1.2rem;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.puzzle-msg.msg-error {
-  color: rgba(180, 80, 80, 0.9);
-}
-
-.puzzle-msg.msg-hint {
-  color: var(--muted);
-}
-
-/* ── Unlock attempts counter ── */
-.puzzle-attempts {
-  font-size: 0.65rem;
-  color: var(--light);
-  margin-top: 0.4rem;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 0.04em;
-}
-
-/* ============================================================
-   UNLOCKED CONTENT — revealed on correct answer
-   ============================================================ */
-
-.puzzle-unlocked {
-  display: none;
-  margin-top: 1.5rem;
-  padding-top: 1.4rem;
-  border-top: 1px solid var(--border);
-  animation: reveal-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.puzzle-unlocked.show {
-  display: block;
-}
-
-@keyframes reveal-up {
-  0%   { opacity: 0; transform: translateY(14px); filter: blur(4px); }
-  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
-}
-
-/* Access granted banner */
-.access-banner {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1.1rem 1.25rem;
-  background: rgba(127,200,160,0.06);
-  border: 1px solid rgba(127,200,160,0.28);
-  border-radius: var(--radius-sm);
-  margin-bottom: 1.1rem;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Glow sweep animation */
-.access-banner::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 60%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(127,200,160,0.07), transparent);
-  animation: sweep 2.4s ease 0.2s infinite;
-}
-
-@keyframes sweep {
-  0%   { left: -60%; }
-  100% { left: 110%; }
-}
-
-.access-icon {
-  font-size: 1.4rem;
-  flex-shrink: 0;
-  margin-top: 0.1rem;
-  filter: drop-shadow(0 0 6px rgba(127,200,160,0.5));
-  animation: icon-glow 2.5s ease-in-out infinite;
-}
-
-@keyframes icon-glow {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(127,200,160,0.4)); }
-  50%       { filter: drop-shadow(0 0 10px rgba(127,200,160,0.7)); }
-}
-
-.access-text-wrap {
-  flex: 1;
-}
-
-.access-title {
-  font-family: var(--display);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--fg);
-  margin-bottom: 0.2rem;
-}
-
-.access-sub {
-  font-size: 0.78rem;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* Verified identity card */
-.verified-card {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 1rem 1.1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-top: 0.85rem;
-}
-
-.verified-badge-wrap {
-  flex-shrink: 0;
-}
-
-.verified-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-pale);
-  border: 1px solid var(--accent-light);
-  padding: 0.3rem 0.75rem;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-
-.verified-text {
-  font-size: 0.75rem;
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-.verified-text strong {
-  color: var(--fg);
-  font-family: 'Courier New', monospace;
-  font-size: 0.78rem;
-}
-
-/* ── Decoded message display ── */
-.decoded-block {
-  margin-top: 0.9rem;
-  padding: 0.75rem 1rem;
-  background: var(--bg);
-  border: 1px dashed var(--accent-light);
-  border-radius: var(--radius-sm);
-  font-size: 0.77rem;
-  color: var(--fg);
-  font-family: 'Courier New', monospace;
-  line-height: 1.7;
-}
-
-.decoded-block .decoded-label {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 0.3rem;
-}
-
-/* ── Signature line ── */
-.puzzle-sig {
-  margin-top: 1rem;
-  font-size: 0.68rem;
-  color: var(--light);
-  font-family: 'Courier New', monospace;
-  letter-spacing: 0.04em;
-  text-align: right;
+  .project-actions { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
 <body>
 
-<!-- 
-  ██████╗ ██╗   ██╗███████╗███████╗██╗     ███████╗
-  ██╔══██╗██║   ██║╚══███╔╝╚══███╔╝██║     ██╔════╝
-  ██████╔╝██║   ██║  ███╔╝   ███╔╝ ██║     █████╗  
-  ██╔═══╝ ██║   ██║ ███╔╝   ███╔╝  ██║     ██╔══╝  
-  ██║     ╚██████╔╝███████╗███████╗███████╗███████╗
-  ╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝╚══════╝
-
-  CLUE #2 — if the Base64 wasn't enough:
-  Every identity leaves a trace. Mine is 8 hex digits long.
-  Look where cryptographers verify one another.
-  
-  gpg --recv-keys 0xA45372A9
-  
-  The answer is already on this page.
--->
-
 <canvas id="matrixCanvas" class="matrix-canvas"></canvas>
-<span class="petal" style="left:5%; animation-duration:14s; animation-delay:0s;">❄️</span>
-<span class="petal" style="left:20%; animation-duration:17s; animation-delay:4s;">✨</span>
-<span class="petal" style="left:50%; animation-duration:12s; animation-delay:7s;">💠</span>
+<span class="petal" style="left:5%;  animation-duration:15s; animation-delay:0s;">❄️</span>
+<span class="petal" style="left:22%; animation-duration:18s; animation-delay:4s;">✨</span>
+<span class="petal" style="left:52%; animation-duration:13s; animation-delay:7s;">💠</span>
+<span class="petal" style="left:78%; animation-duration:16s; animation-delay:2s;">❄️</span>
 
+<!-- Nav -->
 <nav class="nav">
   <div class="nav-inner">
     <span class="nav-brand">arvinlabs.me</span>
     <div class="nav-links">
-      <a href="#about">About</a><a href="#records">Records</a><a href="#pgp">PGP</a>
-      <a href="#projects">Projects</a><a href="#research">Research</a><a href="#reports">Reports</a>
-      <a href="#contact">Contact</a><a href="#donate">Donate</a>
-      <!-- [PUZZLE] nav link added -->
-      <a href="#challenge">Challenge</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="mailto:arvinfarrelp.security@gmail.com">Contact</a>
     </div>
   </div>
 </nav>
 
+<!-- Hero -->
 <section class="hero" id="about">
   <div class="hero-left">
-    <div class="hero-tag">✦ SECURITY RESEARCH & CRYPTOGRAPHY</div>
+    <div class="hero-tag">✦ Security Research &amp; Cryptography</div>
+
     <h1 class="hero-name">Arvin Farrel<br><span class="soft">Pramuditya</span></h1>
-    <div class="hero-subtitle"><span class="pill">Backend Developer</span><span class="pill">Blockchain &amp; Smart Contract</span><span class="pill">Cryptography</span><span class="pill">Cybersecurity</span></div>
-    <div class="hero-pgp">🔑 PGP Identity: <span class="key-id">0xA45372A9</span></div>
-    <div class="hero-badges"><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge">PGP Verified</a><a href="/.well-known/security.txt" class="badge badge-sky">Security.txt</a><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge badge-sky">Keyoxide Profile</a></div>
-  </div>
-  <div class="hero-image-wrap"><div class="hero-image-frame"><div class="hero-image-bg"></div><div class="hero-deco deco-1">💠</div><img src="img/chloe.png" alt="avatar" class="hero-image" loading="eager"></div></div>
-</section>
-<div class="divider"><div class="divider-inner"></div></div>
 
-<div class="main">
-  <div class="sec" id="records"><p class="sec-heading"><span class="icon">📋</span>Public Records</p><ul class="record-list"><li class="record-item"><span class="record-key">Keyoxide</span><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">keyoxide.org/CC7C7F6E…</a></li><li class="record-item"><span class="record-key">Identity File</span><a href="https://arvinlabs.me/.well-known/keyoxide.txt" target="_blank">.well-known/keyoxide.txt</a></li><li class="record-item"><span class="record-key">Disclosure Policy</span><a href="https://arvinlabs.me/.well-known/security.txt" target="_blank">.well-known/security.txt</a></li><li class="record-item"><span class="record-key">PGP Public Key</span><a href="https://arvinlabs.me/pgp.asc" target="_blank">pgp.asc</a></li></ul></div>
-  <div class="sec" id="crypto-id"><p class="sec-heading sky"><span class="icon">🔑</span>Cryptographic Identity</p><table class="crypto-table"><tr><td>Key ID</td><td>0xA45372A9</td></tr>
-  <tr><td>Fingerprint</td><td style="font-family:'Courier New',monospace;">CC7C 7F6E E344 0CD3 002B 2C00 8C0A E50D A453 72A9</td></tr>
-  <tr><td>Verification</td><td><a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">keyoxide.org</a></td></tr>
-  <tr><td>Public Key</td><td><a href="https://arvinlabs.me/pgp.asc" target="_blank">arvinlabs.me/pgp.asc</a></td></tr>
-  </table></div>
-  <div class="sec main-full" id="pgp"><p class="sec-heading"><span class="icon">🛡️</span>PGP Fingerprint</p><div class="fingerprint-block"><code id="fp-display"></code><span class="fp-note">Click to select all · Verify against keyoxide.org before use.</span></div><div class="pgp-tools"><button class="pgp-btn" id="btn-copy">Copy Fingerprint</button><a class="pgp-btn" href="https://arvinlabs.me/pgp.asc" target="_blank">Download Public Key</a><a class="pgp-btn" href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" target="_blank">Open Keyoxide Profile</a><button class="pgp-btn" id="btn-gpg">Show GPG Command</button><div class="pgp-feedback" id="pgp-feedback"></div></div><pre class="pgp-gpg-block" id="pgp-gpg-block">gpg --recv-keys 0xA45372A9\ngpg --fingerprint 0xA45372A9</pre></div>
-  <div class="sec" id="contact"><p class="sec-heading sage"><span class="icon">✉️</span>Security Contact</p><div class="contact-box"><p>Responsible disclosure is welcome. Please encrypt sensitive vulnerability reports using my <a href="https://arvinlabs.me/pgp.asc" target="_blank">PGP public key</a>.</p><p>For the full disclosure policy, refer to <a href="https://arvinlabs.me/.well-known/security.txt" target="_blank">security.txt</a> (RFC 9116).</p></div></div>
-  <div class="sec" id="research"><p class="sec-heading sky"><span class="icon">🔍</span>Research Interests</p><ul class="plain-list"><li>Web Application Security</li><li>API Security</li><li>Access Control Issues (IDOR)</li><li>Authentication &amp; Authorization Flaws</li><li>Security Misconfigurations</li></ul></div>
-  <div class="sec"><p class="sec-heading"><span class="icon">⚡</span>Research Activity</p><p class="body-text">Participating in bug bounty programs on HackerOne and conducting security research on web applications and APIs.</p></div>
-  <div class="sec"><p class="sec-heading sage"><span class="icon">🌱</span>Open Source</p><p class="body-text">GitHub: <a href="https://github.com/ArvinFarrelP" target="_blank">github.com/ArvinFarrelP</a></p><p class="body-text" style="margin-top:0.5rem;">Contributing to open-source projects through pull requests and security-related improvements.</p></div>
-  <div class="sec" id="oss"><p class="sec-heading"><span class="icon">🤝</span>Contributions</p><ul class="record-list"><li class="record-item"><span class="record-key">PySpector</span><a href="https://github.com/ParzivalHack/PySpector" target="_blank">github.com/ParzivalHack/PySpector</a></li><li class="record-item"><span class="record-key">SurfSense</span><a href="https://github.com/MODSetter/SurfSense" target="_blank">github.com/MODSetter/SurfSense</a></li></ul></div>
-  <div class="sec main-full" id="projects"><p class="sec-heading"><span class="icon">✨</span>Security Projects</p><div class="project-grid"><div class="project-card"><div class="project-title">CipherVision</div><p class="project-desc">Cryptographic identity verification tool integrating OpenPGP and Keyoxide.</p><a class="project-link" href="https://github.com/ArvinFarrelP/CipherVision" target="_blank">github.com/ArvinFarrelP/CipherVision</a></div><div class="project-card"><div class="project-title">PySpector <span class="project-badge">contrib</span></div><p class="project-desc">Contributed improvements to an OSINT and reconnaissance framework.</p><a class="project-link" href="https://github.com/ParzivalHack/PySpector" target="_blank">github.com/ParzivalHack/PySpector</a></div><div class="project-card"><div class="project-title">SurfSense <span class="project-badge">contrib</span></div><p class="project-desc">Contributed UI and frontend improvements to the SurfSense project.</p><a class="project-link" href="https://github.com/MODSetter/SurfSense" target="_blank">github.com/MODSetter/SurfSense</a></div></div></div>
-  <div class="sec main-full" id="reports"><p class="sec-heading sky"><span class="icon">📝</span>Vulnerability Reports</p><div class="vuln-block"><div class="vuln-title">Keyoxide Profile Loading Issue (OpenPGP UID Update)</div><div class="vuln-meta"><span class="tag">Reported — Awaiting Response</span><span class="tag">Responsible Disclosure</span></div><p class="body-text">Report: <a href="https://codeberg.org/keyoxide/keyoxide-web/issues/256" target="_blank">codeberg.org/keyoxide/keyoxide-web/issues/256</a></p><p class="body-text" style="margin-top:0.5rem;">Identified and reported a potential issue in Keyoxide where the profile failed to load after updating the primary UID of an OpenPGP key.</p></div></div>
-
-  <!-- [PUZZLE] ============================================================
-       HIDDEN CHALLENGE SECTION
-       ============================================================ -->
-  <div class="sec puzzle-sec main-full" id="challenge">
-
-    <!-- Lock header -->
-    <div class="puzzle-lock-wrap">
-      <div class="puzzle-lock-icon" id="puzzleLockIcon">🔒</div>
-      <div>
-        <div class="puzzle-lock-title">Hidden Challenge</div>
-        <div class="puzzle-lock-sub">Identity verification · Cryptographic gate</div>
-      </div>
-    </div>
-
-    <!-- Gate description -->
-    <p class="puzzle-gate-text">
-      Only those who can verify my cryptographic identity may proceed.<br>
-      Decode the clue below and enter what you find.
+    <p class="hero-bio">
+      Backend Engineer building secure systems — with a deep focus on cryptographic identity, web security research, and open-source tooling.
     </p>
 
-    <!-- Base64 clue -->
-    <div class="puzzle-clue-label">ENCODED CLUE</div>
-    <div class="puzzle-clue-block">
-      <span class="clue-tag">base64</span><br>
-      V2hhdCBpcyBteSBpZGVudGl0eSBpbiB0aGUgY3J5cHRvZ3JhcGhpYyB3b3JsZD8=
+    <div class="hero-pills">
+      <span class="pill">Backend Developer</span>
+      <span class="pill">Blockchain &amp; Smart Contract</span>
+      <span class="pill">Cryptography</span>
+      <span class="pill">Cybersecurity</span>
     </div>
 
-    <!-- Subtle hint -->
-    <p class="puzzle-hint">Everything you need is already here.</p>
+    <div class="hero-pgp">🔑 PGP Identity: <span class="key-id">0xA45372A9</span></div>
 
-    <!-- Input + button -->
-    <div class="puzzle-input-row">
-      <input
-        type="text"
-        class="puzzle-input"
-        id="puzzleInput"
-        placeholder="_ _ _ _ _ _ _ _ _ _"
-        autocomplete="off"
-        spellcheck="false"
-        maxlength="32"
-        aria-label="Enter cryptographic key"
+    <div class="hero-badges">
+      <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge" target="_blank" rel="noopener">PGP Verified</a>
+      <a href="/.well-known/security.txt" class="badge badge-sky">Security.txt</a>
+      <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge badge-sky" target="_blank" rel="noopener">Keyoxide Profile</a>
+    </div>
+  </div>
+
+  <div class="hero-image-wrap">
+    <div class="hero-image-frame">
+      <div class="hero-image-bg"></div>
+      <div class="hero-deco deco-1">💠</div>
+      <div class="hero-deco deco-2">🔑</div>
+      <img
+        src="img/chloe.png"
+        alt="Arvin Farrel Pramuditya"
+        class="hero-image"
+        loading="eager"
+        onerror="this.style.cssText='border-radius:50%;width:100%;aspect-ratio:1;background:var(--accent-pale);display:block;'"
       >
-      <button class="puzzle-btn" id="puzzleBtn">Verify →</button>
-    </div>
-
-    <!-- Inline feedback -->
-    <div class="puzzle-msg" id="puzzleMsg"></div>
-    <div class="puzzle-attempts" id="puzzleAttempts"></div>
-
-    <!-- [PUZZLE] ── UNLOCKED CONTENT (hidden until correct answer) ── -->
-    <div class="puzzle-unlocked" id="puzzleUnlocked">
-
-      <!-- Access granted banner -->
-      <div class="access-banner">
-        <span class="access-icon">✔</span>
-        <div class="access-text-wrap">
-          <div class="access-title">Access Granted</div>
-          <div class="access-sub">You didn't just visit — you verified.</div>
-        </div>
-      </div>
-
-      <!-- Decoded message display -->
-      <div class="decoded-block">
-        <span class="decoded-label">Decoded message</span>
-        What is my identity in the cryptographic world?
-      </div>
-
-      <!-- Verified identity card -->
-      <div class="verified-card">
-        <div class="verified-badge-wrap">
-          <span class="verified-badge">🔑 Verified</span>
-        </div>
-        <div class="verified-text">
-          Identity confirmed as <strong>0xA45372A9</strong>.<br>
-          Trust is not assumed — it is established through cryptographic proof.
-        </div>
-      </div>
-
-      <!-- Signature -->
-      <p class="puzzle-sig">— arvinlabs.me · PGP · CC7C 7F6E E344 0CD3 002B 2C00 8C0A E50D A453 72A9</p>
-
-    </div>
-    <!-- [/PUZZLE] end unlocked content -->
-
-  </div>
-  <!-- [/PUZZLE] end challenge section -->
-
-  <!-- Donation Section with Enhanced Wallet Connect -->
-  <div class="sec main-full" id="donate">
-    <p class="sec-heading"><span class="icon">💙</span>Support Development</p>
-    <p class="body-text" style="margin-bottom: 1rem;">Donations help support research, infrastructure, and open-source development at ArvinLabs.</p>
-    <div style="margin-bottom:1.5rem; display:flex; gap:.75rem; flex-wrap:wrap; align-items:center;">
-      <button class="wallet-btn" id="connectMetaMaskBtn" style="font-size:0.75rem; padding:0.4rem 1rem; display:inline-flex; align-items:center; gap:8px;">
-        <img src="img/metamask.png" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display='none'">
-        Connect Wallet
-      </button>
-      <span id="wallet-status" class="wallet-status-text">⚡ Wallet not connected</span>
-    </div>
-    <div class="project-grid">
-      <div class="project-card"><div class="qr-popup"><img src="img/btc-qr.png" alt="BTC QR" width="100%" onerror="this.style.display='none'; this.parentElement.innerHTML='📱 QR Code'"></div><img src="img/btc.png" alt="BTC" class="crypto-logo" onerror="this.style.display='none'"><div class="project-title">Bitcoin (BTC)<span class="network-badge">₿ Bitcoin Network</span></div><p class="project-desc">Support ArvinLabs research using Bitcoin.</p><code class="wallet-short">bc1qse0f24yza0wg7323tshxrdk8aulv0nyjtzzdaf</code><div class="wallet-actions"><button class="wallet-btn" data-wallet="bc1qse0f24yza0wg7323tshxrdk8aulv0nyjtzzdaf" onclick="copyWallet(this)">Copy</button><button class="wallet-btn" onclick="openWallet('bitcoin:bc1qse0f24yza0wg7323tshxrdk8aulv0nyjtzzdaf')">Open Wallet</button></div></div>
-      <div class="project-card"><div class="qr-popup"><img src="img/eth-qr.png" alt="ETH QR" width="100%" onerror="this.style.display='none'; this.parentElement.innerHTML='📱 QR Code'"></div><img src="img/eth.png" alt="ETH" class="crypto-logo" onerror="this.style.display='none'"><div class="project-title">Ethereum (ETH)<span class="network-badge">⟠ Ethereum Network</span></div><p class="project-desc">ETH / ERC-20 donations. Use MetaMask to send ETH.</p><code class="wallet-short">0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534</code><div class="wallet-actions"><button class="wallet-btn" data-wallet="0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534" onclick="copyWallet(this)">Copy</button><button class="wallet-btn" onclick="openWallet('ethereum:0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534')">Open Wallet</button><button class="wallet-btn" id="donateEthBtn" style="background:var(--accent); color:white;">💸 Donate via MetaMask</button></div></div>
-      <div class="project-card"><div class="qr-popup"><img src="img/sol-qr.png" alt="SOL QR" width="100%" onerror="this.style.display='none'; this.parentElement.innerHTML='📱 QR Code'"></div><img src="img/sol.png" alt="SOL" class="crypto-logo" onerror="this.style.display='none'"><div class="project-title">Solana (SOL)<span class="network-badge">◎ Solana Network</span></div><p class="project-desc">Low fee donations via Solana network.</p><code class="wallet-short">3go6436dxBitQwp5161Z5xaQYEQHRTSQWnSVS2gx314U</code><div class="wallet-actions"><button class="wallet-btn" data-wallet="3go6436dxBitQwp5161Z5xaQYEQHRTSQWnSVS2gx314U" onclick="copyWallet(this)">Copy</button><button class="wallet-btn" onclick="openWallet('solana:3go6436dxBitQwp5161Z5xaQYEQHRTSQWnSVS2gx314U')">Open Wallet</button></div></div>
     </div>
   </div>
-</div>
-<footer><div class="footer-links"><a href="https://github.com/ArvinFarrelP" target="_blank">GitHub</a><a href="https://linkedin.com/in/arvinfarrelp" target="_blank">LinkedIn</a><a href="mailto:arvinfarrelp.security@gmail.com">Email</a></div><span id="footer-year"></span></footer>
+</section>
+
+<div class="divider"><div class="divider-inner"></div></div>
+
+<!-- Projects -->
+<section class="projects-wrap" id="projects">
+  <p class="sec-heading"><span class="icon">✨</span>Security Projects</p>
+
+  <div class="project-grid">
+
+    <!-- CipherVision -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-title">CipherVision</div>
+        <span class="version-badge">✦ v1.0.0 Released</span>
+      </div>
+
+      <p class="project-desc">
+        A classical cryptographic analysis tool focused on substitution ciphers — featuring frequency analysis, cipher visualization, and an educational GUI built with Python and ttkbootstrap. Designed to make cryptanalysis hands-on and approachable for learners.
+      </p>
+
+      <div class="project-actions">
+        <a class="btn-download"
+           href="https://github.com/ArvinFarrelP/CipherVision/releases/tag/v1.0.0"
+           target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"/>
+            <path d="M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.97a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.779a.749.749 0 1 1 1.06-1.06l1.97 1.97Z"/>
+          </svg>
+          Download v1.0.0
+        </a>
+
+        <a class="btn-ghost"
+           href="https://github.com/ArvinFarrelP/CipherVision"
+           target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          View Source
+        </a>
+      </div>
+
+      <div class="project-meta">
+        <span class="meta-chip">Python</span>
+        <span class="meta-chip">matplotlib / numpy</span>
+        <span class="meta-chip">Classical Ciphers</span>
+        <span class="meta-chip">Cryptanalysis</span>
+      </div>
+    </div>
+
+    <!-- Study Companion -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-title">Study Companion</div>
+        <span class="version-badge">✦ Open Source</span>
+      </div>
+
+      <p class="project-desc">
+        An anime-inspired productivity web app with a Pomodoro timer, focus tracking, gamified achievements, and a built-in lo-fi music player. Ships as a PWA with a fully responsive UI tailored for students who want a more engaging study experience.
+      </p>
+
+      <div class="project-actions">
+        <a class="btn-ghost"
+           href="https://github.com/ArvinFarrelP/study-companion"
+           target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          View Source
+        </a>
+      </div>
+
+      <div class="project-meta">
+        <span class="meta-chip">PWA</span>
+        <span class="meta-chip">Pomodoro / Focus</span>
+        <span class="meta-chip">Gamification</span>
+        <span class="meta-chip">Focus Music / Lo-fi Player</span>
+      </div>
+    </div>
+
+    <!-- ARVIN ERC20 TOKEN -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-title">ARVIN ERC20 Token</div>
+        <span class="version-badge">✦ Blockchain</span>
+      </div>
+
+      <p class="project-desc">
+        A custom ERC-20 token deployed on the Ethereum Sepolia testnet, built with Solidity, Hardhat, and OpenZeppelin. Covers token deployment, MetaMask integration, and testnet workflows as a practical introduction to smart contract development.
+      </p>
+
+      <div class="project-actions">
+        <a class="btn-ghost"
+           href="https://github.com/ArvinFarrelP/arvin-erc20-token"
+           target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+          </svg>
+          View Source
+        </a>
+      </div>
+
+      <div class="project-meta">
+        <span class="meta-chip">Solidity</span>
+        <span class="meta-chip">Hardhat / OpenZeppelin</span>
+        <span class="meta-chip">Sepolia Testnet</span>
+        <span class="meta-chip">Smart Contract</span>
+      </div>
+    </div>
+
+  </div><!-- /.project-grid -->
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <a href="https://github.com/ArvinFarrelP" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/arvinfarrelp" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:arvinfarrelp.security@gmail.com">Email</a>
+  </div>
+  <span id="footer-year"></span>
+</footer>
 
 <script>
-// ── Matrix Rain ──────────────────────────────────────────────────────────────
-(function() {
+// Matrix Rain
+(function () {
   const canvas = document.getElementById('matrixCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let width, height, columns, drops, fontSize = 16;
-  const chars = "01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789❄️✦💠";
-  function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; columns = Math.floor(width / fontSize); drops = new Array(columns).fill(1); }
-  function drawMatrix() { if (!ctx) return; ctx.fillStyle = 'rgba(244, 246, 250, 0.08)'; ctx.fillRect(0, 0, width, height); ctx.font = fontSize + 'px monospace'; for (let i = 0; i < drops.length; i++) { const text = chars[Math.floor(Math.random() * chars.length)]; const x = i * fontSize; const y = drops[i] * fontSize; ctx.fillStyle = `rgba(127, 166, 200, ${Math.random() * 0.4 + 0.2})`; ctx.fillText(text, x, y); if (y > height && Math.random() > 0.975) drops[i] = 0; drops[i]++; } }
-  resizeCanvas(); setInterval(drawMatrix, 70); window.addEventListener('resize', resizeCanvas);
-})();
+  let W, H, cols, drops;
+  const FS = 16;
+  const CHARS = "01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789✦💠";
 
-// ── PGP fingerprint typewriter ───────────────────────────────────────────────
-(function () {
-  const fp = 'CC7C 7F6E E344 0CD3 002B  2C00 8C0A E50D A453 72A9';
-  const el = document.getElementById('fp-display'); let idx = 0, timer = null; el.textContent = '';
-  function tick() { if (idx <= fp.length) { el.textContent = fp.slice(0, idx) + (idx < fp.length ? '▋' : ''); idx++; } else { clearInterval(timer); el.textContent = fp; } }
-  const observer = new IntersectionObserver(entries => { if (entries[0].isIntersecting) { observer.disconnect(); timer = setInterval(tick, 40); } }, { threshold: 0.5 });
-  const pgpSec = document.getElementById('pgp'); if (pgpSec) observer.observe(pgpSec);
-})();
-
-document.getElementById('footer-year').textContent = new Date().getFullYear() + ' arvinlabs.me';
-document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }));
-
-// ── PGP copy & gpg ───────────────────────────────────────────────────────────
-(function () {
-  const FP = 'CC7C 7F6E E344 0CD3 002B  2C00 8C0A E50D A453 72A9';
-  const btnCopy = document.getElementById('btn-copy'), btnGpg = document.getElementById('btn-gpg'), feedback = document.getElementById('pgp-feedback'), gpgBlock = document.getElementById('pgp-gpg-block');
-  function showFeedback(msg) { feedback.textContent = msg; feedback.classList.add('visible'); setTimeout(() => feedback.classList.remove('visible'), 2000); }
-  if (btnCopy) btnCopy.addEventListener('click', () => { if (navigator.clipboard) { navigator.clipboard.writeText(FP).then(() => showFeedback('✓ Fingerprint copied!')).catch(() => showFeedback('Copy failed')); } else showFeedback('Clipboard unavailable'); });
-  if (btnGpg) btnGpg.addEventListener('click', () => { const v = gpgBlock.classList.toggle('visible'); btnGpg.textContent = v ? 'Hide GPG Command' : 'Show GPG Command'; });
-})();
-
-// ── Web3 / MetaMask ──────────────────────────────────────────────────────────
-let userWallet = null;
-
-function disconnectWallet() {
-  userWallet = null;
-  const statusSpan = document.getElementById("wallet-status");
-  if (statusSpan) { statusSpan.innerHTML = "⚡ Wallet not connected"; statusSpan.style.color = ""; }
-  const btn = document.getElementById("connectMetaMaskBtn");
-  if (btn) { btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connect Wallet'; btn.onclick = connectWallet; }
-}
-
-window.connectWallet = async function() {
-  if (!window.ethereum) { alert("MetaMask not detected. Please install MetaMask extension."); return; }
-  try {
-    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-    userWallet = accounts[0];
-    const statusSpan = document.getElementById("wallet-status");
-    if (statusSpan) { statusSpan.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:14px; height:14px; vertical-align:middle;"> 🟢 Connected: ${userWallet.slice(0,6)}...${userWallet.slice(-4)}`; statusSpan.style.color = "var(--accent)"; }
-    const btn = document.getElementById("connectMetaMaskBtn");
-    if (btn) { btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connected'; btn.onclick = disconnectWallet; }
-  } catch(err) { alert("MetaMask error: " + err.message); }
-};
-
-window.donateETH = async function() {
-  if (!userWallet) { alert("Connect wallet first using the 'Connect Wallet' button."); return; }
-  if (typeof window.ethereum === "undefined") { alert("MetaMask not installed."); return; }
-  const transaction = { to: "0xa1A0d4575421f55D1DF59d972Dcb473DDd36f534", from: userWallet, value: "0x2386F26FC10000" };
-  try { await ethereum.request({ method: "eth_sendTransaction", params: [transaction] }); alert("Please confirm the transaction in MetaMask."); } catch(err) { console.error(err); alert("Transaction failed: " + (err.message || "Unknown error")); }
-};
-
-window.addEventListener("load", async () => {
-  if (typeof window.ethereum !== "undefined") {
-    try {
-      const accounts = await ethereum.request({ method: "eth_accounts" });
-      if (accounts.length > 0) {
-        userWallet = accounts[0];
-        const statusSpan = document.getElementById("wallet-status");
-        if (statusSpan) { statusSpan.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" style="width:14px; height:14px; vertical-align:middle;"> 🟢 Connected: ${userWallet.slice(0,6)}...${userWallet.slice(-4)}`; statusSpan.style.color = "var(--accent)"; }
-        const btn = document.getElementById("connectMetaMaskBtn");
-        if (btn) { btn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" style="width:16px; height:16px;" onerror="this.style.display=\'none\'"> Connected'; btn.onclick = disconnectWallet; }
-      }
-    } catch(e) { console.warn("Auto-detect failed", e); }
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    cols = Math.floor(W / FS);
+    drops = new Array(cols).fill(1);
   }
+
+  function draw() {
+    ctx.fillStyle = 'rgba(244,246,250,0.085)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.font = FS + 'px monospace';
+    for (let i = 0; i < cols; i++) {
+      const ch = CHARS[Math.floor(Math.random() * CHARS.length)];
+      ctx.fillStyle = `rgba(127,166,200,${(Math.random() * 0.35 + 0.12).toFixed(2)})`;
+      ctx.fillText(ch, i * FS, drops[i] * FS);
+      if (drops[i] * FS > H && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  resize();
+  setInterval(draw, 72);
+  window.addEventListener('resize', resize);
+})();
+
+// Footer year
+document.getElementById('footer-year').textContent =
+  new Date().getFullYear() + ' arvinlabs.me';
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
 });
 
-window.addEventListener("DOMContentLoaded", () => {
-  const donateBtn = document.getElementById("donateEthBtn");
-  if (donateBtn) donateBtn.addEventListener("click", donateETH);
-  const connectBtn = document.getElementById("connectMetaMaskBtn");
-  if (connectBtn && !connectBtn.onclick) connectBtn.addEventListener("click", connectWallet);
-});
-
-window.copyWallet = function(btn) {
-  const addr = btn.dataset.wallet;
-  if (!addr) return;
-  navigator.clipboard.writeText(addr).then(() => { const original = btn.innerText; btn.innerText = "✓ Copied"; setTimeout(() => { btn.innerText = original; }, 1500); }).catch(() => { btn.innerText = "Error"; setTimeout(() => { btn.innerText = "Copy"; }, 1500); });
-};
-window.openWallet = function(uri) { window.location.href = uri; };
-
-// ── Chain particle canvas ────────────────────────────────────────────────────
-(function() {
-  const canvasParticle = document.createElement("canvas");
-  canvasParticle.id = "chainCanvas";
-  canvasParticle.style.cssText = "position:fixed; bottom:0; right:0; width:200px; height:200px; opacity:.15; pointer-events:none; z-index:-1;";
-  document.body.appendChild(canvasParticle);
-  const ctx = canvasParticle.getContext("2d");
-  let dots = [];
-  const w = 200, h = 200;
-  canvasParticle.width = w; canvasParticle.height = h;
-  for(let i = 0; i < 25; i++) { dots.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5 }); }
-  function drawParticles() { if (!ctx) return; ctx.clearRect(0, 0, w, h); dots.forEach(d => { d.x += d.vx; d.y += d.vy; if(d.x < 0 || d.x > w) d.vx *= -1; if(d.y < 0 || d.y > h) d.vy *= -1; ctx.beginPath(); ctx.arc(d.x, d.y, 2, 0, Math.PI * 2); ctx.fillStyle = "#7fa6c8"; ctx.fill(); }); requestAnimationFrame(drawParticles); }
-  drawParticles();
-})();
-
-
-// ============================================================
-// [PUZZLE] Cryptographic Challenge Logic
-// ============================================================
-
+// Corner particle accent
 (function () {
-  'use strict';
-
-  // Accepted answers — normalised to lowercase for comparison
-  const ACCEPTED = ['0xa45372a9', 'a45372a9'];
-
-  const input      = document.getElementById('puzzleInput');
-  const btn        = document.getElementById('puzzleBtn');
-  const msgEl      = document.getElementById('puzzleMsg');
-  const attemptsEl = document.getElementById('puzzleAttempts');
-  const unlocked   = document.getElementById('puzzleUnlocked');
-  const lockIcon   = document.getElementById('puzzleLockIcon');
-
-  let attempts  = 0;
-  let solved    = false;
-
-  // Normalise input: strip whitespace, lowercase
-  function normalise(str) {
-    return str.trim().toLowerCase().replace(/\s+/g, '');
-  }
-
-  function showMsg(text, type) {
-    msgEl.textContent = text;
-    msgEl.className = 'puzzle-msg ' + (type === 'error' ? 'msg-error' : 'msg-hint');
-  }
-
-  function clearMsg() {
-    msgEl.textContent = '';
-    msgEl.className = 'puzzle-msg';
-  }
-
-  function updateAttempts() {
-    if (attempts === 0) { attemptsEl.textContent = ''; return; }
-    attemptsEl.textContent = `attempt${attempts > 1 ? 's' : ''}: ${attempts}`;
-  }
-
-  function triggerError() {
-    input.classList.remove('error');
-    // Force reflow so animation re-triggers even on repeated wrong tries
-    void input.offsetWidth;
-    input.classList.add('error');
-    setTimeout(() => input.classList.remove('error'), 600);
-  }
-
-  function unlock() {
-    solved = true;
-
-    // Update input & button state
-    input.classList.add('success');
-    input.disabled = true;
-    btn.disabled   = true;
-    btn.textContent = '✔ Verified';
-    btn.style.cssText = 'background: rgba(127,200,160,0.12); border-color: rgba(127,200,160,0.4); color: rgba(80,160,100,0.9); cursor: default;';
-
-    // Animate the lock icon
-    lockIcon.textContent = '🔓';
-    lockIcon.classList.add('unlocked');
-
-    // Show success message
-    showMsg('✔ Identity verified.', 'hint');
-    clearMsg(); // clear after brief moment — banner says it all
-
-    // Reveal unlocked content
-    unlocked.classList.add('show');
-
-    // Smooth scroll into view after short delay
-    setTimeout(() => {
-      unlocked.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 280);
-
-    // Persist solved state so it survives page re-visits in the same session
-    try { sessionStorage.setItem('puzzle_solved', '1'); } catch(e) {}
-  }
-
-  function attempt() {
-    if (solved) return;
-    const val = normalise(input.value);
-    if (!val) { showMsg('Enter a value first.', 'hint'); return; }
-
-    attempts++;
-    updateAttempts();
-
-    if (ACCEPTED.includes(val)) {
-      clearMsg();
-      unlock();
-      return;
-    }
-
-    triggerError();
-
-    // Progressive hints after multiple failures
-    if (attempts === 1) {
-      showMsg('Incorrect. The answer is cryptographic.', 'error');
-    } else if (attempts === 2) {
-      showMsg('Try thinking about how keys are identified.', 'hint');
-    } else if (attempts >= 3 && attempts < 6) {
-      showMsg('Hint: it begins with 0x…', 'hint');
-    } else {
-      showMsg('Everything you need is already on this page.', 'hint');
-    }
-  }
-
-  // Button click
-  btn.addEventListener('click', attempt);
-
-  // Enter key
-  input.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') attempt();
+  const c = document.createElement('canvas');
+  Object.assign(c.style, {
+    position: 'fixed', bottom: '0', right: '0',
+    width: '200px', height: '200px',
+    opacity: '0.1', pointerEvents: 'none', zIndex: '0'
   });
-
-  // Clear error state on new input
-  input.addEventListener('input', function () {
-    input.classList.remove('error');
-    if (solved) return;
-    clearMsg();
-  });
-
-  // Restore solved state from session (page refresh)
-  try {
-    if (sessionStorage.getItem('puzzle_solved') === '1') {
-      input.value = '0xA45372A9';
-      unlock();
-    }
-  } catch(e) {}
-
+  document.body.appendChild(c);
+  const ctx = c.getContext('2d');
+  c.width = c.height = 200;
+  const dots = Array.from({ length: 22 }, () => ({
+    x: Math.random() * 200, y: Math.random() * 200,
+    vx: (Math.random() - 0.5) * 0.45,
+    vy: (Math.random() - 0.5) * 0.45
+  }));
+  (function loop() {
+    ctx.clearRect(0, 0, 200, 200);
+    dots.forEach(d => {
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0 || d.x > 200) d.vx *= -1;
+      if (d.y < 0 || d.y > 200) d.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = '#7fa6c8';
+      ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  })();
 })();
-// ============================================================
-// [/PUZZLE] end challenge logic
-// ============================================================
 </script>
 </body>
 </html>
