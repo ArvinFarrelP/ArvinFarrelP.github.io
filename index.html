@@ -1,827 +1,1100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="description" content="Arvin Farrel Pramuditya — Backend Developer, Security Researcher, Cryptography Enthusiast.">
-<meta name="author" content="Arvin Farrel Pramuditya">
-<meta property="og:title" content="Arvin Farrel Pramuditya">
-<meta property="og:image" content="https://arvinlabs.me/img/preview.png">
-<meta property="og:description" content="Backend Engineer • Security Researcher • Cryptography">
-<meta property="og:type" content="website">
-<link rel="icon" href="/favicon.ico">
-<meta property="og:url" content="https://arvinlabs.me">
-<link rel="canonical" href="https://arvinlabs.me">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Arvin Farrel Pramuditya">
-<meta name="twitter:description" content="Backend Engineer • Security Researcher • Cryptography">
-<meta name="twitter:image" content="https://arvinlabs.me/img/preview.png">
-<title>Arvin Farrel Pramuditya | Backend Engineer • Security Researcher</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Kaisei+Decol:wght@400;700&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-/* ===== DARK MODE VARIABLES (DEFAULT) ===== */
-:root {
-  --bg: #0a0e14;
-  --surface: #11161f;
-  --fg: #e6edf5;
-  --muted: #8da0b5;
-  --light: #456377;
-  --border: rgba(127,166,200,0.2);
-  --accent: #7fa6c8;
-  --accent-light: #5d84a6;
-  --accent-pale: rgba(127,166,200,0.12);
-  --accent2: #8bb3d1;
-  --accent2-light: #507090;
-  --accent2-pale: rgba(139,179,209,0.08);
-  --green: rgba(80,168,120,0.9);
-  --green-pale: rgba(80,168,120,0.12);
-  --green-border: rgba(80,168,120,0.25);
-  --mono: 'Nunito', sans-serif;
-  --display: 'Kaisei Decol', serif;
-  --max: 1080px;
-  --pad: 1.5rem;
-  --radius: 24px;
-  --radius-sm: 14px;
-}
-
-/* LIGHT MODE (aktif saat body punya class .light-mode) */
-body.light-mode {
-  --bg: #f4f6fa;
-  --surface: #ffffff;
-  --fg: #2c3e4e;
-  --muted: #7c8f9c;
-  --light: #b8c9d6;
-  --border: rgba(127,166,200,0.25);
-  --accent: #7fa6c8;
-  --accent-light: #b8d0e6;
-  --accent-pale: rgba(127,166,200,0.1);
-  --accent2: #8bb3d1;
-  --accent2-light: #c5ddef;
-  --accent2-pale: rgba(139,179,209,0.08);
-  --green: rgba(80,168,120,0.9);
-  --green-pale: rgba(80,168,120,0.07);
-  --green-border: rgba(80,168,120,0.28);
-}
-
-html { font-size: 15px; scroll-behavior: smooth; }
-
-body {
-  font-family: var(--mono);
-  background: var(--bg);
-  color: var(--fg);
-  line-height: 1.7;
-  overflow-x: hidden;
-  position: relative;
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.2s ease;
-}
-
-/* ── Background FX ── */
-canvas.matrix-canvas {
-  position: fixed; inset: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; z-index: 0; opacity: 0.07;
-}
-
-body::before {
-  content: '';
-  position: fixed; top: -120px; right: -80px;
-  width: 520px; height: 520px;
-  background: radial-gradient(circle, rgba(127,166,200,0.14) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
-
-body::after {
-  content: '';
-  position: fixed; bottom: -100px; left: -60px;
-  width: 420px; height: 420px;
-  background: radial-gradient(circle, rgba(200,180,210,0.1) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
-
-.petal {
-  position: fixed; pointer-events: none; z-index: 0;
-  opacity: 0; font-size: 0.9rem;
-  animation: petal-fall linear infinite;
-  filter: hue-rotate(180deg) saturate(0.6) brightness(1.1);
-}
-
-@keyframes petal-fall {
-  0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
-  10%  { opacity: 0.35; }
-  90%  { opacity: 0.12; }
-  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
-}
-
-/* ── Nav ── */
-.nav {
-  position: sticky; top: 0; z-index: 200;
-  background: rgba(10,14,20,0.85);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  padding: 0.7rem var(--pad);
-}
-
-body.light-mode .nav {
-  background: rgba(244,246,250,0.9);
-}
-
-.nav-inner {
-  max-width: var(--max); margin: 0 auto;
-  display: flex; align-items: center;
-  justify-content: space-between;
-  gap: 1rem; flex-wrap: wrap;
-}
-
-.nav-brand {
-  font-family: var(--display);
-  color: var(--accent);
-  font-size: 1rem; font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.nav-links { display: flex; gap: 0.15rem; flex-wrap: wrap; align-items: center; }
-
-.nav-links a {
-  color: var(--muted); text-decoration: none;
-  padding: 0.22rem 0.75rem;
-  font-size: 0.76rem; font-weight: 600;
-  border-radius: 20px; transition: all 0.2s;
-}
-
-.nav-links a:hover { color: var(--accent); background: var(--accent-pale); }
-
-/* Dark Mode Toggle Button */
-.theme-toggle {
-  background: var(--accent-pale);
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  padding: 0.22rem 0.65rem;
-  cursor: pointer;
-  font-size: 0.85rem;
-  color: var(--accent);
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-left: 0.5rem;
-}
-
-.theme-toggle:hover {
-  background: var(--accent-light);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-/* ── Hero ── */
-.hero {
-  position: relative; z-index: 2;
-  min-height: 88vh;
-  display: grid;
-  grid-template-columns: 1fr 330px;
-  align-items: center; gap: 3.5rem;
-  max-width: var(--max); margin: 0 auto;
-  padding: 3rem var(--pad) 3.5rem;
-}
-
-.hero-left {
-  display: flex; flex-direction: column; gap: 1.15rem;
-}
-
-.hero-tag {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  font-size: 0.67rem; font-weight: 600;
-  letter-spacing: 0.13em; text-transform: uppercase;
-  color: var(--accent); background: var(--accent-pale);
-  padding: 0.28rem 0.9rem; border-radius: 24px;
-  width: fit-content; border: 1px solid var(--accent-light);
-  animation: fade-up 0.6s ease both;
-}
-
-.hero-name {
-  font-family: var(--display);
-  font-size: clamp(2.3rem, 5vw, 3.5rem);
-  font-weight: 700; color: var(--fg);
-  line-height: 1.13; letter-spacing: -0.015em;
-  animation: fade-up 0.7s 0.08s ease both;
-}
-
-.hero-name .soft { color: var(--accent); }
-
-.hero-bio {
-  font-size: 0.86rem; color: var(--muted);
-  line-height: 1.8; max-width: 44ch;
-  animation: fade-up 0.7s 0.14s ease both;
-}
-
-.hero-pills {
-  display: flex; flex-wrap: wrap; gap: 0.45rem;
-  animation: fade-up 0.7s 0.2s ease both;
-}
-
-.pill {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--fg); padding: 0.28rem 0.85rem;
-  border-radius: 40px; font-size: 0.76rem; font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.pill:hover { border-color: var(--accent-light); background: var(--accent-pale); }
-
-.hero-pgp {
-  display: inline-flex; align-items: center; gap: 0.6rem;
-  font-size: 0.73rem; color: var(--muted);
-  background: var(--surface); border: 1px solid var(--border);
-  padding: 0.45rem 1.05rem; border-radius: 40px;
-  width: fit-content; font-family: 'Courier New', monospace;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.025);
-  animation: fade-up 0.7s 0.26s ease both;
-}
-
-.hero-pgp .key-id { color: var(--accent); font-weight: 700; }
-
-.hero-badges {
-  display: flex; gap: 0.45rem; flex-wrap: wrap;
-  animation: fade-up 0.7s 0.32s ease both;
-}
-
-.badge {
-  font-size: 0.65rem; font-weight: 700;
-  letter-spacing: 0.05em; text-transform: uppercase;
-  color: var(--accent); background: var(--accent-pale);
-  border: 1px solid var(--accent-light);
-  padding: 0.22rem 0.75rem; border-radius: 40px;
-  text-decoration: none; transition: all 0.2s;
-}
-
-.badge:hover { background: var(--accent-light); color: #fff; }
-
-.badge-sky {
-  color: var(--accent2); background: var(--accent2-pale);
-  border-color: var(--accent2-light);
-}
-
-.badge-sky:hover { background: var(--accent2-light); color: #fff; }
-
-/* ── Hero image ── */
-.hero-image-wrap {
-  position: relative; display: flex;
-  align-items: center; justify-content: center;
-  animation: fade-up 0.8s 0.1s ease both;
-}
-
-.hero-image-frame {
-  position: relative; width: 100%; max-width: 290px;
-}
-
-.hero-image-bg {
-  position: absolute; inset: -14px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(127,166,200,0.22) 0%, rgba(139,179,209,0.08) 70%, transparent 90%);
-  animation: glow-pulse 6s ease-in-out infinite;
-  filter: blur(10px); opacity: 0.55;
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.45; transform: scale(1); }
-  50%       { opacity: 0.75; transform: scale(1.04); }
-}
-
-.hero-image {
-  position: relative; z-index: 2; width: 100%;
-  border-radius: 50%; object-fit: cover; aspect-ratio: 1;
-  border: 2px solid rgba(127,166,200,0.28);
-  animation: float 5s ease-in-out infinite;
-  box-shadow: 0 20px 44px rgba(127,166,200,0.14);
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-9px); }
-}
-
-.hero-deco {
-  position: absolute; width: 32px; height: 32px;
-  background: rgba(255,255,255,0.65); backdrop-filter: blur(6px);
-  border: 1px solid var(--accent-light); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.85rem;
-  animation: deco-bob 5s ease-in-out infinite;
-  z-index: 3; pointer-events: none;
-}
-
-.deco-1 { top: 4%; left: -4%; animation-delay: 0s; opacity: 0.65; }
-.deco-2 { bottom: 10%; right: -3%; animation-delay: 2s; opacity: 0.5; font-size: 0.72rem; }
-
-@keyframes deco-bob {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%       { transform: translateY(-7px) rotate(10deg); }
-}
-
-/* ── Divider ── */
-.divider {
-  position: relative; z-index: 2;
-  max-width: var(--max); margin: 0 auto; padding: 0 var(--pad);
-}
-
-.divider-inner {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-light), var(--accent2-light), transparent);
-}
-
-/* ── Projects ── */
-.projects-wrap {
-  position: relative; z-index: 5;
-  max-width: var(--max); margin: 0 auto;
-  padding: 3.5rem var(--pad) 5rem;
-}
-
-.sec-heading {
-  font-family: var(--display);
-  font-size: 0.88rem; font-weight: 700; color: var(--fg);
-  margin-bottom: 1.6rem;
-  display: flex; align-items: center; gap: 0.55rem;
-}
-
-.sec-heading .icon {
-  width: 28px; height: 28px;
-  background: var(--accent-pale); border: 1px solid var(--accent-light);
-  border-radius: 10px; display: flex; align-items: center;
-  justify-content: center; font-size: 0.82rem;
-}
-
-/* ── Project Grid ── */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-  align-items: stretch;
-}
-
-.project-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem 2.2rem;
-  position: relative; overflow: hidden;
-  transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
-  box-shadow: 0 4px 18px rgba(127,166,200,0.07);
-  display: flex; flex-direction: column;
-}
-
-.project-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  opacity: 0; transition: opacity 0.25s;
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-
-.project-card:hover {
-  border-color: var(--accent-light);
-  box-shadow: 0 14px 38px rgba(127,166,200,0.15);
-  transform: translateY(-3px);
-}
-
-.project-card:hover::before { opacity: 1; }
-
-.project-header {
-  display: flex; align-items: center;
-  justify-content: space-between; flex-wrap: wrap;
-  gap: 0.6rem; margin-bottom: 0.85rem;
-}
-
-.project-title {
-  font-family: var(--display);
-  font-size: 1.3rem; font-weight: 700; color: var(--fg);
-}
-
-.version-badge {
-  font-size: 0.63rem; font-weight: 700;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--green); background: var(--green-pale);
-  border: 1px solid var(--green-border);
-  padding: 0.22rem 0.7rem; border-radius: 20px;
-  white-space: nowrap;
-}
-
-.project-desc {
-  font-size: 0.84rem; color: var(--muted);
-  line-height: 1.78; margin-bottom: 1.5rem;
-  flex: 1;
-}
-
-.project-actions {
-  display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center;
-}
-
-.btn-download {
-  font-size: 0.74rem; font-weight: 700;
-  color: #fff; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 0.42rem;
-  padding: 0.52rem 1.2rem;
-  border: none; border-radius: 20px;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-  box-shadow: 0 3px 12px rgba(127,166,200,0.32);
-  transition: all 0.22s; letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.btn-download:hover {
-  box-shadow: 0 6px 20px rgba(127,166,200,0.45);
-  transform: translateY(-1px); opacity: 0.93;
-}
-
-.btn-ghost {
-  font-size: 0.74rem; font-weight: 700;
-  color: var(--accent); text-decoration: none;
-  display: inline-flex; align-items: center; gap: 0.42rem;
-  padding: 0.5rem 1.1rem;
-  border: 1px solid var(--accent-light);
-  border-radius: 20px; background: var(--accent-pale);
-  transition: all 0.2s; letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.btn-ghost:hover { background: var(--accent-light); color: #fff; border-color: var(--accent); }
-
-.btn-download svg, .btn-ghost svg {
-  flex-shrink: 0; width: 13px; height: 13px;
-}
-
-.project-meta {
-  display: flex; align-items: center; gap: 0.45rem;
-  margin-top: 1.1rem; flex-wrap: wrap;
-}
-
-.meta-chip {
-  font-size: 0.64rem; font-weight: 600;
-  letter-spacing: 0.04em; color: var(--muted);
-  background: var(--bg); border: 1px solid var(--border);
-  padding: 0.18rem 0.6rem; border-radius: 20px;
-}
-
-/* ── Footer ── */
-footer {
-  position: relative; z-index: 2;
-  max-width: var(--max); margin: 0 auto;
-  padding: 1.4rem var(--pad) 2.8rem;
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: space-between;
-  align-items: center; flex-wrap: wrap;
-  gap: 0.75rem 1.5rem;
-  font-size: 0.71rem; color: var(--muted);
-}
-
-.footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; }
-
-.footer-links a {
-  color: var(--muted); font-weight: 600;
-  text-decoration: none; transition: color 0.15s;
-}
-
-.footer-links a:hover { color: var(--accent); }
-
-/* ── Keyframes ── */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── Responsive ── */
-@media (max-width: 900px) {
-  .project-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 780px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 2rem; gap: 2.2rem; }
-  .hero-image-wrap { order: -1; max-width: 200px; margin: 0 auto; }
-  .project-card { padding: 1.5rem 1.4rem; }
-}
-
-@media (max-width: 560px) {
-  .project-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-name { font-size: 2.1rem; }
-  footer { flex-direction: column; align-items: flex-start; }
-  .project-actions { flex-direction: column; align-items: flex-start; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="description"
+    content="Arvin Farrel Pramuditya — Backend Developer, Security Researcher, Cryptography Enthusiast.">
+  <meta name="author" content="Arvin Farrel Pramuditya">
+  <meta property="og:title" content="Arvin Farrel Pramuditya">
+  <meta property="og:image" content="https://arvinlabs.me/img/preview.png">
+  <meta property="og:description" content="Backend Engineer • Security Researcher • Cryptography">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.ico">
+  <meta property="og:url" content="https://arvinlabs.me">
+  <link rel="canonical" href="https://arvinlabs.me">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Arvin Farrel Pramuditya">
+  <meta name="twitter:description" content="Backend Engineer • Security Researcher • Cryptography">
+  <meta name="twitter:image" content="https://arvinlabs.me/img/preview.png">
+  <title>Arvin Farrel Pramuditya | Backend Engineer • Security Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&family=Kaisei+Decol:wght@400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ===== DARK MODE VARIABLES (DEFAULT) ===== */
+    :root {
+      --bg: #0a0e14;
+      --surface: #11161f;
+      --fg: #e6edf5;
+      --muted: #8da0b5;
+      --light: #456377;
+      --border: rgba(127, 166, 200, 0.2);
+      --accent: #7fa6c8;
+      --accent-light: #5d84a6;
+      --accent-pale: rgba(127, 166, 200, 0.12);
+      --accent2: #8bb3d1;
+      --accent2-light: #507090;
+      --accent2-pale: rgba(139, 179, 209, 0.08);
+      --green: rgba(80, 168, 120, 0.9);
+      --green-pale: rgba(80, 168, 120, 0.12);
+      --green-border: rgba(80, 168, 120, 0.25);
+      --mono: 'Nunito', sans-serif;
+      --display: 'Kaisei Decol', serif;
+      --max: 1080px;
+      --pad: 1.5rem;
+      --radius: 24px;
+      --radius-sm: 14px;
+    }
+
+    /* LIGHT MODE (aktif saat body punya class .light-mode) */
+    body.light-mode {
+      --bg: #f4f6fa;
+      --surface: #ffffff;
+      --fg: #2c3e4e;
+      --muted: #7c8f9c;
+      --light: #b8c9d6;
+      --border: rgba(127, 166, 200, 0.25);
+      --accent: #7fa6c8;
+      --accent-light: #b8d0e6;
+      --accent-pale: rgba(127, 166, 200, 0.1);
+      --accent2: #8bb3d1;
+      --accent2-light: #c5ddef;
+      --accent2-pale: rgba(139, 179, 209, 0.08);
+      --green: rgba(80, 168, 120, 0.9);
+      --green-pale: rgba(80, 168, 120, 0.07);
+      --green-border: rgba(80, 168, 120, 0.28);
+    }
+
+    html {
+      font-size: 15px;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.2s ease;
+    }
+
+    /* ── Background FX ── */
+    canvas.matrix-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.07;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -120px;
+      right: -80px;
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(127, 166, 200, 0.14) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -100px;
+      left: -60px;
+      width: 420px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(200, 180, 210, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      font-size: 0.9rem;
+      animation: petal-fall linear infinite;
+      filter: hue-rotate(180deg) saturate(0.6) brightness(1.1);
+    }
+
+    @keyframes petal-fall {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.35;
+      }
+
+      90% {
+        opacity: 0.12;
+      }
+
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(10, 14, 20, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.7rem var(--pad);
+    }
+
+    body.light-mode .nav {
+      background: rgba(244, 246, 250, 0.9);
+    }
+
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-brand {
+      font-family: var(--display);
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.15rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.22rem 0.75rem;
+      font-size: 0.76rem;
+      font-weight: 600;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-pale);
+    }
+
+    /* Dark Mode Toggle Button */
+    .theme-toggle {
+      background: var(--accent-pale);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 0.22rem 0.65rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--accent);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-left: 0.5rem;
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent-light);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      z-index: 2;
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1fr 330px;
+      align-items: center;
+      gap: 3.5rem;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 3rem var(--pad) 3.5rem;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.67rem;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-pale);
+      padding: 0.28rem 0.9rem;
+      border-radius: 24px;
+      width: fit-content;
+      border: 1px solid var(--accent-light);
+      animation: fade-up 0.6s ease both;
+    }
+
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(2.3rem, 5vw, 3.5rem);
+      font-weight: 700;
+      color: var(--fg);
+      line-height: 1.13;
+      letter-spacing: -0.015em;
+      animation: fade-up 0.7s 0.08s ease both;
+    }
+
+    .hero-name .soft {
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 44ch;
+      animation: fade-up 0.7s 0.14s ease both;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      animation: fade-up 0.7s 0.2s ease both;
+    }
+
+    .pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 0.28rem 0.85rem;
+      border-radius: 40px;
+      font-size: 0.76rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .pill:hover {
+      border-color: var(--accent-light);
+      background: var(--accent-pale);
+    }
+
+    .hero-pgp {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.73rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.45rem 1.05rem;
+      border-radius: 40px;
+      width: fit-content;
+      font-family: 'Courier New', monospace;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
+      animation: fade-up 0.7s 0.26s ease both;
+    }
+
+    .hero-pgp .key-id {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      animation: fade-up 0.7s 0.32s ease both;
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-pale);
+      border: 1px solid var(--accent-light);
+      padding: 0.22rem 0.75rem;
+      border-radius: 40px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .badge:hover {
+      background: var(--accent-light);
+      color: #fff;
+    }
+
+    .badge-sky {
+      color: var(--accent2);
+      background: var(--accent2-pale);
+      border-color: var(--accent2-light);
+    }
+
+    .badge-sky:hover {
+      background: var(--accent2-light);
+      color: #fff;
+    }
+
+    /* ── Hero image ── */
+    .hero-image-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fade-up 0.8s 0.1s ease both;
+    }
+
+    .hero-image-frame {
+      position: relative;
+      width: 100%;
+      max-width: 290px;
+    }
+
+    .hero-image-bg {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(127, 166, 200, 0.22) 0%, rgba(139, 179, 209, 0.08) 70%, transparent 90%);
+      animation: glow-pulse 6s ease-in-out infinite;
+      filter: blur(10px);
+      opacity: 0.55;
+    }
+
+    @keyframes glow-pulse {
+
+      0%,
+      100% {
+        opacity: 0.45;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.75;
+        transform: scale(1.04);
+      }
+    }
+
+    .hero-image {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      aspect-ratio: 1;
+      border: 2px solid rgba(127, 166, 200, 0.28);
+      animation: float 5s ease-in-out infinite;
+      box-shadow: 0 20px 44px rgba(127, 166, 200, 0.14);
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-9px);
+      }
+    }
+
+    .hero-deco {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--accent-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      animation: deco-bob 5s ease-in-out infinite;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .deco-1 {
+      top: 4%;
+      left: -4%;
+      animation-delay: 0s;
+      opacity: 0.65;
+    }
+
+    .deco-2 {
+      bottom: 10%;
+      right: -3%;
+      animation-delay: 2s;
+      opacity: 0.5;
+      font-size: 0.72rem;
+    }
+
+    @keyframes deco-bob {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-7px) rotate(10deg);
+      }
+    }
+
+    /* ── Divider ── */
+    .divider {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .divider-inner {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-light), var(--accent2-light), transparent);
+    }
+
+    /* ── Projects ── */
+    .projects-wrap {
+      position: relative;
+      z-index: 5;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 3.5rem var(--pad) 5rem;
+    }
+
+    .sec-heading {
+      font-family: var(--display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .sec-heading .icon {
+      width: 28px;
+      height: 28px;
+      background: var(--accent-pale);
+      border: 1px solid var(--accent-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+    }
+
+    /* ── Project Grid ── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      align-items: stretch;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
+      box-shadow: 0 4px 18px rgba(127, 166, 200, 0.07);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.25s;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent-light);
+      box-shadow: 0 14px 38px rgba(127, 166, 200, 0.15);
+      transform: translateY(-3px);
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .project-title {
+      font-family: var(--display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--fg);
+    }
+
+    .version-badge {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green);
+      background: var(--green-pale);
+      border: 1px solid var(--green-border);
+      padding: 0.22rem 0.7rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .project-desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.78;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .project-actions {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-download {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.42rem;
+      padding: 0.52rem 1.2rem;
+      border: none;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      box-shadow: 0 3px 12px rgba(127, 166, 200, 0.32);
+      transition: all 0.22s;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .btn-download:hover {
+      box-shadow: 0 6px 20px rgba(127, 166, 200, 0.45);
+      transform: translateY(-1px);
+      opacity: 0.93;
+    }
+
+    .btn-ghost {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.42rem;
+      padding: 0.5rem 1.1rem;
+      border: 1px solid var(--accent-light);
+      border-radius: 20px;
+      background: var(--accent-pale);
+      transition: all 0.2s;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .btn-ghost:hover {
+      background: var(--accent-light);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-download svg,
+    .btn-ghost svg {
+      flex-shrink: 0;
+      width: 13px;
+      height: 13px;
+    }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 1.1rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-chip {
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 0.18rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 1.4rem var(--pad) 2.8rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+      font-size: 0.71rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ── Keyframes ── */
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding-top: 2rem;
+        gap: 2.2rem;
+      }
+
+      .hero-image-wrap {
+        order: -1;
+        max-width: 200px;
+        margin: 0 auto;
+      }
+
+      .project-card {
+        padding: 1.5rem 1.4rem;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-name {
+        font-size: 2.1rem;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .project-actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<canvas id="matrixCanvas" class="matrix-canvas"></canvas>
-<span class="petal" style="left:5%;  animation-duration:15s; animation-delay:0s;">❄️</span>
-<span class="petal" style="left:22%; animation-duration:18s; animation-delay:4s;">✨</span>
-<span class="petal" style="left:52%; animation-duration:13s; animation-delay:7s;">💠</span>
-<span class="petal" style="left:78%; animation-duration:16s; animation-delay:2s;">❄️</span>
+  <canvas id="matrixCanvas" class="matrix-canvas"></canvas>
+  <span class="petal" style="left:5%;  animation-duration:15s; animation-delay:0s;">❄️</span>
+  <span class="petal" style="left:22%; animation-duration:18s; animation-delay:4s;">✨</span>
+  <span class="petal" style="left:52%; animation-duration:13s; animation-delay:7s;">💠</span>
+  <span class="petal" style="left:78%; animation-duration:16s; animation-delay:2s;">❄️</span>
 
-<!-- Nav -->
-<nav class="nav">
-  <div class="nav-inner">
-    <span class="nav-brand">arvinlabs.me</span>
-    <div class="nav-links">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="mailto:arvinfarrelp.security@gmail.com">Contact</a>
-      <span class="theme-toggle" id="themeToggle" role="button" aria-label="Dark mode toggle">
-        <span id="themeIcon">🌙</span>
-      </span>
-    </div>
-  </div>
-</nav>
-
-<!-- Hero -->
-<section class="hero" id="about">
-  <div class="hero-left">
-    <div class="hero-tag">✦ Security Research &amp; Cryptography</div>
-
-    <h1 class="hero-name">Arvin Farrel<br><span class="soft">Pramuditya</span></h1>
-
-    <p class="hero-bio">
-      Backend Engineer building secure systems — with a deep focus on Blockchain & Smart Contract, web security research, and open-source tooling.
-    </p>
-
-    <div class="hero-pills">
-      <span class="pill">Backend Developer</span>
-      <span class="pill">Blockchain &amp; Smart Contract</span>
-      <span class="pill">Cryptography</span>
-      <span class="pill">Web Application Security</span>
-    </div>
-
-    <div class="hero-pgp">🔑 PGP Identity: <span class="key-id">0xA45372A9</span></div>
-
-    <div class="hero-badges">
-      <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge" target="_blank" rel="noopener">PGP Verified</a>
-      <a href="/.well-known/security.txt" class="badge badge-sky">Security.txt</a>
-      <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge badge-sky" target="_blank" rel="noopener">Keyoxide Profile</a>
-    </div>
-  </div>
-
-  <div class="hero-image-wrap">
-    <div class="hero-image-frame">
-      <div class="hero-image-bg"></div>
-      <div class="hero-deco deco-1">💠</div>
-      <div class="hero-deco deco-2">🔑</div>
-      <img
-        src="img/chloe.png"
-        alt="Arvin Farrel Pramuditya"
-        class="hero-image"
-        loading="eager"
-        onerror="this.style.cssText='border-radius:50%;width:100%;aspect-ratio:1;background:var(--accent-pale);display:block;'"
-      >
-    </div>
-  </div>
-</section>
-
-<div class="divider"><div class="divider-inner"></div></div>
-
-<!-- Projects -->
-<section class="projects-wrap" id="projects">
-  <p class="sec-heading"><span class="icon">✨</span>Featured Projects</p>
-
-  <div class="project-grid">
-
-    <!-- CipherVision -->
-    <div class="project-card">
-      <div class="project-header">
-        <div class="project-title">CipherVision</div>
-        <span class="version-badge">✦ v1.0.0 Released</span>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <span class="nav-brand">arvinlabs.me</span>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="mailto:arvinfarrelp.security@gmail.com">Contact</a>
+        <span class="theme-toggle" id="themeToggle" role="button" aria-label="Dark mode toggle">
+          <span id="themeIcon">🌙</span>
+        </span>
       </div>
+    </div>
+  </nav>
 
-      <p class="project-desc">
-        A classical cryptographic analysis tool focused on substitution ciphers — featuring frequency analysis, cipher visualization, and an educational GUI built with Python and ttkbootstrap. Designed to make cryptanalysis hands-on and approachable for learners.
+  <!-- Hero -->
+  <section class="hero" id="about">
+    <div class="hero-left">
+      <div class="hero-tag">✦ Security Research &amp; Cryptography</div>
+
+      <h1 class="hero-name">Arvin Farrel<br><span class="soft">Pramuditya</span></h1>
+
+      <p class="hero-bio">
+        Backend Engineer building secure systems — with a deep focus on Blockchain & Smart Contract, web security
+        research, and open-source tooling.
       </p>
 
-      <div class="project-actions">
-        <a class="btn-download"
-           href="https://github.com/ArvinFarrelP/CipherVision/releases/tag/v1.0.0"
-           target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"/>
-            <path d="M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.97a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.779a.749.749 0 1 1 1.06-1.06l1.97 1.97Z"/>
-          </svg>
-          Download v1.0.0
-        </a>
-
-        <a class="btn-ghost"
-           href="https://github.com/ArvinFarrelP/CipherVision"
-           target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
-          </svg>
-          View Source
-        </a>
+      <div class="hero-pills">
+        <span class="pill">Backend Developer</span>
+        <span class="pill">Blockchain &amp; Smart Contract</span>
+        <span class="pill">Cryptography</span>
+        <span class="pill">Web Application Security</span>
       </div>
 
-      <div class="project-meta">
-        <span class="meta-chip">Python</span>
-        <span class="meta-chip">matplotlib / numpy</span>
-        <span class="meta-chip">Classical Ciphers</span>
-        <span class="meta-chip">Cryptanalysis</span>
+      <div class="hero-pgp">🔑 PGP Identity: <span class="key-id">0xA45372A9</span></div>
+
+      <div class="hero-badges">
+        <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge" target="_blank"
+          rel="noopener">PGP Verified</a>
+        <a href="/.well-known/security.txt" class="badge badge-sky">Security.txt</a>
+        <a href="https://keyoxide.org/CC7C7F6EE3440CD3002B2C008C0AE50DA45372A9" class="badge badge-sky" target="_blank"
+          rel="noopener">Keyoxide Profile</a>
       </div>
     </div>
 
-    <!-- Study Companion -->
-    <div class="project-card">
-      <div class="project-header">
-        <div class="project-title">Study Companion</div>
-        <span class="version-badge">✦ Open Source</span>
-      </div>
-
-      <p class="project-desc">
-        An anime-inspired productivity web app with a Pomodoro timer, focus tracking, gamified achievements, and a built-in lo-fi music player. Ships as a PWA with a fully responsive UI tailored for students who want a more engaging study experience.
-      </p>
-
-      <div class="project-actions">
-        <a class="btn-ghost"
-           href="https://github.com/ArvinFarrelP/study-companion"
-           target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
-          </svg>
-          View Source
-        </a>
-      </div>
-
-      <div class="project-meta">
-        <span class="meta-chip">PWA</span>
-        <span class="meta-chip">Pomodoro / Focus</span>
-        <span class="meta-chip">Gamification</span>
-        <span class="meta-chip">Focus Music / Lo-fi Player</span>
+    <div class="hero-image-wrap">
+      <div class="hero-image-frame">
+        <div class="hero-image-bg"></div>
+        <div class="hero-deco deco-1">💠</div>
+        <div class="hero-deco deco-2">🔑</div>
+        <img src="img/chloe.png" alt="Arvin Farrel Pramuditya" class="hero-image" loading="eager"
+          onerror="this.style.cssText='border-radius:50%;width:100%;aspect-ratio:1;background:var(--accent-pale);display:block;'">
       </div>
     </div>
+  </section>
 
-    <!-- ARVIN ERC20 TOKEN -->
-    <div class="project-card">
-      <div class="project-header">
-        <div class="project-title">ARVIN ERC20 Token</div>
-        <span class="version-badge">✦ Blockchain</span>
-      </div>
-
-      <p class="project-desc">
-        A custom ERC-20 token deployed on the Ethereum Sepolia testnet, built with Solidity, Hardhat, and OpenZeppelin. Covers token deployment, MetaMask integration, and testnet workflows as a practical introduction to smart contract development.
-      </p>
-
-      <div class="project-actions">
-        <a class="btn-ghost"
-           href="https://github.com/ArvinFarrelP/arvin-erc20-token"
-           target="_blank" rel="noopener">
-          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
-          </svg>
-          View Source
-        </a>
-      </div>
-
-      <div class="project-meta">
-        <span class="meta-chip">Solidity</span>
-        <span class="meta-chip">Hardhat / OpenZeppelin</span>
-        <span class="meta-chip">Sepolia Testnet</span>
-        <span class="meta-chip">Smart Contract</span>
-      </div>
-    </div>
-
-  </div><!-- /.project-grid -->
-</section>
-
-<!-- Footer -->
-<footer>
-  <div class="footer-links">
-    <a href="https://github.com/ArvinFarrelP" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://linkedin.com/in/arvinfarrelp" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="mailto:arvinfarrelp.security@gmail.com">Email</a>
+  <div class="divider">
+    <div class="divider-inner"></div>
   </div>
-  <span id="footer-year"></span>
-</footer>
 
-<script>
-// ==================== DARK MODE TOGGLE ====================
-(function() {
-  const toggleBtn = document.getElementById('themeToggle');
-  const themeIcon = document.getElementById('themeIcon');
-  
-  // Cek preferensi tersimpan, default ke dark mode
-  let isDarkMode = localStorage.getItem('theme') !== 'light';
-  
-  function applyTheme() {
-    if (isDarkMode) {
-      document.body.classList.remove('light-mode');
-      themeIcon.textContent = '🌙';
-    } else {
-      document.body.classList.add('light-mode');
-      themeIcon.textContent = '☀️';
-    }
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-  }
-  
-  // Cek system preference saat pertama kali (kalo belum ada saved preference)
-  if (localStorage.getItem('theme') === null) {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    isDarkMode = prefersDark;
-  } else {
-    isDarkMode = localStorage.getItem('theme') === 'dark';
-  }
-  
-  applyTheme();
-  
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      isDarkMode = !isDarkMode;
+  <!-- Projects -->
+  <section class="projects-wrap" id="projects">
+    <p class="sec-heading"><span class="icon">✨</span>Featured Projects</p>
+
+    <div class="project-grid">
+
+      <!-- CipherVision -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">CipherVision</div>
+          <span class="version-badge">✦ v1.0.0 Released</span>
+        </div>
+
+        <p class="project-desc">
+          A classical cryptographic analysis tool focused on substitution ciphers — featuring frequency analysis, cipher
+          visualization, and an educational GUI built with Python and ttkbootstrap. Designed to make cryptanalysis
+          hands-on and approachable for learners.
+        </p>
+
+        <div class="project-actions">
+          <a class="btn-download" href="https://github.com/ArvinFarrelP/CipherVision/releases/tag/v1.0.0"
+            target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z" />
+              <path
+                d="M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.97a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.779a.749.749 0 1 1 1.06-1.06l1.97 1.97Z" />
+            </svg>
+            Download v1.0.0
+          </a>
+
+          <a class="btn-ghost" href="https://github.com/ArvinFarrelP/CipherVision" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" />
+            </svg>
+            View Source
+          </a>
+        </div>
+
+        <div class="project-meta">
+          <span class="meta-chip">Python</span>
+          <span class="meta-chip">matplotlib / numpy</span>
+          <span class="meta-chip">Classical Ciphers</span>
+          <span class="meta-chip">Cryptanalysis</span>
+        </div>
+      </div>
+
+      <!-- Study Companion -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">Study Companion</div>
+          <span class="version-badge">✦ Open Source</span>
+        </div>
+
+        <p class="project-desc">
+          An anime-inspired productivity web app with a Pomodoro timer, focus tracking, gamified achievements, and a
+          built-in lo-fi music player. Ships as a PWA with a fully responsive UI tailored for students who want a more
+          engaging study experience.
+        </p>
+
+        <div class="project-actions">
+          <a class="btn-ghost" href="https://github.com/ArvinFarrelP/study-companion" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" />
+            </svg>
+            View Source
+          </a>
+        </div>
+
+        <div class="project-meta">
+          <span class="meta-chip">PWA</span>
+          <span class="meta-chip">Pomodoro / Focus</span>
+          <span class="meta-chip">Gamification</span>
+          <span class="meta-chip">Focus Music / Lo-fi Player</span>
+        </div>
+      </div>
+
+      <!-- ARVIN ERC20 TOKEN -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">ARVIN ERC20 Token</div>
+          <span class="version-badge">✦ Blockchain</span>
+        </div>
+
+        <p class="project-desc">
+          A custom ERC-20 token deployed on the Ethereum Sepolia testnet, built with Solidity, Hardhat, and
+          OpenZeppelin. Covers token deployment, MetaMask integration, and testnet workflows as a practical introduction
+          to smart contract development.
+        </p>
+
+        <div class="project-actions">
+          <a class="btn-ghost" href="https://github.com/ArvinFarrelP/arvin-erc20-token" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z" />
+            </svg>
+            View Source
+          </a>
+        </div>
+
+        <div class="project-meta">
+          <span class="meta-chip">Solidity</span>
+          <span class="meta-chip">Hardhat / OpenZeppelin</span>
+          <span class="meta-chip">Sepolia Testnet</span>
+          <span class="meta-chip">Smart Contract</span>
+        </div>
+      </div>
+
+    </div><!-- /.project-grid -->
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/ArvinFarrelP" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/arvinfarrelp" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:arvinfarrelp.security@gmail.com">Email</a>
+    </div>
+    <span id="footer-year"></span>
+  </footer>
+
+  <script>
+    // ==================== DARK MODE TOGGLE ====================
+    (function () {
+      const toggleBtn = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+
+      // Cek preferensi tersimpan, default ke dark mode
+      let isDarkMode = localStorage.getItem('theme') === 'dark';
+
+      function applyTheme() {
+        if (isDarkMode) {
+          document.body.classList.remove('light-mode');
+          themeIcon.textContent = '🌙';
+        } else {
+          document.body.classList.add('light-mode');
+          themeIcon.textContent = '☀️';
+        }
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      }
+
+      // Cek system preference saat pertama kali (kalo belum ada saved preference)
+      if (localStorage.getItem('theme') === null) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        isDarkMode = prefersDark;
+      } else {
+        isDarkMode = localStorage.getItem('theme') === 'dark';
+      }
+
       applyTheme();
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          isDarkMode = !isDarkMode;
+          applyTheme();
+        });
+      }
+    })();
+
+    // Matrix Rain
+    (function () {
+      const canvas = document.getElementById('matrixCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W, H, cols, drops;
+      const FS = 16;
+      const CHARS = "01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789✦💠";
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        cols = Math.floor(W / FS);
+        drops = new Array(cols).fill(1);
+      }
+
+      function draw() {
+        // Warna background matrix - adaptif terhadap mode
+        const bgColor = document.body.classList.contains('light-mode') ? 'rgba(244,246,250,0.085)' : 'rgba(10,14,20,0.085)';
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, W, H);
+        ctx.font = FS + 'px monospace';
+        for (let i = 0; i < cols; i++) {
+          const ch = CHARS[Math.floor(Math.random() * CHARS.length)];
+          ctx.fillStyle = `rgba(127,166,200,${(Math.random() * 0.35 + 0.12).toFixed(2)})`;
+          ctx.fillText(ch, i * FS, drops[i] * FS);
+          if (drops[i] * FS > H && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+
+      resize();
+      setInterval(draw, 72);
+      window.addEventListener('resize', resize);
+    })();
+
+    // Footer year
+    document.getElementById('footer-year').textContent =
+      new Date().getFullYear() + ' arvinlabs.me';
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
     });
-  }
-})();
 
-// Matrix Rain
-(function () {
-  const canvas = document.getElementById('matrixCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H, cols, drops;
-  const FS = 16;
-  const CHARS = "01アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789✦💠";
-
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-    cols = Math.floor(W / FS);
-    drops = new Array(cols).fill(1);
-  }
-
-  function draw() {
-    // Warna background matrix - adaptif terhadap mode
-    const bgColor = document.body.classList.contains('light-mode') ? 'rgba(244,246,250,0.085)' : 'rgba(10,14,20,0.085)';
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, W, H);
-    ctx.font = FS + 'px monospace';
-    for (let i = 0; i < cols; i++) {
-      const ch = CHARS[Math.floor(Math.random() * CHARS.length)];
-      ctx.fillStyle = `rgba(127,166,200,${(Math.random() * 0.35 + 0.12).toFixed(2)})`;
-      ctx.fillText(ch, i * FS, drops[i] * FS);
-      if (drops[i] * FS > H && Math.random() > 0.975) drops[i] = 0;
-      drops[i]++;
-    }
-  }
-
-  resize();
-  setInterval(draw, 72);
-  window.addEventListener('resize', resize);
-})();
-
-// Footer year
-document.getElementById('footer-year').textContent =
-  new Date().getFullYear() + ' arvinlabs.me';
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-  });
-});
-
-// Corner particle accent - update warna adaptif untuk light mode
-(function () {
-  const c = document.createElement('canvas');
-  Object.assign(c.style, {
-    position: 'fixed', bottom: '0', right: '0',
-    width: '200px', height: '200px',
-    opacity: '0.1', pointerEvents: 'none', zIndex: '0'
-  });
-  document.body.appendChild(c);
-  const ctx = c.getContext('2d');
-  c.width = c.height = 200;
-  const dots = Array.from({ length: 22 }, () => ({
-    x: Math.random() * 200, y: Math.random() * 200,
-    vx: (Math.random() - 0.5) * 0.45,
-    vy: (Math.random() - 0.5) * 0.45
-  }));
-  (function loop() {
-    ctx.clearRect(0, 0, 200, 200);
-    dots.forEach(d => {
-      d.x += d.vx; d.y += d.vy;
-      if (d.x < 0 || d.x > 200) d.vx *= -1;
-      if (d.y < 0 || d.y > 200) d.vy *= -1;
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, 1.8, 0, Math.PI * 2);
-      ctx.fillStyle = '#7fa6c8';
-      ctx.fill();
-    });
-    requestAnimationFrame(loop);
-  })();
-})();
-</script>
+    // Corner particle accent - update warna adaptif untuk light mode
+    (function () {
+      const c = document.createElement('canvas');
+      Object.assign(c.style, {
+        position: 'fixed', bottom: '0', right: '0',
+        width: '200px', height: '200px',
+        opacity: '0.1', pointerEvents: 'none', zIndex: '0'
+      });
+      document.body.appendChild(c);
+      const ctx = c.getContext('2d');
+      c.width = c.height = 200;
+      const dots = Array.from({ length: 22 }, () => ({
+        x: Math.random() * 200, y: Math.random() * 200,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45
+      }));
+      (function loop() {
+        ctx.clearRect(0, 0, 200, 200);
+        dots.forEach(d => {
+          d.x += d.vx; d.y += d.vy;
+          if (d.x < 0 || d.x > 200) d.vx *= -1;
+          if (d.y < 0 || d.y > 200) d.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = '#7fa6c8';
+          ctx.fill();
+        });
+        requestAnimationFrame(loop);
+      })();
+    })();
+  </script>
 </body>
+
 </html>
