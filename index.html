@@ -23,7 +23,33 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ===== DARK MODE VARIABLES (DEFAULT) ===== */
 :root {
+  --bg: #0a0e14;
+  --surface: #11161f;
+  --fg: #e6edf5;
+  --muted: #8da0b5;
+  --light: #456377;
+  --border: rgba(127,166,200,0.2);
+  --accent: #7fa6c8;
+  --accent-light: #5d84a6;
+  --accent-pale: rgba(127,166,200,0.12);
+  --accent2: #8bb3d1;
+  --accent2-light: #507090;
+  --accent2-pale: rgba(139,179,209,0.08);
+  --green: rgba(80,168,120,0.9);
+  --green-pale: rgba(80,168,120,0.12);
+  --green-border: rgba(80,168,120,0.25);
+  --mono: 'Nunito', sans-serif;
+  --display: 'Kaisei Decol', serif;
+  --max: 1080px;
+  --pad: 1.5rem;
+  --radius: 24px;
+  --radius-sm: 14px;
+}
+
+/* LIGHT MODE (aktif saat body punya class .light-mode) */
+body.light-mode {
   --bg: #f4f6fa;
   --surface: #ffffff;
   --fg: #2c3e4e;
@@ -39,12 +65,6 @@
   --green: rgba(80,168,120,0.9);
   --green-pale: rgba(80,168,120,0.07);
   --green-border: rgba(80,168,120,0.28);
-  --mono: 'Nunito', sans-serif;
-  --display: 'Kaisei Decol', serif;
-  --max: 1080px;
-  --pad: 1.5rem;
-  --radius: 24px;
-  --radius-sm: 14px;
 }
 
 html { font-size: 15px; scroll-behavior: smooth; }
@@ -57,6 +77,7 @@ body {
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.2s ease;
 }
 
 /* ── Background FX ── */
@@ -99,10 +120,14 @@ body::after {
 /* ── Nav ── */
 .nav {
   position: sticky; top: 0; z-index: 200;
-  background: rgba(244,246,250,0.9);
+  background: rgba(10,14,20,0.85);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   padding: 0.7rem var(--pad);
+}
+
+body.light-mode .nav {
+  background: rgba(244,246,250,0.9);
 }
 
 .nav-inner {
@@ -119,7 +144,7 @@ body::after {
   letter-spacing: 0.02em;
 }
 
-.nav-links { display: flex; gap: 0.15rem; flex-wrap: wrap; }
+.nav-links { display: flex; gap: 0.15rem; flex-wrap: wrap; align-items: center; }
 
 .nav-links a {
   color: var(--muted); text-decoration: none;
@@ -129,6 +154,28 @@ body::after {
 }
 
 .nav-links a:hover { color: var(--accent); background: var(--accent-pale); }
+
+/* Dark Mode Toggle Button */
+.theme-toggle {
+  background: var(--accent-pale);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 0.22rem 0.65rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--accent);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.5rem;
+}
+
+.theme-toggle:hover {
+  background: var(--accent-light);
+  color: #fff;
+  border-color: var(--accent);
+}
 
 /* ── Hero ── */
 .hero {
@@ -315,7 +362,6 @@ body::after {
   align-items: stretch;
 }
 
-/* Project card */
 .project-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -366,14 +412,13 @@ body::after {
 .project-desc {
   font-size: 0.84rem; color: var(--muted);
   line-height: 1.78; margin-bottom: 1.5rem;
-  flex: 1; /* push actions to bottom for equal-height alignment */
+  flex: 1;
 }
 
 .project-actions {
   display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center;
 }
 
-/* Download button */
 .btn-download {
   font-size: 0.74rem; font-weight: 700;
   color: #fff; text-decoration: none;
@@ -391,7 +436,6 @@ body::after {
   transform: translateY(-1px); opacity: 0.93;
 }
 
-/* Ghost / source button */
 .btn-ghost {
   font-size: 0.74rem; font-weight: 700;
   color: var(--accent); text-decoration: none;
@@ -409,7 +453,6 @@ body::after {
   flex-shrink: 0; width: 13px; height: 13px;
 }
 
-/* Tag chips */
 .project-meta {
   display: flex; align-items: center; gap: 0.45rem;
   margin-top: 1.1rem; flex-wrap: wrap;
@@ -491,6 +534,9 @@ footer {
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="mailto:arvinfarrelp.security@gmail.com">Contact</a>
+      <span class="theme-toggle" id="themeToggle" role="button" aria-label="Dark mode toggle">
+        <span id="themeIcon">🌙</span>
+      </span>
     </div>
   </div>
 </nav>
@@ -503,14 +549,14 @@ footer {
     <h1 class="hero-name">Arvin Farrel<br><span class="soft">Pramuditya</span></h1>
 
     <p class="hero-bio">
-      Backend Engineer building secure systems — with a deep focus on cryptographic identity, web security research, and open-source tooling.
+      Backend Engineer building secure systems — with a deep focus on Blockchain & Smart Contract, web security research, and open-source tooling.
     </p>
 
     <div class="hero-pills">
       <span class="pill">Backend Developer</span>
       <span class="pill">Blockchain &amp; Smart Contract</span>
       <span class="pill">Cryptography</span>
-      <span class="pill">Cybersecurity</span>
+      <span class="pill">Web Application Security</span>
     </div>
 
     <div class="hero-pgp">🔑 PGP Identity: <span class="key-id">0xA45372A9</span></div>
@@ -660,6 +706,44 @@ footer {
 </footer>
 
 <script>
+// ==================== DARK MODE TOGGLE ====================
+(function() {
+  const toggleBtn = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  
+  // Cek preferensi tersimpan, default ke dark mode
+  let isDarkMode = localStorage.getItem('theme') !== 'light';
+  
+  function applyTheme() {
+    if (isDarkMode) {
+      document.body.classList.remove('light-mode');
+      themeIcon.textContent = '🌙';
+    } else {
+      document.body.classList.add('light-mode');
+      themeIcon.textContent = '☀️';
+    }
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }
+  
+  // Cek system preference saat pertama kali (kalo belum ada saved preference)
+  if (localStorage.getItem('theme') === null) {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    isDarkMode = prefersDark;
+  } else {
+    isDarkMode = localStorage.getItem('theme') === 'dark';
+  }
+  
+  applyTheme();
+  
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      isDarkMode = !isDarkMode;
+      applyTheme();
+    });
+  }
+})();
+
 // Matrix Rain
 (function () {
   const canvas = document.getElementById('matrixCanvas');
@@ -677,7 +761,9 @@ footer {
   }
 
   function draw() {
-    ctx.fillStyle = 'rgba(244,246,250,0.085)';
+    // Warna background matrix - adaptif terhadap mode
+    const bgColor = document.body.classList.contains('light-mode') ? 'rgba(244,246,250,0.085)' : 'rgba(10,14,20,0.085)';
+    ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, W, H);
     ctx.font = FS + 'px monospace';
     for (let i = 0; i < cols; i++) {
@@ -706,7 +792,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// Corner particle accent
+// Corner particle accent - update warna adaptif untuk light mode
 (function () {
   const c = document.createElement('canvas');
   Object.assign(c.style, {
