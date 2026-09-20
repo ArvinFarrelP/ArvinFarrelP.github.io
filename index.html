@@ -4,10 +4,22 @@
 <head>
     <meta charset="UTF-8">
 
-    <link
-        rel="icon"
-        type="image/png"
-        href="img/chloe.png"
+    <!-- Basic SEO -->
+    <title>Arvin Farrel — Blockchain Engineer</title>
+
+    <meta
+        name="description"
+        content="Arvin Farrel — Blockchain Engineer focused on blockchain, cryptography, backend engineering, and open-source development."
+    >
+
+    <meta
+        name="author"
+        content="Arvin Farrel"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
     >
 
     <meta
@@ -15,17 +27,79 @@
         content="width=device-width, initial-scale=1"
     >
 
-    <title>Arvin Farrel</title>
+    <!-- Canonical URL -->
+    <link
+        rel="canonical"
+        href="https://arvinlabs.dev/"
+    >
 
+    <!-- Favicon -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="img/chloe.png"
+    >
+
+    <!-- Open Graph / Social Sharing -->
+    <meta
+        property="og:title"
+        content="Arvin Farrel — Blockchain Engineer"
+    >
+
+    <meta
+        property="og:description"
+        content="Blockchain Engineer focused on blockchain, cryptography, backend engineering, and open-source development."
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:url"
+        content="https://arvinlabs.dev/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://arvinlabs.dev/img/chloe.png"
+    >
+
+    <!-- Theme -->
+    <meta
+        name="theme-color"
+        content="#ffffff"
+    >
+
+    <!-- Stylesheet -->
     <link
         rel="stylesheet"
         href="https://static.cdn.menci.xyz/menci-homepage/assets/index.6cf110aa.css"
     >
+
+    <!-- Person Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Arvin Farrel",
+        "url": "https://arvinlabs.dev/",
+        "image": "https://arvinlabs.dev/img/chloe.png",
+        "jobTitle": "Blockchain Engineer",
+        "sameAs": [
+            "https://github.com/ArvinFarrelP",
+            "https://www.linkedin.com/in/arvinfarrelp/",
+            "https://medium.com/@arvinlabs"
+        ]
+    }
+    </script>
 </head>
 
 <body>
 
     <div class="wrapper">
+
         <div class="container">
 
             <div class="section-1">
@@ -38,8 +112,13 @@
                 </div>
 
                 <div class="text">
-                    <div class="name">Arvin Farrel</div>
-                    <div class="description">Blockchain Engineer (^~UwU~^)</div>
+                    <div class="name">
+                        Arvin Farrel
+                    </div>
+
+                    <div class="description">
+                        Blockchain Engineer (^~UwU~^)
+                    </div>
                 </div>
 
             </div>
@@ -139,12 +218,13 @@
     </div>
 
     <script>
-        "serviceWorker" in navigator &&
+        if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
                 navigator.serviceWorker.register(
                     "/sw.js?t=https%3A%2F%2Fstatic.cdn.menci.xyz%2Fmenci-homepage%2F"
                 );
             });
+        }
     </script>
 
 </body>
