@@ -6,5 +6,3 @@ Canonical: https://arvinfarrelp.github.io/.well-known/security.txt
 Hiring: https://www.linkedin.com/in/arvinfarrelp
 Policy: https://arvinfarrelp.github.io
 Expires: 2027-03-11T00:00:00Z
-
-arvin
